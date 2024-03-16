@@ -1,7 +1,7 @@
 // Importa el módulo MySQL
 const connection = require('../dbMysql');
 
-// Define el esquema del usuario
+// Define el esquema login de usuario
 const usuarioSchema = {
   name: {
     type: 'VARCHAR(255)',
@@ -17,6 +17,52 @@ const usuarioSchema = {
     allowNull: false
   }
 };
+
+// Define el esquema de residente
+const residenteSchema = {
+  ResidenteID: {
+    type: 'INT',
+    allowNull: false,
+    primaryKey: true
+  },
+  UnidadResidencialID: {
+    type: 'INT',
+    defaultValue: null,
+    references: {
+      model: 'unidades_residenciales',
+      key: 'UnidadResidencialID'
+    }
+  },
+  NombreCompleto: {
+    type: 'VARCHAR(255)',
+    defaultValue: null
+  },
+  Apellido: {
+    type: 'VARCHAR(255)',
+    defaultValue: null
+  },
+  CorreoElectronico: {
+    type: 'VARCHAR(255)',
+    defaultValue: null
+  },
+  NumeroContacto: {
+    type: 'VARCHAR(15)',
+    defaultValue: null
+  },
+  Cedula: {
+    type: 'VARCHAR(20)',
+    defaultValue: null
+  },
+  PropietarioID: {
+    type: 'INT',
+    defaultValue: null,
+    references: {
+      model: 'propietarios',
+      key: 'PropietarioID'
+    }
+  }
+};
+
 
 // Función para crear un nuevo usuario
 const createUser = (newUsuario, callback) => {

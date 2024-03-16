@@ -17,18 +17,29 @@ function cerrarModal() {
   // Oculta el modal
   document.getElementById('modal').style.display = 'none';
 }
-// Función asíncrona para enviar datos de registro al servidor
+// Función asíncrona para enviar datos del formulario al servidor
 const enviarRegistro = async () => {
   // Obtiene los valores de los campos del formulario de registro
   const namer = document.getElementById('namer').value;
-  const usernamer = document.getElementById('usernamer').value;
+  const lastname = document.getElementById('usernamer').value;
+  const cedula = document.getElementById('usernamer').value;
+  const mobile = document.getElementById('usernamer').value;
+  const email = document.getElementById('usernamer').value;
+  //falta la TORRE-PISO-APT
   const passwordr = document.getElementById('passwordr').value;
   const mensajeRegistro = document.getElementById('mensajeRegistro');
+
+
 
   try {
     // Envía una solicitud POST al servidor con los datos de registro
     const response = await axios.post('/api/registro', {
       namer,
+      lastname,
+      cedula,
+      mobile,
+      email,
+      //falta la TORRE-PISO-APT
       usernamer,
       passwordr
       // Agrega más campos según tus necesidades
@@ -49,6 +60,10 @@ const enviarRegistro = async () => {
     }
   }
 };
+
+
+
+
 
 /*
 Este código contiene funciones para manejar la apertura y cierre de un modal, 
