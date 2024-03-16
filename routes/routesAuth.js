@@ -3,16 +3,26 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Usuario = require("../modelos/modeloAuth");
-const util = require('util');
+const util = require("util");
 const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
-
 
 router.post("/registro", async (req, res) => {
   try {
-    if (!req.body.namer || !req.body.usernamer || !req.body.passwordr) {
+    if (
+      !req.body.namer ||
+      !req.body.usernamer ||
+      !req.body.passwordr ||
+      !req.body.lastname ||
+      !req.body.cedula ||
+      !req.body.mobile ||
+      !req.body.torre ||
+      !req.body.piso ||
+      !req.body.apt
+    ) {
       return res
         .status(400)
         .json({ error: "Por favor, proporciona todos los campos requeridos." });
+      //completar los datos
     }
     Usuario.findUserByUsername(req.body.usernamer, (error, existingUser) => {
       if (error) {
@@ -34,10 +44,14 @@ router.post("/registro", async (req, res) => {
             .json({ error: "Error en el servidor al hashear contraseña." });
         }
         const newUsuario = {
-          name: req.body.namer,
+          ResidenteID: req.body.cedula,
+          NombreCompleto: req.body.namer,
+          Apellido: req.body.lastname,
+          cedula: req.body.cedula,
+          NumeroContacto: req.body.mobile,
           username: req.body.usernamer,
           password: hashedPassword,
-        };
+        }; //crear los datos del nuevo user
         console.log(newUsuario);
         Usuario.createUser(newUsuario, (error, userId) => {
           if (error) {
@@ -50,6 +64,26 @@ router.post("/registro", async (req, res) => {
           res
             .status(201)
             .json({ mensaje: "Usuario registrado correctamente." });
+        });
+
+        //Datos formulario unidad_residenciales
+        const formData = {
+          UnidadResidencialID : `${req.body.torre}_${req.body.piso}_${req.body.apt}`,
+          torre: req.body.torre,
+          Parqueadero: req.body.piso,
+          Apartamento: req.body.apt,
+        };
+        console.log(formData);
+        // Llamada a la función saveFormData
+        Usuario.saveFormData(formData, (error, insertId) => {
+          if (error) {
+            console.error("Error al guardar los datos del formulario:", error);
+          } else {
+            console.log(
+              "Los datos del formulario se han guardado correctamente. ID:",
+              insertId
+            );
+          }
         });
       });
     });
@@ -122,8 +156,6 @@ router.post("/login", async (req, res) => {
   }
 });*/
 
-
-
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -145,7 +177,9 @@ router.post("/login", async (req, res) => {
     }
 
     // Generar token
-    const token = jwt.sign({ usuarioId: user._id }, "secreto", { expiresIn: "1h" });
+    const token = jwt.sign({ usuarioId: user._id }, "secreto", {
+      expiresIn: "1h",
+    });
 
     // Determinar la redirección según el perfil del usuario
     let redirectTo = "/";
@@ -169,9 +203,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "Error en el servidor" });
   }
 });
-
-
-
 
 router.delete("/eliminar/:id", async (req, res) => {
   const usuarioId = req.params.id;

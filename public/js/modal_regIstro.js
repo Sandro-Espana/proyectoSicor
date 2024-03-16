@@ -21,10 +21,14 @@ function cerrarModal() {
 const enviarRegistro = async () => {
   // Obtiene los valores de los campos del formulario de registro
   const namer = document.getElementById('namer').value;
-  const lastname = document.getElementById('usernamer').value;
-  const cedula = document.getElementById('usernamer').value;
-  const mobile = document.getElementById('usernamer').value;
-  const email = document.getElementById('usernamer').value;
+  const lastname = document.getElementById('lastname').value;
+  const cedula = document.getElementById('cedula').value;
+  const mobile = document.getElementById('mobile').value;
+  //pasar id_torre luego hacer una funcion para evaluar  chain para hacer el otro desplegable
+  const torre = document.getElementById('torre').value;
+  const piso = document.getElementById('piso').value;
+  const apt = document.getElementById('apt').value;
+  const usernamer = document.getElementById('email').value;
   //falta la TORRE-PISO-APT
   const passwordr = document.getElementById('passwordr').value;
   const mensajeRegistro = document.getElementById('mensajeRegistro');
@@ -38,7 +42,9 @@ const enviarRegistro = async () => {
       lastname,
       cedula,
       mobile,
-      email,
+      torre,
+      piso,
+      apt,
       //falta la TORRE-PISO-APT
       usernamer,
       passwordr

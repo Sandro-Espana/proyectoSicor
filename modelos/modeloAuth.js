@@ -71,7 +71,24 @@ const createUser = (newUsuario, callback) => {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('INSERT INTO usuarios SET ?', newUsuario, (error, results) => {
+  connection.query('INSERT INTO residentes SET ?', newUsuario, (error, results) => {
+    if (error) {
+      console.log(error);
+      callback(error, null);
+    } else {
+      callback(null, results.insertId);
+    }
+  });
+};
+
+//Función para la tabla unidades_residenciales
+const saveFormData = (formData, callback) => {
+  console.log("Valor de callback: ", callback);
+  if (typeof callback !== 'function') {
+    console.error('Error: La función de devolución de llamada no está definida.');
+    return;
+  }
+  connection.query('INSERT INTO unidades_residenciales SET ?', formData, (error, results) => {
     if (error) {
       console.log(error);
       callback(error, null);
@@ -82,9 +99,10 @@ const createUser = (newUsuario, callback) => {
 };
 
 
+
 // Función para encontrar un usuario por nombre de usuario
 const findUserByUsername = (username, callback) => {
-  connection.query('SELECT * FROM usuarios WHERE username = ?', [username], (error, results) => {
+  connection.query('SELECT * FROM residentes WHERE username = ?', [username], (error, results) => {
     if (error) {
       if (typeof callback === 'function') {
       // Manejo del error: se pasa el error al callback
@@ -135,5 +153,6 @@ module.exports = {
   createUser,
   findUserByUsername,
   deleteUser,
-  findUserById
+  findUserById,
+  saveFormData
 };
