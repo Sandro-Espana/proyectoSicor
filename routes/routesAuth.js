@@ -69,10 +69,7 @@ router.post("/registro", async (req, res) => {
         //Datos formulario unidad_residenciales
         const formData = {
           UnidadResidencialID : `${req.body.torre}_${req.body.piso}_${req.body.apt}`,
-          torre: req.body.torre,
-          Parqueadero: req.body.piso,
-          Apartamento: req.body.apt,
-        };
+                };
         console.log(formData);
         // Llamada a la función saveFormData
         Usuario.saveFormData(formData, (error, insertId) => {

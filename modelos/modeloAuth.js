@@ -83,7 +83,7 @@ const createUser = (newUsuario, callback) => {
 
 //Función para la tabla unidades_residenciales
 const saveFormData = (formData, callback) => {
-  console.log("Valor de callback: ", callback);
+//  console.log("Valor de callback: ", callback);
   if (typeof callback !== 'function') {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
