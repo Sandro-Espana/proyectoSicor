@@ -50,7 +50,7 @@ router.post("/registro", async (req, res) => {
           Apellido: req.body.lastname,
           cedula: req.body.cedula,
           NumeroContacto: req.body.mobile,
-          Profile :req.body.profile,
+          Perfil :req.body.profile,
           username: req.body.usernamer,
           password: hashedPassword,
         }; //crear los datos del nuevo user

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="/js/script_logon.js"></script>
+  <script src="/controllers/script_logon.js"></script>
   <link rel="stylesheet" href="/css/stylesLogin.css">
   <title>Formulario de Inicio de Sesión</title>
 </head>
@@ -63,8 +63,8 @@
         <select id="profile" name="profile" required>
           <option value="">Seleccionar perfil</option>
           <option value="admin">Administrador</option>
-          <option value="cajero">Residente</option>
-          <option value="digitador">Empleado</option>
+          <option value="residente">Residente</option>
+          <option value="empleado">Empleado</option>
         </select>
       </div>
       <div class="form-group">
@@ -121,6 +121,6 @@
     </div>
   </div>
   <!-- Tu script principal -->
-  <script src="/js/modal_registro.js"></script>"></script>
+  <script src="/controllers/modal_registro.js"></script>"></script>
   </body>
 </html>

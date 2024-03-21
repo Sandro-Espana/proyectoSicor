@@ -18,12 +18,17 @@ router.get('/pagina2', (req, res) => {
     res.render('pagina2');
 });
 
-router.get('admin', (req, res) => {
+router.get('/admin', (req, res) => {
     res.render('admin');
 });
 
-router.get('residen', (req, res) => {
+router.get('/residen', (req, res) => {
     res.render('residen');
 });
+
+router.get('/normal', (req, res) => {
+    res.render('normal');
+});
+
 
 module.exports = router;
