@@ -1,13 +1,17 @@
-// db.js
-
+require('dotenv').config({path:'.env'});
 const mysql = require('mysql');
+
+const host = process.env.HOST;
+const user = process.env.USER;
+const pass = process.env.PASSWORD;
+const db = process.env.DATABASE;
 
 // Configuración de la conexión a la base de datos
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'sicor'
+  host: host,
+  user: user,
+  password: pass,
+  database: db
 });
 
 

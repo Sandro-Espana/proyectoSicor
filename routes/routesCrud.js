@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Cliente, Producto, Factura } = require('../modelos/modelosCrud');
+const { Cliente, Producto, Factura } = require('../model/modelosCrud');
 
  // Importa los modelos desde el archivo mdatos.js
 

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Usuario = require("../modelos/modeloAuth");
+const Usuario = require("../model/modeloAuth");
 const util = require("util");
 const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
 
@@ -15,6 +15,7 @@ router.post("/registro", async (req, res) => {
       !req.body.lastname ||
       !req.body.cedula ||
       !req.body.mobile ||
+      !req.body.profile ||
       !req.body.torre ||
       !req.body.piso ||
       !req.body.apt
@@ -49,6 +50,7 @@ router.post("/registro", async (req, res) => {
           Apellido: req.body.lastname,
           cedula: req.body.cedula,
           NumeroContacto: req.body.mobile,
+          Profile :req.body.profile,
           username: req.body.usernamer,
           password: hashedPassword,
         }; //crear los datos del nuevo user

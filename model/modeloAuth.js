@@ -18,7 +18,7 @@ const usuarioSchema = {
   }
 };
 
-// Define el esquema de residente
+/*Define el esquema de residente
 const residenteSchema = {
   ResidenteID: {
     type: 'INT',
@@ -61,19 +61,25 @@ const residenteSchema = {
       key: 'PropietarioID'
     }
   }
-};
+  Profile: {
+    type: 'String',
+    defaultValue: null,
+    
+  }
+
+};*/
 
 
 // Función para crear un nuevo usuario
 const createUser = (newUsuario, callback) => {
-  console.log("Valor de callback: ", callback);
+  //console.log("Valor de callback: ", callback);
   if (typeof callback !== 'function') {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
   connection.query('INSERT INTO residentes SET ?', newUsuario, (error, results) => {
     if (error) {
-      console.log(error);
+      //console.log(error);
       callback(error, null);
     } else {
       callback(null, results.insertId);

@@ -28,7 +28,7 @@
     <!-- Enlace para abrir el modal de registro -->
     <a href="#" onclick="abrirModalDesdeEnlace()">Registrarse</a>
   </div>
-    <!-- Modal para el registro -->
+    <!-- Modal para el registro la contraseña debe ir de primero y si ya esta se trtae los datos-->
   <div class="container-modal">
   <div id="modal" class="modal">
     <div class="modal-content">
@@ -59,9 +59,18 @@
         <input type="password" id="passwordr" name="password" required>
       </div>
       <div class="form-group">
+        <label for="profile">Perfil:</label>
+        <select id="profile" name="profile" required>
+          <option value="">Seleccionar perfil</option>
+          <option value="admin">Administrador</option>
+          <option value="cajero">Residente</option>
+          <option value="digitador">Empleado</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label for="torre">Torres:</label>
         <select id="torre" name="torre" required>
-          <option value="torre">Seleccionar torre</option>
+          <option value="">Seleccionar torre</option>
           <option value="torre_1">Torre 1</option>
           <option value="torre_2">Torre 2</option>
           <option value="torre_3">Torre 3</option>
