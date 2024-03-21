@@ -92,68 +92,6 @@ router.post("/registro", async (req, res) => {
   }
 });
 
-/*
-router.post("/login", async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  try {
-    // Llama a la función findUserByUsername con el nombre de usuario y el callback
-    Usuario.findUserByUsername(username, (error, user) => {
-      if (error) {
-        console.error("Error al buscar usuario:", error);
-        return res
-          .status(500)
-          .json({ error: "Error en el servidor al buscar usuario." });
-       
-      }
-      // Comprueba si el usuario no fue encontrado
-      if (!user) {
-        console.log("El usuario no existe");
-        return res.status(404).json({ error: "El usuario no existe" });
-      
-      }
-      // Verifica la contraseña
-      bcrypt.compare(password, user.password, (err, passwordValido) => {
-        if (err) {
-          console.error("Error al comparar contraseñas:", err);
-          return res
-            .status(500)
-            .json({ error: "Error en el servidor al comparar contraseñas." });
-        }
-        // Comprueba si la contraseña es incorrecta
-        if (!passwordValido) {
-          console.log("Contraseña incorrecta");
-          return res.status(401).json({ error: "Contraseña incorrecta" });
-        
-        }
-        // Si las credenciales son válidas, genera un token
-        const token = jwt.sign({ usuarioId: user._id }, "secreto", {
-          expiresIn: "1h"});
-        // Determinar la redirección según el perfil del usuario
-        let redirectTo = "/";
-        if (user.profile === "admin") {
-          redirectTo = "/admin";
-        } else if (user.profile === "cajero") {
-          redirectTo = "/cajero";
-        } else {
-          redirectTo = "/normal";
-        }
-
-        // Envía el token y la redirección al cliente
-        res.json({
-          token: token,
-          profile: user.profile,
-          redirectTo: redirectTo,
-          mensaje: "Inicio de sesión exitoso",
-        })
-    } ) 
-});
-  } catch (error) {
-    console.error("Error en el servidor:", error);
-    res.status(500).json({ error: "Error en el servidor" 
-});
-  }
-});*/
 
 router.post("/login", async (req, res) => {
   try {
