@@ -118,7 +118,7 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
       
     });
-    console.log("token: ",token);
+    //console.log("token: ",token);
 
     // Determinar la redirección según el perfil del usuario
     let redirectTo = "/";
