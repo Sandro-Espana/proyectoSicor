@@ -99,7 +99,7 @@ router.post("/login", async (req, res) => {
 
     // Buscar usuario por nombre de usuario
     const user = await findUserByUsernameAsync(username);
-
+    console.log("user: ",user);
     // Comprobar si el usuario existe
     if (!user) {
       console.log("El usuario no existe");
@@ -116,22 +116,24 @@ router.post("/login", async (req, res) => {
     // Generar token
     const token = jwt.sign({ usuarioId: user._id }, "secreto", {
       expiresIn: "1h",
+      
     });
+    console.log("token: ",token);
 
     // Determinar la redirección según el perfil del usuario
     let redirectTo = "/";
     if (user.profile === "admin") {
       redirectTo = "/admin";
-    } else if (user.profile === "Residente") {
-      redirectTo = "/resid";
+    } else if (user.profile === "residente") {
+      redirectTo = "/residen";
     } else {
       redirectTo = "/normal";
     }
-
+    console.log("redirectTo: ",redirectTo);
     // Enviar token y redirección al cliente
-    res.json({
+    return res.json({
       token: token,
-      profile: user.profile,
+      profile: user.Perfil,
       redirectTo: redirectTo,
       mensaje: "Inicio de sesión exitoso",
     });
