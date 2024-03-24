@@ -21,8 +21,9 @@ SICOR es una aplicación web diseñada con conformidad a la ley 675 del 2001, de
 
 <h3>DEVELOMENT</h3>
 
+[Cristian Garcia ](http://linkedin.com/in/cristian-garcia-5223bb1a9/)
 
 [Sandro Gasca España](http://www.linkedin.com/in/sandro-gaes/)
 
-[Cristian Garcia ](http://linkedin.com/in/cristian-garcia-5223bb1a9/)
+
 
