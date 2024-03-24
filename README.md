@@ -19,7 +19,10 @@ SICOR es una aplicación web diseñada con conformidad a la ley 675 del 2001, de
 - pago en linea de administracion
 - Notificacion en tiempo real
 
+<h1>DEVELOMENT</h1>
 
-#DEVELOMENT 
 
 [Sandro Gasca España](http://www.linkedin.com/in/sandro-gaes/)
+
+[Cristian Garcia ](http://linkedin.com/in/cristian-garcia-5223bb1a9/)
+
