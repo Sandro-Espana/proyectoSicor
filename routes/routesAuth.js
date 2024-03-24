@@ -6,6 +6,7 @@ const Usuario = require("../model/modeloAuth");
 const util = require("util");
 const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
 
+
 router.post("/registro", async (req, res) => {
   try {
     if (
@@ -50,7 +51,7 @@ router.post("/registro", async (req, res) => {
           Apellido: req.body.lastname,
           cedula: req.body.cedula,
           NumeroContacto: req.body.mobile,
-          Perfil :req.body.profile,
+          Perfil: req.body.profile,
           username: req.body.usernamer,
           password: hashedPassword,
         }; //crear los datos del nuevo user
@@ -70,8 +71,8 @@ router.post("/registro", async (req, res) => {
 
         //Datos formulario unidad_residenciales
         const formData = {
-          UnidadResidencialID : `${req.body.torre}_${req.body.piso}_${req.body.apt}`,
-                };
+          UnidadResidencialID: `${req.body.torre}_${req.body.piso}_${req.body.apt}`,
+        };
         console.log(formData);
         // Llamada a la función saveFormData
         Usuario.saveFormData(formData, (error, insertId) => {
@@ -92,14 +93,13 @@ router.post("/registro", async (req, res) => {
   }
 });
 
-
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
     // Buscar usuario por nombre de usuario
     const user = await findUserByUsernameAsync(username);
-    console.log("user: ",user);
+    console.log("user: ", user);
     // Comprobar si el usuario existe
     if (!user) {
       console.log("El usuario no existe");
@@ -116,7 +116,6 @@ router.post("/login", async (req, res) => {
     // Generar token
     const token = jwt.sign({ usuarioId: user._id }, "secreto", {
       expiresIn: "1h",
-      
     });
     //console.log("token: ",token);
 
@@ -129,7 +128,7 @@ router.post("/login", async (req, res) => {
     } else {
       redirectTo = "/normal";
     }
-    console.log("redirectTo: ",redirectTo);
+    console.log("redirectTo: ", redirectTo);
     // Enviar token y redirección al cliente
     return res.json({
       token: token,
@@ -146,16 +145,18 @@ router.post("/login", async (req, res) => {
 //ADMINISTRATOR DELETES RESIDENT USER
 router.delete("/eliminar/:id", async (req, res) => {
   const usuarioId = req.params.id;
-  try {
-    const usuario = await Usuario.findUserById(usuarioId);
-    if (!usuario) {
-      return res.status(404).json({ error: "El usuario no existe" });
+  if (req.user && req.user.profile === "admin") {
+    try {
+      const usuario = await Usuario.findUserById(usuarioId);
+      if (!usuario) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+      await Usuario.deleteUser(usuarioId);
+      res.json({ mensaje: "Usuario eliminado exitosamente" });
+    } catch (error) {
+      console.error("Error en el servidor:", error);
+      res.status(500).json({ error: "Error en el servidor" });
     }
-    await Usuario.deleteUser(usuarioId);
-    res.json({ mensaje: "Usuario eliminado exitosamente" });
-  } catch (error) {
-    console.error("Error en el servidor:", error);
-    res.status(500).json({ error: "Error en el servidor" });
   }
 });
 
