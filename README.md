@@ -2,7 +2,11 @@
 <P>
 SICOR es una aplicación web diseñada con conformidad a la ley 675 del 2001, destinada a revolucionar la administración de conjuntos residenciales de la ciudad de Ibagué-Tolima. Esta plataforma permite la gestión eficiente de la información de propietarios, llevando registros electrónicos a una base de datos accesible desde cualquier dispositivo con conexión a internet. Asegurando un mayor control sobre transacciones administrativas, facturación, recibos de pago, estados de cuenta, paz y salvos, informes, y la generación instantánea de reportes.
 </P>
-- App multiplataforma
+
+<ul>
+  <li>App multiplataforma</li>
+</ul>
+- 
 - Reporte de informes
 - Repositorio documental
 - Gestion de colaboradores
