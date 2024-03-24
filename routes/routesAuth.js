@@ -143,6 +143,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//ADMINISTRATOR DELETES RESIDENT USER
 router.delete("/eliminar/:id", async (req, res) => {
   const usuarioId = req.params.id;
   try {
