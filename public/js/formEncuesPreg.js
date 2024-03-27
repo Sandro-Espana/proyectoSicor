@@ -1,7 +1,7 @@
 //Formulario encuestas preguntas
 let formEncuestasPreguntas = () => {
-    Swal.fire({
-      html: `<br><br><center><form id="formularioEncuestasPreguntas">
+  Swal.fire({
+    html: `<br><br><center><form id="formularioEncuestasPreguntas" class="formSwal">
           <h2>Encuesta</h2>
           <label class="label"><b>Título de la Encuesta</b></label><br>
           <input type="text" id="titulo" name="titulo" class="input" required><br><br>
@@ -30,29 +30,29 @@ let formEncuestasPreguntas = () => {
           <input type="button" id="cerrar" name="cerrar" class="btn" onclick="cerrarSwal()" value="Cerrar"><br><br>
           <h3 id="info" class="titazul">.</h3>
           </form></center><br><br>`,
-      width: "100%",
-      background: "rgba(0,0,0,0.0)",
-      backdrop: true,
-      allowOutsideClick: false,
-      showConfirmButton: false,
-    });
-  };
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+};
 
-  function cerrarSwal() {
-    Swal.close();
-  }
+function cerrarSwal() {
+  Swal.close();
+}
 
-  function enviarFormulario() {
-    // Obtener los datos del formulario
-    const titulo = document.getElementById("titulo").value;
-    const fechaInicio = document.getElementById("fechaInicio").value;
-    const fechaFin = document.getElementById("fechaFin").value;
-    const estado = document.getElementById("estado").value;
-    const textoPregunta = document.getElementById("textoPregunta").value;
+function enviarFormulario() {
+  // Obtener los datos del formulario
+  const titulo = document.getElementById("titulo").value;
+  const fechaInicio = document.getElementById("fechaInicio").value;
+  const fechaFin = document.getElementById("fechaFin").value;
+  const estado = document.getElementById("estado").value;
+  const textoPregunta = document.getElementById("textoPregunta").value;
 
-    Swal.fire({
-      icon: "success",
-      title: "¡Encuesta y Preguntas Enviadas!",
-      text: "¡Gracias por tu participación!",
-    });
-  }
+  Swal.fire({
+    icon: "success",
+    title: "¡Encuesta y Preguntas Enviadas!",
+    text: "¡Gracias por tu participación!",
+  });
+}

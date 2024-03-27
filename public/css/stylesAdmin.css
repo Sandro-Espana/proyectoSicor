@@ -1,54 +1,35 @@
+/*Contenedor main centra el contenido verticalmente*/
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 60vh; /*Centra el contenido verticalmente*/
-    max-height: 100vh;
-    overflow-y: auto; /*añade scroll vertical si el contenido excede la altura maxima*/
-  }
-  /*Configura el espacio de los btn menu*/
-  .btn-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px; /*Espacio entre los botones*/
-  }
+  display: flex;
+  flex-direction: column; /* Apila los elementos en una columna*/
+  align-items: center;/* Centra horizontalmente los elementos*/
+  justify-content: center;/*Centra verticalmente los elementos*/
+  height: 60vh; /* Altura del contenedor al 60% del alto de la ventana */
+  max-height: 100vh;
+  overflow-y: auto; /*añade scroll vertical si el contenido excede la altura maxima*/
+}
+
+/*Configura el espacio de los btn menu*/
+.btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px; /*Espacio entre los botones*/
+  background-color: #008080;
+  border-radius: 10px;
   
+}
+
+.btnmenu {
+  width: 50%;
+}
+
+@media only screen and (max-width: 1000px) {
   .btn {
-    border: 1px solid #113;
-    outline: none;
-    /* margin-left: 0; */
-    background: #fff;
-    color: #113;
-    font-size: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 5px 5px 5px 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    width: 100%; /*ancho fijo para los botones */
+    width: 80%;
   }
-  
+
   .btnmenu {
-    width: 50%;
+    width: 100%; /*ancho completo para los botones en pantalla pequeñas */
   }
-  
-
-  
-  .btn:hover {
-    background: #f58642;
-    color: #fff;
-  }
-
-
-  @media only screen and (max-width: 1000px) {
-    .btn {
-      width: 80%;
-    }
-
-    .btnmenu {
-      width: 100%; /*ancho completo para los botones en pantalla pequeñas */
-    }
-  }
+}

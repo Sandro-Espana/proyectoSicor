@@ -6,13 +6,13 @@
     <title>Admin</title>
     <link rel="stylesheet" type="text/css" href="/css/stylesAdmin.css" />
     <link rel="stylesheet" type="text/css" href="/css/stylesForm.css" />
-    <link rel="icon" href="/img/favicon.png">
+    <link rel="icon" href="/img/favicon.png" />
   </head>
   <body>
     <header><%- include('header.ejs') %></header>
     <nav><%- include('navbar.ejs') %></nav>
     <main class="container" style="background-color: #f0f0f0">
-      <h2>FUNCIONES ADMINISTRADOR</h2>
+      <h1>FUNCIONES ADMINISTRADOR</h1>
       <div class="btn-container">
         <button type="button" class="btn btnmenu" onclick="formProveedor()">
           PROVEDORES
@@ -27,26 +27,32 @@
           Calendario
         </button>
         <button type="button" class="btn btnmenu" onclick="formSanciones()">
-          Gestión de Sanciones
+          Sanciones
         </button>
         <button type="button" class="btn btnmenu" onclick="formRepositorio()">
-          Gestión de Documentos
-        </button>
-        <button type="button" class="btn btnmenu" onclick="formZonasComunes()">
-          Gestión de zonas comunes
+          Documentos
         </button>
         <button
           type="button"
           class="btn btnmenu"
           onclick="formEncuestasPreguntas()"
         >
-          Gestión de encuestas
+          encuestas
+        </button>
+        <button type="button" class="btn btnmenu" onclick="formZonasComunes()">
+          zonas comunes
         </button>
       </div>
     </main>
     <footer><%- include('footer.ejs') %></footer>
     <script src="js/swalDos.js"></script>
-    <script src="/js/formpqrs.js"></script>
     <script src="/js/formProveedor.js"></script>
+    <script src="/js/formpqrs.js"></script>
+    <script src="/js/formCartel.js"></script>
+    <script src="js/formTarea.js"></script>
+    <script src="/js/formSanciones.js"></script>
+    <script src="/js/formReposit.js"></script>
+    <script src="/js/formEncuesPreg.js"></script>
+    <script src="js/formZonComAdm.js"></script>
   </body>
 </html>

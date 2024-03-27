@@ -1,49 +1,20 @@
-.formSwal {
-    width: 100%;
-    padding: 10px 10px 10px 10px;
-    background-color: #fff;
-    margin-top: 20px;
-    border-radius: 9px;
-    max-width: 500px;
-  }
-  .input {
-    color: #000;
-    font-family: principal;
-    line-height: 22px;
-    outline: none;
-    border: 1px solid #020202;
-    padding-bottom: 0px;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    background-color: #fff;
-    padding: 3px 3px 3px 3px;
-    width: 85%;
-    height: 27px;
-    border-radius: 5px;
-  }
+/*Contenedor principal*/
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  .btn {
-    border: 1px solid #113;
-    margin-left: 0;
-    outline: none;
-    background: #fff;
-    color: #113;
-    font-size: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 5px 5px 5px 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    width: 40%;
-  }
+.button-container {
+  background-color: #008080; /* Color de fondo claro con transparencia */
+  padding: 20px; /* Añade un poco de espacio alrededor del contenedor de botones */
+  border-radius: 10px; /* Agrega bordes redondeados al contenedor */
+  max-width: 400px; /* Ancho máximo del contenedor de botones */
+}
 
-  .btnmenu {
-    width: 20%;
-  }
+.btnmenu {
+  width: 100%;
+  margin-bottom: 10px; /* Añade un margen inferior entre los botones */
+}
 
-  .btn:hover {
-    background: #113;
-    color: #0d93ff;
-  }

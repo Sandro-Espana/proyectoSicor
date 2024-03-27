@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Residente</title>
     <link rel="stylesheet" type="text/css" href="/css/stylesResiden.css" />
+    <link rel="stylesheet" type="text/css" href="/css/stylesForm.css" />
     <link rel="icon" href="/img/favicon.png" />
   </head>
   <body>
@@ -12,31 +13,37 @@
     <nav><%- include('navbar.ejs') %></nav>
     <main>
       <h1>PANEL RESIDENTE</h1>
-      <button type="button" class="btn btnmenu" onclick="formMascotas()">
-        Mascotas
-      </button>
-      <button
-        type="button"
-        class="btn btnmenu"
-        onclick="formReservasZonasComunes()"
-      >
-        Zonas Comunes
-      </button>
-      <button type="button" class="btn btnmenu" onclick="formVehiculos()">
-        Vehiculos
-      </button>
-      <button
-        type="button"
-        class="btn btnmenu"
-        onclick="formRespuestasEncuestas()"
-      >
-        Encuestas
-      </button>
+      <div class="button-container">
+        <button type="button" class="btn btnmenu" onclick="formMascotas()">
+          Mascotas
+        </button>
+        <button
+          type="button"
+          class="btn btnmenu"
+          onclick="formReservasZonasComunes()"
+        >
+          Zonas Comunes
+        </button>
+        <button type="button" class="btn btnmenu" onclick="formVehiculos()">
+          Vehiculos
+        </button>
+        <button
+          type="button"
+          class="btn btnmenu"
+          onclick="formRespuestasEncuestas()"
+        >
+          Encuestas
+        </button>
+        <button type="button" class="btn btnmenu" onclick="formPQRS()">
+          PQRS
+        </button>
+      </div>
     </main>
     <footer><%- include('footer.ejs') %></footer>
   </body>
   <script src="/js/swalDos.js"></script>
   <script src="/js/formMascotas.js"></script>
+  <script src="/js/formpqrs.js"></script>
   <script src="/js/formZonComun.js"></script>
   <script src="/js/formRespEncue.js"></script>
   <script src="/js/formVehiculos.js"></script>
