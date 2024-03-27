@@ -36,9 +36,9 @@ router.get('/residen', (req, res) => {
     res.render('residen');
 });
 
-router.get('/normal', (req, res) => {
-    res.render('normal');
-});
+// router.get('/', (req, res) => {
+//     res.render('normal');
+// });
 
 
 module.exports = router;

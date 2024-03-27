@@ -1,11 +1,17 @@
-<link rel="stylesheet" type="text/css" href="/css/stylesNavbar.css">
+<link rel="stylesheet" type="text/css" href="/css/stylesNavbar.css" />
 <div class="nav-container">
-    <div class="nav-logo">
-        <h1 >SICOR</h1>
-    </div>
-    <div class="nav-links">
-        <a href="/productos">Contáctenos</a>
-        <a href="/Login" class="login-link">Ingresar</a>
-        <a href="/carrito-de-compras">Demo</a>
-    </div>
+  <div class="nav-logo">
+    <a href="/">SICOR</a>
+  </div>
+  <div class="nav-links">
+    <button type="button" class="btnNavBar" onclick="formCuentaDemo()">
+        Demo
+      </button>
+    <button type="button" class="btnNavBar" onclick="formContactenos()">
+      Contactenos
+    </button>
+    <a href="/Login" class="login-link">Ingresar</a>
+  </div>
 </div>
+<script src="/js/formDemo.js"></script>
+<script src="/js/formContac.js"></script>
