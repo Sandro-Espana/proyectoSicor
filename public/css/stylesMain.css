@@ -4,6 +4,7 @@
     padding: 40px; /* Espaciado interno */
 }
 
+/*Contenedor div*/
 .introduction-section .content {
     display: flex;
     flex-direction: row; /* Alinea los elementos en fila */
@@ -11,20 +12,21 @@
     align-items: center; /* Centra verticalmente los elementos */
 }
 
+/*elemento de texto dentro de la sección de introducción*/
 .introduction-section .text {
     flex: 1; /* El texto ocupará todo el espacio restante */
-    padding-right: 25px; /* Espaciado a la derecha para separar del logo */
+    padding-right: 50px; /* Espaciado a la derecha para separar del logo */
 }
 
+/*Parrafo*/
 .introduction-section .text p {
-    font-size: 25px; /*Paragraph font size*/
+    font-size: 30px; /*Paragraph font size*/
 }
+
+/*Imagen*/
 .introduction-section .image img {
-    max-width: 100%; /* La imagen se ajustará al ancho máximo del contenedor */
+    width: 350px; /* Establece el ancho deseado */
     height: auto; /* Altura automática para mantener la proporción */
 }
 
-.image {
-    width: 350px; /* Establece el ancho deseado */
-    height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
-}
+
