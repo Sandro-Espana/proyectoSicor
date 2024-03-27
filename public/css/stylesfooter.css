@@ -17,6 +17,16 @@
     flex-wrap: wrap;/* Permite que los elementos se envuelvan en líneas si no caben en una sola línea */
 }
 
+/*Div direction*/
+.left-footer-column {
+    flex: 1; /* Ocupa el espacio restante dentro del contenedor */
+    text-align: left; /* Alinea el contenido a la izquierda */
+    font-size: 20px;
+    margin-left: 20px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
 /*div columna*/
 .footer-column {
     flex: 1; /* Ocupa el espacio restante dentro del contenedor */
@@ -24,25 +34,27 @@
     text-align: center; /* Centra el contenido horizontalmente */
 }
 
+
 /*Elemntos span*/
 .footer-column span {
-    font-size: 16px;/*Ajuste el tamaño del texto*/
+    font-size: 20px;/*Ajuste el tamaño del texto*/
     color: #fff; /*Cambia el color del texto a blanco*/
     margin-bottom: 5px;/*Agrega espacio entre cada linea*/
 }
-
 
 .footer-column:last-child {
     margin-right: 0; /* Elimina el margen derecho del último elemento */
 }
 
+/*Img de link*/
 .social-icon {
     width: 30px;
     height: 30px;
+    border-radius: 7px;
     margin-right: 10px; /* Agrega un margen a la derecha para separar las imágenes */
 }
 
-/*Recarga los iconos a la*/
+/*Recarga las img de link a la izq*/
 .social-links {
     display: flex;
     justify-content: flex-end; /* Alinea los enlaces a la derecha */
