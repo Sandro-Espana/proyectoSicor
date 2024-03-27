@@ -1,31 +1,15 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <link rel="stylesheet" type="text/css" href="/css/stylesIndex.css">
-</head>
-<body>
-
-    <header>
-        <h1>SICOR</h1>
-    </header>
-
-    <nav>
-        <div class="nav-links">
-            <a href="/">Inicio</a>
-            <a href="/clientes/clientes">Conocenos</a>
-            <a href="/productos">Contactenos</a>
-            <a href="/carrito de compras">Demo</a>
-        </div>
-        <div class="login-container">
-            <a href="/Login" class="login-link">Login</a>
-        </div>
-    </nav>
-
-    <main>
-        <%- include('main.ejs') %>
-    </main>
-
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SICOR</title>
+        <link rel="stylesheet" type="text/css" href="/css/stylesIndex.css">
+    </head>
+    <body>
+        <header><%- include('header.ejs') %></header>
+        <nav><%- include('navbar.ejs') %></nav>
+        <main><%- include('main.ejs') %></main>
+        <footer><%- include('footer.ejs') %></footer>
+    </body>
 </html>

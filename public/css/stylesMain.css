@@ -1,0 +1,25 @@
+ /* Estilos para la sección de introducción */
+ .introduction-section {
+    background-color: #f9f9f9; /* Color de fondo */
+    padding: 40px; /* Espaciado interno */
+}
+
+.introduction-section .content {
+    display: flex;
+    flex-direction: row; /* Alinea los elementos en fila */
+    justify-content: space-between; /* Distribuye los elementos horizontalmente */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+
+.introduction-section .text {
+    flex: 1; /* El texto ocupará todo el espacio restante */
+    padding-right: 25px; /* Espaciado a la derecha para separar del logo */
+}
+
+.introduction-section .text p {
+    font-size: 25px; /*Paragraph font size*/
+}
+.introduction-section .image img {
+    max-width: 100%; /* La imagen se ajustará al ancho máximo del contenedor */
+    height: auto; /* Altura automática para mantener la proporción */
+}

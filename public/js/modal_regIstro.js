@@ -30,7 +30,7 @@ const enviarRegistro = async () => {
   const apt = document.getElementById('apt').value;
   const usernamer = document.getElementById('email').value;
   const profile = document.getElementById('profile').value;
-
+ 
   //falta la TORRE-PISO-APT
   const passwordr = document.getElementById('passwordr').value;
   const mensajeRegistro = document.getElementById('mensajeRegistro');

@@ -1,0 +1,41 @@
+.footer {
+    position: fixed;
+    /* O puedes usar 'absolute' si prefieres que sea relativo al contenido */
+    bottom: 0;
+    /* Lo posiciona al fondo de la ventana del navegador */
+    left: 0;
+    width: 100%;
+    /* Ocupa todo el ancho disponible */
+    background-color:#003366;
+    color: #0e0d0d;
+    padding: 20px 0;
+}
+
+.container-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.footer-column span {
+  font-size: 16px;/*Ajuste el tamaño del texto*/
+  color: #fff;/*Cambia el color del texto a blanco*/
+  margin-bottom: 5px;/*Agrega espacio entre cada linea*/
+}
+
+.footer-column:last-child {
+    margin-right: 0;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}

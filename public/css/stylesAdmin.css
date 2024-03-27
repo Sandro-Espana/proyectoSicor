@@ -1,60 +1,54 @@
-/* Estilos generales */
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
-
-nav {
-    background-color: #666;
-    padding: 10px;
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin-right: 10px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 5px 10px;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh; /*Centra el contenido verticalmente*/
+    max-height: 100vh;
+    overflow-y: auto; /*añade scroll vertical si el contenido excede la altura maxima*/
+  }
+  /*Configura el espacio de los btn menu*/
+  .btn-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /*Espacio entre los botones*/
+  }
+  
+  .btn {
+    border: 1px solid #113;
+    outline: none;
+    /* margin-left: 0; */
+    background: #fff;
+    color: #113;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 5px 5px 5px;
     border-radius: 5px;
-}
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%; /*ancho fijo para los botones */
+  }
+  
+  .btnmenu {
+    width: 50%;
+  }
+  
 
-nav ul li a:hover {
-    background-color: #444;
-}
-
-main {
-    padding: 20px;
-}
-
-footer {
-    background-color: #333;
+  
+  .btn:hover {
+    background: #f58642;
     color: #fff;
-    text-align: center;
-    padding: 10px;
-}
+  }
 
-/* Estilos específicos */
 
-#content {
-    margin-top: 20px;
-}
+  @media only screen and (max-width: 1000px) {
+    .btn {
+      width: 80%;
+    }
 
-/* Puedes agregar más estilos específicos según sea necesario */
+    .btnmenu {
+      width: 100%; /*ancho completo para los botones en pantalla pequeñas */
+    }
+  }

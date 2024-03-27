@@ -1,0 +1,32 @@
+.header {
+    background-color: #003366; /* Color de fondo del encabezado */
+    color: white; /* Color de texto del encabezado */
+    padding: 5px 5px; /* Ajusta el relleno superior e inferior y los lados */
+    margin-bottom: 20px;
+}
+
+.header-container {
+    display: flex; /* Utiliza flexbox para alinear los elementos */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-between; /* Alinea los elementos horizontalmente */
+    max-width: 100%; /* Establece un ancho máximo para el contenido */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+}
+
+.logo-container {
+    margin-right: 10px; /* Añade un margen entre el logo y el título */
+    border-radius: 10px;/*Agrega bordes redondeados al contenedor del logo*/
+    overflow: hidden; /*Asegura que la imagen del logo no sobresalga de los bordes redondeados*/
+
+}
+
+.logo {
+    max-width: 120px; /* Establece un ancho máximo para el logo */
+    height: auto; /* Permite que la altura se ajuste automáticamente */
+}
+
+.title {
+    margin: 0; /* Elimina el margen predeterminado del título */
+    flex: 1; /* El título ocupará el espacio restante */
+    text-align: center; /* Centra el texto del título */
+}

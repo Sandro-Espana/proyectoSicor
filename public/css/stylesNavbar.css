@@ -1,0 +1,53 @@
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Ajusta el ancho al 100% */
+  padding: 10px 20px; /* Agrega un padding para espaciar los elementos */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+  background-color: #008080; /* Color de fondo de la barra de navegación */
+  border-radius: 20px;/*Agrega bordes redondeados*/
+  border: 2px solid #000;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: flex-end; /* Alinea los elementos a la derecha */
+}
+
+
+.nav-links a {
+  margin-left: 20px; /* Ajusta el espaciado entre los enlaces */
+  text-decoration: none;
+  color: #333;
+  background-color: #fff;/*Color de fondo blanco*/
+  padding: 8px 16px; /*Ajusta el relleno para hacer los botones mas grandes*/
+  border-radius: 20px; /*Bord es redondeados*/
+  font-family: Arial, sans-serif; /*Tipo de letra */
+  transition: color 0.3s, background-color 0.3s; /*Transision suave para el cambio de color*/
+  border: 2px solid #000; /*Borde de 2px solido negro*/
+}
+
+.nav-links a:hover {
+  color: #fff; /*Cambiar el color del texto cuando se pase el cursor*/
+  background-color: #f58642; /*Cambia el color del fondo cuando se pase el cursor*/
+}
+
+
+.login-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.nav-logo {
+  margin-left: 30px;/*Agrega una margen izquierdo*/
+  max-width: auto; /* Establece un ancho máximo para el contenedor */
+  height: auto; /* Permite que la altura se ajuste automáticamente al contenido */
+}
+
+.nav-logo h1 {
+  margin: 0; /* Elimina el margen predeterminado del título */
+  font-size: 24px; /* Tamaño de fuente del título */
+  line-height: 1; /* Establece la altura de línea igual a 1 para evitar espacios adicionales */
+  color: white;
+}

@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { Cliente, Producto, Factura } = require('../model/modelosCrud');
+//const pqrsModel = require('../model/modelosCrud'); // Importa el modelo de PQRS
 
- // Importa los modelos desde el archivo mdatos.js
 
 
 
 // Rutas para Clientes
-
 router.get('/clientes', async (req, res) => {
     try {
     const clientes = await Cliente.find();

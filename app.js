@@ -1,53 +1,55 @@
 // Importación de módulos
 const express = require('express');
-
 const path = require('path');
 const rutasViews = require('./routes/routesViews');
 const auth = require('./routes/routesAuth'); // Importa las rutas de autenticación desde el archivo auth.js
-const crud = require('./routes/routesCrud'); 
-// Importar la función de conexión a la base de datos
-const conectarDB = require('./dbMysql');
+const crud = require('./routes/routesCrud');
+const conectarDB = require('./dbMysql'); // Importar la función de conexión a la base de datos
 const cors = require('cors');
-// Creación de una aplicación Express
-const app = express()
-// Habilita CORS para permitir solicitudes desde otros dominios
-app.use(cors())
+
+
+const app = express() // Creación de una aplicación Express
+
+app.use(cors()) // Habilita CORS para permitir solicitudes desde otros dominios
+
 // Middleware para servir archivos estáticos desde la carpeta 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    // Configurar los tipos MIME para los archivos estáticos
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        }
+    }
+}));
+
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.js')) {
+            res.setHeader('Content-Type', 'text/javascript');
+        }
+    }
+}));
 
 
+app.set('views', path.join(__dirname, 'views')); // Configurar la carpeta 'views' para las vistas EJS
 
+app.set('view engine', 'ejs'); // Configuración del motor de plantillas EJS
 
-// Configurar la carpeta 'views' para las vistas EJS
-app.set('views', path.join(__dirname, 'views'));
+const port = 3000; // Puerto en el que el servidor escuchará las solicitudes
 
-// Configuración del motor de plantillas EJS
-app.set('view engine', 'ejs');
+//app.use(cors()); // Habilita CORS para permitir solicitudes desde otros dominios
 
-// Puerto en el que el servidor escuchará las solicitudes
-const port = 3000;
+app.use(express.json()); // Configuración para manejar solicitudes JSON
 
-// Habilita CORS para permitir solicitudes desde otros dominios
-//app.use(cors());
+app.use('/', rutasViews); // Uso de las rutas desde rutasViews.js
 
-// Configuración para manejar solicitudes JSON
-app.use(express.json());
+app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
 
-// Uso de las rutas desde rutasViews.js
-app.use('/', rutasViews);
+app.use('/', crud); // rutas de los end-points Define las rutas en tu aplicación
 
-//Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
-  app.use('/api', auth);
+const db = conectarDB; // Conexión a Mysql
 
-// rutas de los end-points
-// Define las rutas en tu aplicación
-app.use('/', crud);
-
-// Conexión a Mysql
-// Llamar a la función para conectar a la base de datos
-const db = conectarDB;
-
-// Manejo de eventos de conexión y error a MongoDB
+// Manejo de eventos de conexión y error
 db.on('error', console.error.bind(console, 'Error de conexión a Mysql:'));
 db.once('open', () => {
     console.log('Conectado a Mysql');
@@ -60,10 +62,9 @@ app.listen(port, () => {
 
 
 /*
-El código que se proporciona es un servidor web básico utilizando Node.js y 
-Express, con integración de MySql. Además, 
-incluye configuraciones para manejar vistas con EJS, CORS para 
-permitir solicitudes desde otros dominios, 
-y una ruta de autenticación definida en el archivo auth.js. 
-
+El código que se proporciona es un servidor web básico utilizando Node.js y
+Express, con integración de MySql. Además,
+incluye configuraciones para manejar vistas con EJS, CORS para
+permitir solicitudes desde otros dominios,
+y una ruta de autenticación definida en el archivo auth.js.
 */
