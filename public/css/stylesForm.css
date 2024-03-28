@@ -2,7 +2,7 @@
 .formSwal {
   width: 100%;
   padding: 10px 10px 10px 10px;/* Relleno del formulario */
-  background-color: #fff;
+  background-color: #f0f0f0;
   margin-top: 20px;/* Margen superior del formulario */
   border-radius: 9px;
   max-width: 500px;
@@ -22,7 +22,7 @@
   font-size: 18px; /* Tamaño de fuente */
   font-weight: bold; /* Peso de la fuente */
   margin-bottom: 8px; /* Margen inferior */
-  background-color: #fff; /* Color de fondo */
+  background-color: #f0f0f0; /* Color de fondo */
   padding: 3px 3px 3px 3px; /* Ajuste del relleno */
   width: 85%; /* Ancho del campo */
   height: 27px; /* Altura del campo */
@@ -37,15 +37,15 @@
 /* Estilos para botones */
 .btn {
   border: 1px solid #113; /* Borde sólido de color #113 */
-  margin-left: 0; /* Elimina el margen izquierdo */
-  outline: none; /* Quita el contorno alrededor del botón al enfocarlo */
-  background: #fff; /* Color de fondo blanco */
+  /*margin-left: 0;  Elimina el margen izquierdo */
+  /*outline: none;  Quita el contorno alrededor del botón al enfocarlo */
+  background: #f0f0f0; /* Color de fondo blanco */
   color: #113; /* Color del texto */
-  font-size: 15px; /* Tamaño de fuente */
+  font-size: 23px; /* Tamaño de fuente */
   text-transform: uppercase; /* Transforma el texto a mayúsculas */
   letter-spacing: 1px; /* Espaciado entre caracteres */
   padding: 5px 5px 5px 5px; /* Ajuste del relleno */
-  border-radius: 5px; /* Borde redondeado */
+  border-radius: 7px; /* Borde redondeado */
   cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
   font-weight: 600; /* Grosor de la fuente */
   /* width: 40%; Ancho del botón */
@@ -54,7 +54,7 @@
 
 .btn:hover {
   background: #f58642;
-  color: #fff;
+  color: #f0f0f0;
 }
 
 /*Boton formulario flotante*/

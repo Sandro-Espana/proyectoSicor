@@ -7,6 +7,8 @@
   height: 60vh; /* Altura del contenedor al 60% del alto de la ventana */
   max-height: 100vh;
   overflow-y: auto; /*añade scroll vertical si el contenido excede la altura maxima*/
+  background-color: #f0f0f0;
+
 }
 
 /*Configura el espacio de los btn menu*/
@@ -14,14 +16,18 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px; /*Espacio entre los botones*/
+  gap: 8px; /*Espacio entre los botones*/
   background-color: #008080;
   border-radius: 10px;
-  
+  margin-top: 30px; /* Margen superior entre los botones y el contenedor */
+  margin-bottom: 40px; /* Margen inferior entre los botones y el contenedor */
+  padding: 30px;
+  max-width: 45%; /* Ancho máximo del contenedor de botones */
 }
 
 .btnmenu {
-  width: 50%;
+  width: 35%;
+  margin: 5px; /* Margen entre los botones */
 }
 
 @media only screen and (max-width: 1000px) {
