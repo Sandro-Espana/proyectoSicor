@@ -19,7 +19,7 @@ const createPQRS = (newPQRS, callback) => {
 //FUNCTION TO LIST ALL USERS FROM DB
 const getAllPQRS = (callback) => {
   if (typeof callback !== 'function') {
-    console.error('Error: La función de devolución de llamada no está definida.');
+    console.error('Error: La función de devolución de llamada no está definida, soy modelPqrsCrud.');
     return;
   }
   connection.query('SELECT * FROM pqrs', (error, results) => {

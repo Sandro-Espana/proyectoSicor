@@ -47,6 +47,8 @@ app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ru
 
 app.use('/api', pqrs);
 
+//app.use('/list', pqrs);
+
 app.use('/', crud); // rutas de los end-points Define las rutas en tu aplicación
 
 const db = conectarDB; // Conexión a Mysql

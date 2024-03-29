@@ -18,7 +18,7 @@
         <button type="button" class="btn btnmenu" onclick="formProveedor()">
           PROVEDORES
         </button>
-        <button type="button" class="btn btnmenu" onclick="formPQRS()">
+        <button type="button" class="btn btnmenu" onclick="formPqrsAdmin()">
           PQRS
         </button>
         <button type="button" class="btn btnmenu" onclick="formCartelera()">
@@ -44,11 +44,18 @@
           zonas comunes
         </button>
       </div>
+      <div class="search-container">
+        <input type="text" id="searchInput" onkeyup="doSearch()" placeholder="Buscar...">
+      </div>
+      <div id="container-table" class=" "></div>
+      <br>
+      <br>
+      <br>
     </main>
     <footer><%- include('footer.ejs') %></footer>
     <script src="js/swalDos.js"></script>
     <script src="/js/formProveedor.js"></script>
-    <script src="/js/formpqrs.js"></script>
+    <script src="/js/formPqrsAdmin.js"></script>
     <script src="/js/formCartel.js"></script>
     <script src="js/formTarea.js"></script>
     <script src="/js/formSanciones.js"></script>

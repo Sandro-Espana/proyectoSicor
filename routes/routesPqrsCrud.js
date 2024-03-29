@@ -4,7 +4,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 //const Crud = require("../model/modelPqrsCrud");
-const { createPQRS } = require("../model/modelPqrsCrud"); // Importar la función createPQRS del archivo modelPqrsCrud.js
+const { createPQRS, getAllPQRS } = require("../model/modelPqrsCrud");
 
 
 // FOR CREATING A NEW PQRS
@@ -50,11 +50,19 @@ router.post("/formPQRS", async (req, res) => {
 });
 
 // ROUTES TO OBTAIN ALL PQRS
-router.get("/pqrs", async (req, res) => {
+router.get("/listarPQRS", async (req, res) => {
   try {
-    const pqrs = await pqrsModel.getAllPQRS();
-    res.json(pqrs);
+    getAllPQRS((error, pqrs) =>{
+      if (error) {
+        console.error("Error en la solicitud: ", error);
+        res.status(500).json({ error: error.message});
+      } else {
+        res.json(pqrs);
+        console.log("listar pqrs ",pqrs)
+      }
+    });
   } catch (error) {
+    console.log("Error en la solicitud:", error)
     res.status(500).json({ error: error.message });
   }
 });

@@ -22,6 +22,9 @@ router.get('/residen', (req, res) => {
 router.post('/formPQRS', (req, res) => {
 });
 
+router.get('/listarPQRS', (req, res) => {
+});
+
 
 
 module.exports = router;
