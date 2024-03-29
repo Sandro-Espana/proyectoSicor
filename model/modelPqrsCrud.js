@@ -1,5 +1,5 @@
-// Importa el módulo MySQL
-const connection = require('../dbMysql');
+// IMPORT MUSQL MODULE
+const connection = require('../DB/dbMysql');
 
 //FUNCTION TO CREATE PQRS
 const createPQRS = (newPQRS, callback) => {

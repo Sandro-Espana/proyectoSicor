@@ -1,6 +1,6 @@
 // Función asíncrona que envía datos al servidor al hacer clic en un botón
 const enviarDatos = async (event) => {
- console.log("hola")
+ 
  event.preventDefault();
   // Obtiene los valores de los campos de nombre de usuario y contraseña del formulario
   const username = document.getElementById("username").value;
@@ -14,10 +14,8 @@ const enviarDatos = async (event) => {
       username,
       password,
     });
-    console.log("response: ",response.data);
     // Si la respuesta del servidor tiene un código de estado 200 (éxito)
     if (response.status === 200) {
-      // Redirige al usuario a la página principal
       // Redirige al usuario a la página correspondiente según su perfil
       const profile = response.data.profile;
       console.log("perfil de user: ",profile);
@@ -26,7 +24,7 @@ const enviarDatos = async (event) => {
       } else if (profile === "residente") {
         window.location.href = "/residen";
       } else {
-        window.location.href = "/normal";
+        window.location.href = "/";
       }
     }
   } catch (error) {

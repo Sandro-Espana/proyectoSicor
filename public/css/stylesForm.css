@@ -29,6 +29,11 @@
   border-radius: 5px; /* Borde redondeado */
 }
 
+.inputext {
+  width: 85%;
+  height: 150px;
+  resize: none;
+}
 
 /*inputMax pendiente de organizar*/
 /*<textarea  class="input "*/
@@ -59,7 +64,7 @@
 
 /*Boton formulario flotante*/
 .btnMedio {
-  width: 45%;
+  width: 30%;
 }
 
 /*Cuando aplica?*/

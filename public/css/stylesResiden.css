@@ -6,7 +6,7 @@ main {
   justify-content: center;
 }
 
-.button-container {
+.container-residen {
   background-color: #008080; /* Color de fondo claro con transparencia */
   padding: 20px; /* Añade un poco de espacio alrededor del contenedor de botones */
   border-radius: 10px; /* Agrega bordes redondeados al contenedor */

@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/css/stylesLogin.css">
   <title>Formulario de Inicio de Sesión</title>
 </head>
+<body>
 
   <div class="container-login">
     <div id="h2">
@@ -28,6 +29,7 @@
     <!-- Enlace para abrir el modal de registro -->
     <a href="#" onclick="abrirModalDesdeEnlace()">Registrarse</a>
   </div>
+
     <!-- Modal para el registro la contraseña debe ir de primero y si ya esta se trtae los datos-->
   <div class="container-modal">
   <div id="modal" class="modal">
@@ -120,7 +122,9 @@
       </div>
     </div>
   </div>
-  <!-- Tu script principal -->
+  
+  <footer><%- include('footer.ejs') %></footer>
+</body>
   <script src="/js/modal_registro.js"></script>
   </body>
 </html>

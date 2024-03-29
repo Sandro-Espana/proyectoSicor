@@ -1,5 +1,5 @@
 // Importa el módulo MySQL
-const connection = require('../dbMysql');
+const connection = require('../DB/dbMysql');
 
 // Define el esquema login de usuario
 const usuarioSchema = {

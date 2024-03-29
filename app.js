@@ -4,9 +4,9 @@ const path = require('path');
 const rutasViews = require('./routes/routesViews');
 const auth = require('./routes/routesAuth'); // Importa las rutas de autenticación desde el archivo auth.js
 const crud = require('./routes/routesCrud');
-const conectarDB = require('./dbMysql'); // Importar la función de conexión a la base de datos
+const conectarDB = require('./DB/dbMysql'); // Importar la función de conexión a la base de datos
 const cors = require('cors');
-
+const pqrs = require('./routes/routesPqrsCrud');
 
 const app = express() // Creación de una aplicación Express
 
@@ -44,6 +44,8 @@ app.use(express.json()); // Configuración para manejar solicitudes JSON
 app.use('/', rutasViews); // Uso de las rutas desde rutasViews.js
 
 app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
+
+app.use('/api', pqrs);
 
 app.use('/', crud); // rutas de los end-points Define las rutas en tu aplicación
 

@@ -1,14 +1,14 @@
+//ROUTES TO PROCESS THE FORM DATA
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Crud = require("../model/modelPqrsCrud");
-const { createPQRS } = require("./modelPqrsCrud"); // Importar la función createPQRS del archivo modelPqrsCrud.js
+//const Crud = require("../model/modelPqrsCrud");
+const { createPQRS } = require("../model/modelPqrsCrud"); // Importar la función createPQRS del archivo modelPqrsCrud.js
 
-// RutaS para procesar el formulario
 
 // FOR CREATING A NEW PQRS
-router.post("/registro", async (req, res) => {
+router.post("/formPQRS", async (req, res) => {
   //Manejar la solicitud de registro en el servidor
   try {
     // Verificar si se proporcionan todos los campos requeridos
@@ -16,9 +16,8 @@ router.post("/registro", async (req, res) => {
       !req.body.tipo ||
       !req.body.asunto ||
       !req.body.descripcion ||
-      !req.body.respuesta ||
+      !req.body.imagen ||
       !req.body.fechaCreacion ||
-      !req.body.estado ||
       !req.body.usuarioId
     ) {
       return res
@@ -31,12 +30,10 @@ router.post("/registro", async (req, res) => {
       Tipo: req.body.tipo,
       Asunto: req.body.asunto,
       Descripcion: req.body.descripcion,
-      Respuesta: req.body.respuesta,
+      ImagenPath: req.body.imagen,
       FechaCreacion: req.body.fechaCreacion,
-      Estado: req.body.estado,
       UsuarioID: req.body.usuarioId,
     };
-
     // Llamar a la función createPQRS para insertar el nuevo PQRS en la base de datos
     createPQRS(newPQRS, (error, insertId) => {
       if (error) {
@@ -107,3 +104,5 @@ router.delete("/pqrs/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+module.exports = router;
