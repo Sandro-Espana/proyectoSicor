@@ -33,6 +33,7 @@
 /* Estilos para la barra de búsqueda */
 .search-container {
   margin-bottom: 20px;
+  /* display: none; */
 }
 
 .search-container input[type=text] {

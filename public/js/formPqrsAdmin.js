@@ -93,8 +93,40 @@ function listData(response) {
   }
 }
 
+function abrirModal() {
+  // Oculta el formulario de inicio de sesión
+  document.getElementById('form_logon').style.display = 'none';
+  // Muestra el modal
+  document.getElementById('modal').style.display = 'block';
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+const containerTable = document.getElementById('container-table');
+const searchContainer = document.querySelector('.search-container');
+  searchContainer.style.display = 'none';
+//VERIFICAR SI LA TABLA SE HA GENERADO
+if (containerTable.innerHTML.trim() !== ''){
+  //SI LA TABLA ESTA PRESENTE, MOSTRAR LA BARRA DE BUSQUEDA
+  const searchContainer = document.querySelector('#searchInput');
+  searchContainer.parentElement.style.display = 'block';
+}
+});
+
+// document.addEventListener("DOMContentLoaded", function(){
+//   const containerTable = document.getElementById('container-table');
+  
+//    Verificar si la tabla se ha generado
+//   if (containerTable && containerTable.innerHTML.trim() !== ''){
+//      Si la tabla está presente, mostrar la barra de búsqueda
+//     const searchContainer = document.querySelector('.search-container');
+//     searchContainer.style.display = 'block';
+//   }
+// });
+
+
 //FORMULARIO PARA ACTUALIZAR PQRS
 let modiData = (cod) => {
+  
   Swal.fire({
     html:
       '<br><br><center><form id="" name="" class="formSwal" onsubmit="sendText(event)">' +
@@ -109,7 +141,7 @@ let modiData = (cod) => {
       '<textarea id="descripcion" name="descripcion" class="input inputext" readonly rows="4" placeholder="Descripción"></textarea><br>' +
       '<label class="label"><b>Respuesta</b></label><br>' +
       '<textarea id="respuesta" name="respuesta" class="input inputext"  rows="4" placeholder="Respuesta"></textarea><br>' +
-      '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
+      '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo" onClick="formConfirDelet()" value="Eliminar"><br><br>' +
       '<input type="button" id="actualizar" name="actualizar" class="btn" onclick="UpdatePqrs(event)" value="Responder"><br><br>' +
       '<input type="button" id="cerrar" name="cerrar" class="btn" onclick="cerrarSwal()" value="Cerrar"><br><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
@@ -128,42 +160,23 @@ let modiData = (cod) => {
   let table = document.getElementById("tablaPQRS");
   for (let i = 0, row; (row = table.rows[i]); i++) {
     if (table.rows[i].cells[0].innerHTML == cod) {
-      document.getElementById("asunto").value =
-        table.rows[i].cells[1].innerHTML;
-      document.getElementById("descripcion").value =
-        table.rows[i].cells[3].innerHTML;
+      document.getElementById("asunto").value =  
+      table.rows[i].cells[1].innerHTML;
+      document.getElementById("descripcion").value =     
+      table.rows[i].cells[3].innerHTML;
       return;
     }
   }
 };
 
 
-const formConfirDelet = () => {
-  Swal.fire({
-    html:
-      '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
-      '<h2 class=""><b id="titregcli" class="titulo">¿Esta seguro de eliminar esta PQRS?</b></h2><br>' +
-      //'button type="button" id="listarBtn" name="listarBtn" onClick="listarPQRS(event)" class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<button type="button" id="eliminarBtn" name="eliminarBtn" onclick="eliminarPQRS(event)" class="btn btnMedio">Eliminar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<input type="button" id="cerrar" name="cerrar" class="btn btnMedio" onclick="cerrarSwal()" value="Cerrar"><br><br>' +
-      '<h3 id="info" class="titazul"></h3>' +
-      "</form></center><br><br>",
-    width: "100%",
-    background: "rgba(0,0,0,0.0)",
-    backdrop: true,
-    allowOutsideClick: false,
-    showConfirmButton: false,
-  });
-};
 
 
 //FUNCION BUSCAR
 function doSearch() {
   if (document.getElementById("tablaPQRS")) {
     const tableReg = document.getElementById("tablaPQRS");
-    const searchText = document
-      .getElementById("searchInput")
-      .value.toLowerCase();
+    const searchText = document.getElementById("searchInput").value.toLowerCase();
     let total = 0;
 
     // Recorremos todas las filas con contenido de la tabla
@@ -203,6 +216,7 @@ const UpdatePqrs = async (event) => {
   const respuesta = document.getElementById("respuesta").value;
   // Obtener el ID del PQRS que se desea actualizar
   const pqrsId = codigo;
+  console.log("update code",pqrsId)
 
   try {
     // Enviar los datos del formulario al servidor usando Axios
@@ -220,13 +234,38 @@ const UpdatePqrs = async (event) => {
   }
 };
 
+
+
+const formConfirDelet = () => {
+  let  cod = document.getElementById("codigo").value;
+  Swal.fire({
+    html:
+    
+      '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
+      '<h2 class=""><b id="titregcli" class="titulo">¿Esta seguro de eliminar esta PQRS?</b></h2><br>' +
+      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
+      '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
+      
+      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="eliminarPQRS(event)" class="btn btnMedio">Eliminar PQRS</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<input type="button" id="cerrar" name="cerrar" class="btn btnMedio" onclick="cerrarSwal()" value="Cerrar"><br><br>' +
+      '<h3 id="info" class="titazul"></h3>' +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+  document.getElementById("codi").value = cod
+  console.log(cod)
+};
+
 //FUNCTION DELETE
 const eliminarPQRS = async (event) => {
   event.preventDefault();
-
-  const codigo = document.getElementById("codigo").value;
-  const pqrsId = codigo;
-  console.log("pqrsId: ",pqrsId)
+  //console.log(event.target)
+  const codigo = document.getElementById("codi").value;
+  console.log("LINEA 208 codigo: ",codigo)
   document.getElementById("info").innerHTML = "Eliminando.....";
   try {
     const response = await axios.delete(`/api/deletePQRS/${codigo}`);
@@ -238,53 +277,5 @@ const eliminarPQRS = async (event) => {
   }
 };
 
-// function listData(response) {
-//   cerrarSwal();
-//   console.log(response.data[0])
-//   response.data.forEach(fila =>{
-//     console.log(fila)
-//   })
-//   document.getElementById("container-table").innerHTML = response.data[0]
-// }
 
-// let retlistaClieestado = (ret) => {
 
-//     document.getElementById("titulotable").innerHTML = "Listado Clientes " + ret[0][2] + "s";
-//     document.getElementById("muestraTabla").innerHTML = "";
-
-//document.getElementById("divTablaCitas").style.display = "block";
-//     let cabeceraTable = ["Codigo", "Nombre", "Estado"];
-
-//     let muestraTabla = document.getElementById("muestraTabla");
-
-// let table = document.createElement("table");
-// table.setAttribute("id", "tablaDatos");
-
-// let thead = document.createElement("thead");
-
-// let tr = document.createElement("tr");
-
-// cabeceraTable.forEach(nomcab =>{
-//   let th = document.createElement("th");
-//   th.innerHTML = nomcab
-//   tr.appendChild(th);
-// });
-
-// thead.appendChild(tr);
-// table.appendChild(thead);
-
-//   ret.forEach(fila =>{
-
-//     let tr = document.createElement("tr");
-//     tr.setAttribute('onclick', "auxiliarusuarios("+ fila[0] +")");
-//       fila.forEach(e =>{
-//         let td = document.createElement("td");
-//         td.innerHTML = e
-//         tr.appendChild(td);
-//arraycitas.push(e)
-//       })
-//     table.appendChild(tr);
-//   });
-//     muestraTabla.appendChild(table);
-//document.getElementById("buscatable").focus()
-//}
