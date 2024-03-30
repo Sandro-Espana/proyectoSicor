@@ -1,3 +1,8 @@
+
+
+
+
+
 const formPqrsAdmin = () => {
   Swal.fire({
     html:
@@ -86,43 +91,13 @@ function listData(response) {
 
     // Renderizar la tabla en el contenedor deseado
     document.getElementById("container-table").innerHTML = tableHtml;
+    document.getElementById('searchInput').style.display = 'block';
   } else {
     // Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
 }
-
-function abrirModal() {
-  // Oculta el formulario de inicio de sesión
-  document.getElementById('form_logon').style.display = 'none';
-  // Muestra el modal
-  document.getElementById('modal').style.display = 'block';
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-const containerTable = document.getElementById('container-table');
-const searchContainer = document.querySelector('.search-container');
-  searchContainer.style.display = 'none';
-//VERIFICAR SI LA TABLA SE HA GENERADO
-if (containerTable.innerHTML.trim() !== ''){
-  //SI LA TABLA ESTA PRESENTE, MOSTRAR LA BARRA DE BUSQUEDA
-  const searchContainer = document.querySelector('#searchInput');
-  searchContainer.parentElement.style.display = 'block';
-}
-});
-
-// document.addEventListener("DOMContentLoaded", function(){
-//   const containerTable = document.getElementById('container-table');
-  
-//    Verificar si la tabla se ha generado
-//   if (containerTable && containerTable.innerHTML.trim() !== ''){
-//      Si la tabla está presente, mostrar la barra de búsqueda
-//     const searchContainer = document.querySelector('.search-container');
-//     searchContainer.style.display = 'block';
-//   }
-// });
-
 
 //FORMULARIO PARA ACTUALIZAR PQRS
 let modiData = (cod) => {
