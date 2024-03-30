@@ -1,5 +1,3 @@
-// Función para mostrar el formulario de PQRS usando SweetAlert2
-//vALIDAR FECHA DE CREACION
 //CREAR LA RUTA PARA QUE LA IMG SE CARGUEN EN UNA CARPETA APARTE
 
 const formPQRS = () => {
@@ -15,12 +13,8 @@ const formPQRS = () => {
       '<textarea id="descripcion" name="descripcion" class="input inputext" rows="4" placeholder="Descripción"></textarea><br>' +
       '<label class="label"><b>Imagen</b></label><br>' +
       '<input type="text" id="imagen" name="imagen" class="input"><br>' +
-      //ESTA CAMPO DEBE SER UNA CONSULTA DE LISTAR '<label class="label"><b>Respuesta</b></label><br>' +
-      //ESTA CAMPO DEBE SER UNA CONSULTA DE LISTAR '<textarea id="respuesta" name="respuesta" class="input inputext" rows="4" placeholder="Respuesta"></textarea><br>' +
       '<label class="label"><b>Fecha de Creación</b></label><br>' +
       '<input type="datetime-local" id="fechaCreacion" name="fechaCreacion" readonly class="input"><br>' +
-      //ESTA CAMPO DEBE SER UNA CONSULTA DE LISTAR '<label class="label"><b>Estado</b></label><br>' +
-      //ESTA CAMPO DEBE SER UNA CONSULTA DE LISTAR '<select id="estado" name="estado" class="input" title="Estado"><option></option><option>Pendiente</option><option>En Proceso</option><option>Resuelto</option></select><br>' +
       '<label class="label"><b>ID de Usuario</b></label><br>' +
       '<input type="text" id="usuarioId" name="usuarioId" class="input" placeholder="FUNTION-ID-LOGIN" autocomplete="off"><br><br>' +
       '<input type="submit" id="guardar" name="guardar" class="btn btnMedio" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
@@ -34,8 +28,6 @@ const formPQRS = () => {
     allowOutsideClick: false,
     showConfirmButton: false,
   });
-  // Agregar un event listener al formulario para capturar el evento de envío
-  //document.getElementById("formPQRS").addEventListener("submit", enviarRegistroPQRS);
   document.getElementById("fechaCreacion").value = vfecha();
 };
 

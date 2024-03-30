@@ -25,6 +25,11 @@ router.post('/formPQRS', (req, res) => {
 router.get('/listarPQRS', (req, res) => {
 });
 
+router.put('/updatePQRS/:id', (req, res) => {
+});
+
+router.delete('/deletePQRS/:id', (req, res) => {
+});
 
 
 module.exports = router;
