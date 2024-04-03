@@ -4,6 +4,10 @@ const formPQRS = () => {
   Swal.fire({
     html:
       '<br><br><center><form id="formPQRS" name="formPQRS" class="formSwal" onsubmit="enviarRegistroPQRS(event)">' +
+      '<div class="formulario-container">' +
+      '<div class="cerrarX-container">' +
+      '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
+      "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">FORMULARIO PQRS</b></h2><br>' +
       '<label class="label"><b>Tipo</b></label><br>' +
       '<select id="tipo" name="tipo" class="input inputMax" title="Tipo"><option></option><option>Peticion</option><option>Queja</option><option>Reclamo</option><option>Sugerencia</option></select><br>' +
@@ -18,9 +22,8 @@ const formPQRS = () => {
       '<label class="label"><b>ID de Usuario</b></label><br>' +
       '<input type="text" id="usuarioId" name="usuarioId" class="input" placeholder="FUNTION-ID-LOGIN" autocomplete="off"><br><br>' +
       '<input type="submit" id="guardar" name="guardar" class="btn btnMedio" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<input type="button" id="cerrar" name="cerrar" class="btn btnMedio" onclick="cerrarSwal()" value="Cerrar"><br><br>' +
-      '<input type="button" id="cerrar" name="cerrar" class="btn btnMedio" onclick="clearForm()" value="clear"><br><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
+      "</div>" +
       "</form></center><br><br>",
     width: "100%",
     background: "rgba(0,0,0,0.0)",
@@ -30,6 +33,24 @@ const formPQRS = () => {
   });
   document.getElementById("fechaCreacion").value = vfecha();
 };
+
+const formGuardado = () => {
+  Swal.fire({
+    html:
+      '<br><br><center><form id="formGuardado" name="formPQRS" class="formSwal">' +
+      '<h2 class=""><b id="titregcli" class="titulo">PQRS GUARDADA</b></h2><br>' +
+      '<h3 id="info" class="titazul"></h3>' +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+};
+function cerrarSwal() {
+  Swal.close();
+}
 
 // Función para cerrar el SweetAlert
 function cerrarSwal() {
@@ -68,24 +89,32 @@ function vfecha() {
   return fec;
 }
 
-//FUNCION LIMPIAR FORMULARIO
-function clearForm() {
-  document.getElementById("formPQRS").reset();
-  document.getElementById("fechaCreacion").value = vfecha();
-}
-
 // Función para enviar el formulario de PQRS al servidor
 const enviarRegistroPQRS = async (event) => {
   event.preventDefault(); // Prevenir el envío del formulario de manera predeterminada
 
-  document.getElementById("info").innerHTML = "Enviando.....";
+  // document.getElementById("info").innerHTML = "Enviando.....";
   const tipo = document.getElementById("tipo").value;
   const asunto = document.getElementById("asunto").value;
   const descripcion = document.getElementById("descripcion").value;
   const imagen = document.getElementById("imagen").value;
   const fechaCreacion = document.getElementById("fechaCreacion").value;
   const usuarioId = document.getElementById("usuarioId").value;
-
+  if (
+    tipo == "" ||
+    asunto == "" ||
+    descripcion == "" ||
+    imagen == "" ||
+    fechaCreacion == "" ||
+    usuarioId == ""
+  ) {
+    document.getElementById("info").innerHTML =
+      "Todos los campos son obligatorio";
+    setTimeout("document.getElementById('info').innerHTML  = ''", 4000);
+    return;
+  }
+  //document.getElementById("actualizar").disabled = true;
+  document.getElementById("info").innerHTML = "Enviando.....";
   try {
     // Enviar los datos del formulario al servidor usando Axios
     const response = await axios.post("/api/formPQRS", {
@@ -94,16 +123,14 @@ const enviarRegistroPQRS = async (event) => {
       descripcion,
       imagen,
       fechaCreacion,
-      usuarioId
+      usuarioId,
     });
-
-    // Verificar si la respuesta del servidor es exitosa
+    document.getElementById("info").innerHTML = "Guardado correctamente";
+    setTimeout("cerrarSwal()",2000);
     if (response.status === 201) {
-      console.log("Registro de PQRS exitoso"); // Imprimir un mensaje en la consola
-      // Aquí podrías realizar otras acciones, como redireccionar a otra página
+      console.log("Registro de PQRS exitoso");
     }
   } catch (error) {
-    console.error("Soy catch, Error en la solicitud:", error); // Capturar y mostrar errores en la consola
-
+    console.error("Error catch, Error en la solicitud:", error);
   }
 };

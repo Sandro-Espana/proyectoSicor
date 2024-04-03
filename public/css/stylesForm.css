@@ -8,6 +8,30 @@
   max-width: 500px;
 }
 
+.cerrarX-container {
+  position: relative;
+  /* right: 5px; */
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+.cerrarX {
+  position: absolute;
+  width: 40px; /* Ancho de la "X" */
+  height: 40px; /* Alto de la "X" */
+  line-height: 40px; /* Centra verticalmente la "X" */
+  text-align: center; /* Centra horizontalmente la "X" */
+  border-radius: 50%; /* Hace que el contenido sea un círculo */
+  background-color: #003366; /* Color de fondo del círculo */
+  color: #fff; /* Color del texto de la "X" */
+  cursor: pointer;
+}
+
+.cerrarX:hover {
+  background: #f58642;
+  color: #f0f0f0;
+}
 /*class="titulo" El titulo del formulario no tiene diseño*/
 /*class="label El <label><b>Tipo</b><label> no tiene diseño*/
 

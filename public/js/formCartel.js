@@ -27,7 +27,7 @@ let formCartelera = () => {
       showConfirmButton: false,
     });
   };
-
+//hola comkjsdkjkjdfkjdfkjfdkl
   function cerrarSwal() {
     swal.close();
   }
