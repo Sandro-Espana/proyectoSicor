@@ -6,11 +6,11 @@ const formPqrsAdmin = () => {
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
-      "</div>" +
+      '</div>' +
       '<h2 class=""><b id="titregcli" class="titulo">GESTIONAR PQRS</b></h2><br>' +
       '<button type="button" id="listarBtn" name="listarBtn" onClick="listarPQRS(event)" class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
-      "</div>" +
+      '</div>' +
       "</form></center><br><br>",
     width: "100%",
     background: "rgba(0,0,0,0.0)",

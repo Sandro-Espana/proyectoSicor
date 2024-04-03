@@ -1,6 +1,6 @@
 // Importa el módulo MySQL
 const connection = require('../DB/dbMysql');
-
+/*
 // Define el esquema login de usuario
 const usuarioSchema = {
   name: {
@@ -17,7 +17,7 @@ const usuarioSchema = {
     allowNull: false
   }
 };
-
+*/
 
 // Función para crear un nuevo usuario
 const createUser = (newUsuario, callback) => {
@@ -104,7 +104,7 @@ const deleteUser = (userId, callback) => {
 
 
 module.exports = {
-  usuarioSchema,
+  //usuarioSchema,
   createUser,
   findUserByUsername,
   deleteUser,

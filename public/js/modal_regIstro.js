@@ -1,5 +1,5 @@
 // Función para abrir el modal
-function abrirModal() {
+/*function abrirModal() {
   // Oculta el formulario de inicio de sesión
   document.getElementById('form_logon').style.display = 'none';
   // Muestra el modal

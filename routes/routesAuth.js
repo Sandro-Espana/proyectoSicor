@@ -16,9 +16,9 @@ router.post("/registro", async (req, res) => {
       !req.body.lastname ||
       !req.body.cedula ||
       !req.body.mobile ||
-      !req.body.profile ||
+      // !req.body.profile ||
       !req.body.torre ||
-      !req.body.piso ||
+      // !req.body.piso ||
       !req.body.apt
     ) {
       return res
@@ -51,7 +51,7 @@ router.post("/registro", async (req, res) => {
           Apellido: req.body.lastname,
           cedula: req.body.cedula,
           NumeroContacto: req.body.mobile,
-          Perfil: req.body.profile,
+          // Perfil: req.body.profile,
           username: req.body.usernamer,
           password: hashedPassword,
         }; //crear los datos del nuevo user
@@ -71,10 +71,9 @@ router.post("/registro", async (req, res) => {
 
         //Datos formulario unidad_residenciales
         const formData = {
-          UnidadResidencialID: `${req.body.torre}_${req.body.piso}_${req.body.apt}`,
+          UnidadResidencialID: `${req.body.torre}_${req.body.apt}`,
         };
         console.log(formData);
-        // Llamada a la función saveFormData
         Usuario.saveFormData(formData, (error, insertId) => {
           if (error) {
             console.error("Error al guardar los datos del formulario:", error);
