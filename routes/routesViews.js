@@ -3,10 +3,13 @@ const router = express.Router();
 const axios = require('axios');
 const path = require('path');
 
+
+// HOME APP
 router.get('/', (req, res) => {
     res.render('index');
 });
 
+// PROFILES
 router.post('/registro', (req, res) => {
 });
 
@@ -20,7 +23,7 @@ router.get('/residen', (req, res) => {
     res.render(viewPath);
 });
 
-
+// MANAGE PQRS
 router.post('/formPQRS', (req, res) => {
 });
 
@@ -31,6 +34,33 @@ router.put('/updatePQRS/:id', (req, res) => {
 });
 
 router.delete('/deletePQRS/:id', (req, res) => {
+});
+
+
+// MANEGE USERS
+router.post('/formUser', (req, res) => {
+});
+
+router.get('/listUsers', (req, res) => {
+});
+
+router.put('/updateUser/:id', (req, res) => {
+});
+
+router.delete('/deleteUser/:id', (req, res) => {
+});
+
+// MANEGE SANCTION
+router.post('/newSanction', (req, res) => {
+});
+
+router.get('/listSanction', (req, res) => {
+});
+
+router.put('/updateSanction/:id', (req, res) => {
+});
+
+router.delete('/deleteSanction/:id', (req, res) => {
 });
 
 

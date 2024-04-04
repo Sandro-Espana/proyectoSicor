@@ -1,34 +1,14 @@
-// Importa el módulo MySQL
-const connection = require('../DB/dbMysql');
-/*
-// Define el esquema login de usuario
-const usuarioSchema = {
-  name: {
-    type: 'VARCHAR(255)',
-    allowNull: false
-  },
-  username: {
-    type: 'VARCHAR(255)',
-    allowNull: false,
-    unique: true
-  },
-  password: {
-    type: 'VARCHAR(255)',
-    allowNull: false
-  }
-};
-*/
+const connection = require('../DB/dbMysql');// Importa el módulo MySQL
 
-// Función para crear un nuevo usuario
+
+// CREATE USER
 const createUser = (newUsuario, callback) => {
-  //console.log("Valor de callback: ", callback);
   if (typeof callback !== 'function') {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
   connection.query('INSERT INTO residentes SET ?', newUsuario, (error, results) => {
     if (error) {
-      //console.log(error);
       callback(error, null);
     } else {
       callback(null, results.insertId);
@@ -36,26 +16,23 @@ const createUser = (newUsuario, callback) => {
   });
 };
 
-//Función para la tabla unidades_residenciales
-const saveFormData = (formData, callback) => {
-//  console.log("Valor de callback: ", callback);
+// LIST USERS
+const listUsers = (callback) => {
   if (typeof callback !== 'function') {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('INSERT INTO unidades_residenciales SET ?', formData, (error, results) => {
+  connection.query('SELECT * FROM residente', (error, results) => {
     if (error) {
-      console.log(error);
       callback(error, null);
     } else {
-      callback(null, results.insertId);
+      callback(null, results);
     }
   });
 };
 
 
-
-// Función para encontrar un usuario por nombre de usuario
+//FIND USER BY NAME
 const findUserByUsername = (username, callback) => {
   connection.query('SELECT * FROM residentes WHERE username = ?', [username], (error, results) => {
     if (error) {
@@ -79,7 +56,7 @@ const findUserByUsername = (username, callback) => {
 };
 
 
-// Función para encontrar un usuario por su ID
+//FIND USER BY ID
 const findUserById = (userId, callback) => {
   connection.query('SELECT * FROM usuarios WHERE id = ?', [userId], (error, results) => {
     if (error) {
@@ -90,7 +67,7 @@ const findUserById = (userId, callback) => {
   });
 };
 
-// Función para eliminar un usuario por su ID
+//DELETE USER BY ID
 const deleteUser = (userId, callback) => {
   connection.query('DELETE FROM usuarios WHERE id = ?', [userId], (error, results) => {
     if (error) {
@@ -101,13 +78,28 @@ const deleteUser = (userId, callback) => {
   });
 };
 
-
+//Función para la tabla unidades_residenciales
+const saveFormData = (formData, callback) => {
+  //  console.log("Valor de callback: ", callback);
+    if (typeof callback !== 'function') {
+      console.error('Error: La función de devolución de llamada no está definida.');
+      return;
+    }
+    connection.query('INSERT INTO unidades_residenciales SET ?', formData, (error, results) => {
+      if (error) {
+        console.log(error);
+        callback(error, null);
+      } else {
+        callback(null, results.insertId);
+      }
+    });
+  };
 
 module.exports = {
-  //usuarioSchema,
   createUser,
   findUserByUsername,
   deleteUser,
   findUserById,
-  saveFormData
+  saveFormData,
+  listUsers
 };

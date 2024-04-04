@@ -6,6 +6,8 @@ const Usuario = require("../model/modelResident");
 const util = require("util");
 const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
 
+
+// REGISTER USER IN DB
 router.post("/registro", async (req, res) => {
   try {
     if (
@@ -93,6 +95,46 @@ router.post("/registro", async (req, res) => {
   }
 });
 
+// GET ALL USERS FROM DB
+router.get("/listUsers", async (req, res) => {
+  try {
+    Usuario.listUsers((error, users) => {
+      if (error) {
+        console.error("Error en la solicitud: ", error);
+        res.status(500).json({ error: error.message });
+      } else {
+        res.json(users);
+        console.log("Listado de usuarios: ", users);
+      }
+    });
+  } catch (error) {
+    console.log("Error en la solicitud:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+// REMOVE USER FROM DB
+router.delete("/deleteUser/:id", async (req, res) => {
+  const usuarioId = req.params.id;
+  if (req.user && req.user.profile === "admin") {
+    try {
+      const usuario = await Usuario.findUserById(usuarioId);
+      if (!usuario) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+      await Usuario.deleteUser(usuarioId);
+      res.json({ mensaje: "Usuario eliminado exitosamente" });
+    } catch (error) {
+      console.error("Error en el servidor:", error);
+      res.status(500).json({ error: "Error en el servidor" });
+    }
+  }
+});
+
+
+
+// LOGIN
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -140,24 +182,8 @@ router.post("/login", async (req, res) => {
   }
 });
 
-//ADMINISTRATOR DELETES RESIDENT USER
-router.delete("/eliminar/:id", async (req, res) => {
-  const usuarioId = req.params.id;
-  if (req.user && req.user.profile === "admin") {
-    try {
-      const usuario = await Usuario.findUserById(usuarioId);
-      if (!usuario) {
-        return res.status(404).json({ error: "El usuario no existe" });
-      }
-      await Usuario.deleteUser(usuarioId);
-      res.json({ mensaje: "Usuario eliminado exitosamente" });
-    } catch (error) {
-      console.error("Error en el servidor:", error);
-      res.status(500).json({ error: "Error en el servidor" });
-    }
-  }
-});
 
+// NO SE PARA QUE ES ESTA FUNCION
 router.post("/logout", (req, res) => {
   const token = req.headers.authorization;
   if (!token) {

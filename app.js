@@ -1,12 +1,12 @@
 // Importación de módulos
 const express = require('express');
 const path = require('path');
-const rutasViews = require('./routes/routesViews');
-const auth = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
-//const crud = require('./routes/routesCrud');
 const conectarDB = require('./DB/dbMysql'); // Importar la función de conexión a la base de datos
 const cors = require('cors');
+const rutasViews = require('./routes/routesViews');
+const auth = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
 const pqrs = require('./routes/routesPqrsCrud');
+const sanction = require('./routes/routesSancionCrud');
 
 const app = express() // Creación de una aplicación Express
 
@@ -30,14 +30,13 @@ app.use(express.static(path.join(__dirname, 'public'), {
     }
 }));
 
+//app.use(cors()); // Habilita CORS para permitir solicitudes desde otros dominios
 
 app.set('views', path.join(__dirname, 'views')); // Configurar la carpeta 'views' para las vistas EJS
 
 app.set('view engine', 'ejs'); // Configuración del motor de plantillas EJS
 
 const port = 3000; // Puerto en el que el servidor escuchará las solicitudes
-
-//app.use(cors()); // Habilita CORS para permitir solicitudes desde otros dominios
 
 app.use(express.json()); // Configuración para manejar solicitudes JSON
 
@@ -47,12 +46,13 @@ app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ru
 
 app.use('/api', pqrs);
 
-//app.use('/', crud); // rutas de los end-points Define las rutas en tu aplicación
+//app.use('/api', sanction);
+
+
 
 const db = conectarDB; // Conexión a Mysql
 
-// Manejo de eventos de conexión y error
-db.on('error', console.error.bind(console, 'Error de conexión a Mysql:'));
+db.on('error', console.error.bind(console, 'Error de conexión a Mysql:')); // Manejo de eventos de conexión y error
 db.once('open', () => {
     console.log('Conectado a Mysql');
 });

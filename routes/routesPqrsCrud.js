@@ -1,10 +1,9 @@
-//ROUTES TO PROCESS THE FORM DATA
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Crud = require("../model/modelPqrsCrud");
-//const { createPQRS, getAllPQRS, updatePQRS } = require("../model/modelPqrsCrud");
+
 
 // FOR CREATING A NEW PQRS
 router.post("/formPQRS", async (req, res) => {

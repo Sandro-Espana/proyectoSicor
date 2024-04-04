@@ -75,11 +75,35 @@ function listData(response) {
   if (data && data.length > 0) {
     // Construir la tabla HTML para mostrar los datos
     let tableHtml =
-      "<table id='tablaPQRS'><thead><tr><th>ID</th><th>Estado</th><th>Tipo</th><th>Asunto</th><th>Descripción</th><th>Fecha</th><th>Gestionar</th></tr></thead><tbody>";
+      "<table id='tablaPQRS'>"+
+      "<thead><tr>"+
+      "<th>ID</th>"+
+      "<th>Estado</th>"+
+      "<th>Tipo</th>"+
+      "<th>Asunto</th>"+
+      "<th>Descripción</th>"+
+      "<th>Fecha</th>"+
+      "<th>Gestionar</th>"+
+      "</tr></thead><tbody>";
     data.forEach((item) => {
       const fecha = new Date(item.FechaCreacion);
       const fechaFormateada = `${fecha.getDate()}/${fecha.getMonth() + 1}`;
-      tableHtml += `<tr><td>${item.PQRSID}</td><td>${item.Estado}</td><td>${item.Tipo}</td><td>${item.Asunto}</td><td>${item.Descripcion}</td><td>${fechaFormateada}</td><td><button type='button' class='' onclick='modiData(${item.PQRSID})'>modificar</button></td></tr>`;
+      tableHtml +=
+      `<tr>
+      <td>${item.PQRSID}</td>
+      <td>${item.Estado}</td>
+      <td>${item.Tipo}</td>
+      <td>${item.Asunto}</td>
+      <td>${item.Descripcion}</td>
+      <td>${fechaFormateada}</td>
+      <td><button
+      type='button'
+      class=''
+      onclick='modiData(${item.PQRSID})'
+      >modificar
+      </button>
+      </td>
+      </tr>`;
     });
     tableHtml += "</tbody></table>";
 
@@ -97,7 +121,7 @@ function listData(response) {
 let modiData = (cod) => {
   Swal.fire({
     html:
-      '<br><br><center><form id="" name="" class="formSwal" onsubmit="sendText(event)">' +
+      '<br><br><center><form id="modiData" name="" class="formSwal" onsubmit="sendText(event)">' +
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
