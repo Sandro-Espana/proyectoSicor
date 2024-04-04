@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const router = express.Router();
 //const pqrsModel = require('../model/modelosCrud'); // Importa el modelo de PQRS
 
@@ -54,7 +54,7 @@ router.post('/clientes', async (req, res) => {
   }
 });
 
-*/
+*//*
 router.get('/clientes/:id', async (req, res) => {
   try {
     const cliente = await Cliente.findById(req.params.id);
@@ -207,3 +207,4 @@ router.get('/facturas', async (req, res) => {
   });
   
 module.exports = router;
+*/

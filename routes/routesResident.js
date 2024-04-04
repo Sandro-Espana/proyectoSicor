@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Usuario = require("../model/modeloAuth");
+const Usuario = require("../model/modelResident");
 const util = require("util");
 const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
-
 
 router.post("/registro", async (req, res) => {
   try {
@@ -16,16 +15,14 @@ router.post("/registro", async (req, res) => {
       !req.body.lastname ||
       !req.body.cedula ||
       !req.body.mobile ||
-      // !req.body.profile ||
       !req.body.torre ||
-      // !req.body.piso ||
       !req.body.apt
     ) {
       return res
         .status(400)
         .json({ error: "Por favor, proporciona todos los campos requeridos." });
-      //completar los datos
     }
+    //BUSCAR USER POR NOMBRE
     Usuario.findUserByUsername(req.body.usernamer, (error, existingUser) => {
       if (error) {
         console.error("Error al buscar usuario:", error);
@@ -38,6 +35,7 @@ router.post("/registro", async (req, res) => {
           .status(400)
           .json({ error: "El nombre de usuario ya está en uso." });
       }
+      //HASH PASSWORD
       bcrypt.hash(req.body.passwordr, 12, async (err, hashedPassword) => {
         if (err) {
           console.error("Error al hashear contraseña:", err);
@@ -45,17 +43,20 @@ router.post("/registro", async (req, res) => {
             .status(500)
             .json({ error: "Error en el servidor al hashear contraseña." });
         }
+
+        //CREO NEW USER
         const newUsuario = {
           ResidenteID: req.body.cedula,
           NombreCompleto: req.body.namer,
           Apellido: req.body.lastname,
           cedula: req.body.cedula,
           NumeroContacto: req.body.mobile,
-          // Perfil: req.body.profile,
           username: req.body.usernamer,
           password: hashedPassword,
-        }; //crear los datos del nuevo user
+        };
         console.log(newUsuario);
+
+        //INSERT USER IN TABLE
         Usuario.createUser(newUsuario, (error, userId) => {
           if (error) {
             console.error("Error al registrar el usuario:", error);
@@ -69,11 +70,11 @@ router.post("/registro", async (req, res) => {
             .json({ mensaje: "Usuario registrado correctamente." });
         });
 
-        //Datos formulario unidad_residenciales
+        //Datos unidad_residenciales
         const formData = {
           UnidadResidencialID: `${req.body.torre}_${req.body.apt}`,
         };
-        console.log(formData);
+        console.log("unid-residencial: ", formData);
         Usuario.saveFormData(formData, (error, insertId) => {
           if (error) {
             console.error("Error al guardar los datos del formulario:", error);
@@ -96,8 +97,7 @@ router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Buscar usuario por nombre de usuario
-    const user = await findUserByUsernameAsync(username);
+    const user = await findUserByUsernameAsync(username); // Buscar usuario por nombre de usuario
     console.log("user: ", user);
     // Comprobar si el usuario existe
     if (!user) {
@@ -105,8 +105,7 @@ router.post("/login", async (req, res) => {
       return res.status(404).json({ error: "El usuario no existe" });
     }
 
-    // Verificar la contraseña
-    const passwordValido = await bcrypt.compare(password, user.password);
+    const passwordValido = await bcrypt.compare(password, user.password); // Verificar la contraseña
     if (!passwordValido) {
       console.log("Contraseña incorrecta");
       return res.status(401).json({ error: "Contraseña incorrecta" });
@@ -116,17 +115,17 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ usuarioId: user._id }, "secreto", {
       expiresIn: "1h",
     });
-    //console.log("token: ",token);
+    console.log("token: ", token);
 
     // Determinar la redirección según el perfil del usuario
     let redirectTo = "/";
-    if (user.profile === "admin") {
+    if (user.profile === "Administrador") {
       redirectTo = "/admin";
-    } else if (user.profile === "residente") {
+    } else if (user.profile === "Residente") {
       redirectTo = "/residen";
-    } else {
-      redirectTo = "/normal";
-    }
+    } //else {
+    // redirectTo = "/normal";
+    // }
     console.log("redirectTo: ", redirectTo);
     // Enviar token y redirección al cliente
     return res.json({

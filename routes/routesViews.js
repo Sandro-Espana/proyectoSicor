@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const path = require('path');
 
 router.get('/', (req, res) => {
     res.render('index');
@@ -9,16 +10,14 @@ router.get('/', (req, res) => {
 router.post('/registro', (req, res) => {
 });
 
-router.get('/login', (req, res) => {
-    res.render('login');
-});
-
 router.get('/admin', (req, res) => {
-    res.render('admin');
+    const viewPath = path.join(__dirname,  '../views/profile/admin.ejs');
+    res.render(viewPath);
 });
 
 router.get('/residen', (req, res) => {
-    res.render('residen');
+    const viewPath = path.join(__dirname,  '../views/profile/residen.ejs');
+    res.render(viewPath);
 });
 
 

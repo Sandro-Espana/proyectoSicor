@@ -32,8 +32,6 @@
   background: #f58642;
   color: #f0f0f0;
 }
-/*class="titulo" El titulo del formulario no tiene diseño*/
-/*class="label El <label><b>Tipo</b><label> no tiene diseño*/
 
 /* Estilos para los campos de entrada */
 .input {
@@ -59,15 +57,9 @@
   resize: none;
 }
 
-/*inputMax pendiente de organizar*/
-/*<textarea  class="input "*/
-/*<input type="date"*/
-
 /* Estilos para botones */
 .btn {
   border: 1px solid #113; /* Borde sólido de color #113 */
-  /*margin-left: 0;  Elimina el margen izquierdo */
-  /*outline: none;  Quita el contorno alrededor del botón al enfocarlo */
   background: #f0f0f0; /* Color de fondo blanco */
   color: #113; /* Color del texto */
   font-size: 23px; /* Tamaño de fuente */
@@ -77,7 +69,6 @@
   border-radius: 7px; /* Borde redondeado */
   cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
   font-weight: 600; /* Grosor de la fuente */
-  /* width: 40%; Ancho del botón */
 }
 
 
@@ -89,6 +80,10 @@
 /*Boton formulario flotante*/
 .btnMedio {
   width: 30%;
+}
+
+.btnRegis {
+  width: 40%;
 }
 
 /*Cuando aplica?*/

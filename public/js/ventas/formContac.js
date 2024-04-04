@@ -2,6 +2,10 @@ let formContactenos = () => {
     Swal.fire({
       html:
         '<br><br><center><form id="regContactenos" name="regContactenos" class="formSwal" onsubmit="enviarContactenos(event)">' +
+        '<div class="formulario-container">' +
+        '<div class="cerrarX-container">' +
+        '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
+        '</div>' +
         '<h2 class=""><b id="titregContactenos" class="titulo">Contáctenos</b></h2><br>' +
         '<label class="label"><b>Nombre</b></label><br>' +
         '<input type="text" id="nombre" name="nombre" class="input" placeholder="Nombre" autocomplete="off"><br>' +
@@ -12,8 +16,8 @@ let formContactenos = () => {
         '<label class="label"><b>Mensaje</b></label><br>' +
         '<textarea id="mensaje" name="mensaje" class="input" rows="4" placeholder="Mensaje"></textarea><br><br>' +
         '<input type="submit" id="enviar" name="enviar" class="btn" value="Enviar">&nbsp;&nbsp;&nbsp;&nbsp;' +
-        '<input type="button" id="cerrar" name="cerrar" class="btn" onclick="cerrarSwal()" value="Cerrar"><br><br>' +
         '<h3 id="info" class="titazul">.</h3>' +
+        '</div>' +
         "</form></center><br><br>",
       width: "100%",
       background: "rgba(0,0,0,0.0)",

@@ -5,16 +5,16 @@ let formLogin = () => {
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
-      "</div>" +
+      '</div>' +
       '<h2 class=""><b id="Ingresar" class="titulo">Ingresar</b></h2><br>' +
       '<label class="label"><b>Email</b></label><br>' +
       '<input type="email" id="email" name="email" class="input" placeholder="Email" autocomplete="off"><br>' +
       '<label class="label"><b>Contraseña</b></label><br>' +
-      '<input type="password" id="password" name="password" class="input" placeholder="contraseña" autocomplete="off"><br>' +
-      '<input type="submit" id="iniciar" name="iniciar" class="btn" onClick="iniciarSesion(event)" value="Iniciar"><br><br>' +
-      "</div>" +
+      '<input type="password" id="password" name="password" class="input" placeholder="contraseña" autocomplete="off"><br><br>' +
+      '<input type="submit" id="iniciar" name="iniciar" class="btn" onClick="iniciarSesion(event)" value="Iniciar"><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
-      "</form></center><br><br>",
+      '</div>' +
+      '</form></center><br><br>',
     width: "100%",
     background: "rgba(0,0,0,0.0)",
     backdrop: true,
@@ -33,20 +33,17 @@ const iniciarSesion = async (event) => {
   const username = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  // Obtiene la instancia de axios desde el entorno de ejecución del navegador
-  //const axios = window.axios;
   try {
     const response = await window.axios.post("/api/login", {
       username,
       password,
     });
     if (response.status === 200) {
-      // Redirige al usuario a la página correspondiente según su perfil
-      const profile = response.data.profile;
+      const profile = response.data.profile;// Redirige a la página correspondiente según su perfil
       console.log("perfil de user: ", profile);
-      if (profile === "admin") {
+      if (profile === "Administrador") {
         window.location.href = "/admin";
-      } else if (profile === "residente") {
+      } else if (profile === "Residente") {
         window.location.href = "/residen";
       } else {
         window.location.href = "/";

@@ -10,19 +10,22 @@
     <link rel="icon" href="/img/favicon.png" />
   </head>
   <body>
-    <header><%- include('header.ejs') %></header>
-    <nav><%- include('navbar.ejs') %></nav>
+    <header><%- include('../index/header.ejs') %></header>
+    <nav><%- include('../index/navbar.ejs') %></nav>
     <main class="container" >
       <h1>FUNCIONES ADMINISTRADOR</h1>
       <div class="btn-container">
+        <button type="button" class="btn btnmenu" onclick="formUser()">
+          Usuarios
+        </button>
         <button type="button" class="btn btnmenu" onclick="formProveedor()">
-          PROVEDORES
+          Proveedores
         </button>
         <button type="button" class="btn btnmenu" onclick="formPqrsAdmin()">
           Pqrs
         </button>
         <button type="button" class="btn btnmenu" onclick="formCartelera()">
-          CARTELERA
+          Cartelera
         </button>
         <button type="button" class="btn btnmenu" onclick="formTarea()">
           Calendario
@@ -52,8 +55,9 @@
       <br>
       <br>
     </main>
-    <footer><%- include('footer.ejs') %></footer>
+    <footer><%- include('../index/footer.ejs') %></footer>
     <script src="js/swalDos.js"></script>
+    <script src="/js/admin/formUser.js"></script>
     <script src="/js/admin/formProveedor.js"></script>
     <script src="/js/admin/formPqrsAdmin.js"></script>
     <script src="/js/admin/formCartel.js"></script>

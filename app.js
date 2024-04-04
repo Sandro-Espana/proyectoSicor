@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const rutasViews = require('./routes/routesViews');
-const auth = require('./routes/routesAuth'); // Importa las rutas de autenticación desde el archivo auth.js
+const auth = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
 //const crud = require('./routes/routesCrud');
 const conectarDB = require('./DB/dbMysql'); // Importar la función de conexión a la base de datos
 const cors = require('cors');

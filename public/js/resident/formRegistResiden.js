@@ -8,8 +8,8 @@ const formRegist = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">REGISTRAR</b></h2><br>' +
-      '<button type="button" id="BtnResidente" name="BtnResidente" onClick="formResidente()" class="btn btnMedio">Residente</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<button type="button" id="BtnPropietario" name="BtnPropietario" onClick="listarPQRS(event)" class="btn btnMedio">Propietario</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="BtnResidente" name="BtnResidente" onClick="formResidente()" class="btn btnRegis">Residente</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="BtnPropietario" name="BtnPropietario" onClick="listarPQRS(event)" class="btn btnRegis">Propietario</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
