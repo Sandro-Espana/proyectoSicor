@@ -1,4 +1,4 @@
-//Formulario Sanciones
+/*Formulario Sanciones
 let formSanciones = () => {
     Swal.fire({
       html:
@@ -30,4 +30,4 @@ let formSanciones = () => {
 
   function cerrarSwal() {
     swal.close();
-  }
+  }*/

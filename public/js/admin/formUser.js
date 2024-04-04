@@ -1,4 +1,4 @@
-//FORMULARIO LISTAR USER
+//FORM LISTAR USER
 const formUser = () => {
   Swal.fire({
     html:
@@ -23,7 +23,7 @@ function cerrarSwal() {
   Swal.close();
 }
 
-//LIST USERS
+// FUNCTION LIST USERS
 const listUser = async (event) => {
   event.preventDefault();
   document.getElementById("info").innerHTML = "Listando PQRS.....";
@@ -39,7 +39,7 @@ const listUser = async (event) => {
   }
 };
 
-//Renderiza JSON
+//RENDER JSON
 function rendertUser(response) {
   cerrarSwal();
   const data = response.data;
@@ -76,7 +76,7 @@ function rendertUser(response) {
     });
     tableHtml += "</tbody></table>";
 
-    // Renderizar la tabla en el contenedor deseado
+    // RENDER TABLE
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
   } else {
@@ -88,39 +88,104 @@ function rendertUser(response) {
 
 //FORM MANAGE USER
 let modiUser = (cod) => {
-    Swal.fire({
-      html:
-        '<br><br><center><form id="modiUser" name="modiUser" class="formSwal" onsubmit="sendText(event)">' +
-        '<div class="formulario-container">' +
-        '<div class="cerrarX-container">' +
-        '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
-        "</div>" +
-        '<h2 class=""><b id="titregcli" class="titulo">Gestionar usuarios</b></h2><br>' +
-        //'<label class="label"><b>Estado</b></label><br>' +
-        // '<select id="estado" name="estado" class="input inputMax" title="estado"><option></option><option>Pendiente</option><option>En Proceso</option><option>Resuelto</option></select><br>' +
-        // '<label class="label"><b>Codigo</b></label><br>' +
-        // '<input type="text" id="codigo" name="codigo" class="input" readOnly><br>' +
-        // '<label class="label"><b>Asunto</b></label><br>' +
-        // '<input type="text" id="asunto" name="asunto" class="input" readOnly><br><br><br>' +
-        // '<label class="label"><b>Descripcion</b></label><br>' +
-        // '<textarea id="descripcion" name="descripcion" class="input inputext" readonly rows="4" placeholder="Descripción"></textarea><br>' +
-        // '<label class="label"><b>Respuesta</b></label><br>' +
-        // '<textarea id="respuesta" name="respuesta" class="input inputext"  rows="4" placeholder="Respuesta"></textarea><br>' +
-        '<input type="button" id="sancionar" name="sancionar" class="btn btninfo" onClick="formConfirDelet()" value="Sancionar"><br><br>' +
-        '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo" onClick="formConfirDelet()" value="Eliminar"><br><br>' +
-        //'<input type="button" id="actualizar" name="actualizar" class="btn" onclick="UpdatePqrs(event)" value="Guardar"><br><br>' +
-        '<h3 id="info" class="titazul">.</h3>' +
-        "</div>" +
-        "</form></center><br><br>",
-      width: "100%",
-      background: "rgba(0,0,0,0.0)",
-      backdrop: true,
-      allowOutsideClick: false, // solo puede cerrar con el boton
-      showConfirmButton: false,
-    });
-  };
+  Swal.fire({
+    html:
+      '<br><br><center><form id="modiUser" name="modiUser" class="formSwal" onsubmit="sendText(event)">' +
+      '<div class="formulario-container">' +
+      '<div class="cerrarX-container">' +
+      '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
+      "</div>" +
+      '<h2 class=""><b id="titregcli" class="titulo">Gestionar usuarios</b></h2><br>' +
+      '<input type="button" id="sancionar" name="sancionar" class="btn btninfo" onClick="formSanciones()" value="Sancionar"><br><br>' +
+      '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo" onClick="formConfirDelet()" value="Eliminar"><br><br>' +
+      //'<input type="button" id="actualizar" name="actualizar" class="btn" onclick="UpdatePqrs(event)" value="Guardar"><br><br>' +
+      '<h3 id="info" class="titazul">.</h3>' +
+      "</div>" +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false, // solo puede cerrar con el boton
+    showConfirmButton: false,
+  });
+};
 
 // FORM SANCTION
+let formSanciones = () => {
+  Swal.fire({
+    html:
+      '<br><br><center><form id="regSancion" name="regSancion" class="formSwal" onsubmit="sendText(event)">' +
+      '<h2 class=""><b class="titulo">Formulario de Sanciones</b></h2><br>' +
+      '<label class="label"><b>Residente ID</b></label><br>' +
+      '<input type="text" id="residenteID" name="residenteID" class="input" placeholder="Residente ID" autocomplete="off"><br>' +
+      '<label class="label"><b>Fecha y Hora de Sanción</b></label><br>' +
+      '<input type="datetime-local" id="fechaHoraSancion" name="fechaHoraSancion" class="input" placeholder="Fecha y Hora de Sanción" autocomplete="off"><br>' +
+      '<label class="label"><b>Descripción</b></label><br>' +
+      '<input type="text" id="descripcion" name="descripcion" class="input" placeholder="Descripción" autocomplete="off"><br>' +
+      '<label class="label"><b>Estado</b></label><br>' +
+      '<input type="text" id="estado" name="estado" class="input" placeholder="Estado" autocomplete="off"><br>' +
+      '<label class="label"><b>Respuesta del Residente</b></label><br>' +
+      '<input type="text" id="respuestaResidente" name="respuestaResidente" class="input" placeholder="Respuesta del Residente" autocomplete="off"><br>' +
+      '<label class="label"><b>Foto de Evidencia</b></label><br>' +
+      '<input type="file" id="fotoEvidencia" name="fotoEvidencia" class="input" accept="image/*"><br><br>' +
+      '<input type="button" id="guardar" name="guardar" class="btn" onclick="saveSanction()" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<input type="button" id="cerrar" name="cerrar" class="btn" onclick="cerrarSwal()" value="Cerrar"><br><br>' +
+      '<h3 id="info" class="titazul">.</h3>' +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+};
+
+function cerrarSwal() {
+  swal.close();
+}
+
+// FUNCTION SEND SANCTION
+const saveSanction = async () => {
+  const residenteID = document.getElementById("residenteID").value;
+  const fechaHoraSancion = document.getElementById("fechaHoraSancion").value;
+  const descripcion = document.getElementById("descripcion").value;
+  const estado = document.getElementById("estado").value;
+  const respuestaResidente = document.getElementById("respuestaResidente").value;
+
+  try {
+    const response = await axios.post("/api/newSanction", {
+      residenteID,
+      fechaHoraSancion,
+      descripcion,
+      estado,
+      respuestaResidente
+    });
+    if (response.status === 201) {
+      console.log("Sanción creada correctamente");
+      Swal.fire({
+        icon: 'success',
+        text: 'Sanción creada correctamente',
+        onClose: () => {
+          // Cerrar el formulario después de mostrar el mensaje de éxito
+          cerrarSwal();
+        }
+      });
+    }
+  } catch (error) {
+    console.error("Error al guardar la sanción:", error);
+    // Mostrar mensaje de error
+    Swal.fire({
+      icon: 'error',
+      text: 'Error al guardar la sanción'
+    });
+  }
+};
+
+// Función para cerrar el formulario de SweetAlert
+function cerrarSwal() {
+  Swal.close();
+}
+
 
 //FORM DELETE CONFIRM
 const formDeleUser = () => {
@@ -167,5 +232,3 @@ const deletUser = async (event) => {
     console.error("Error en la solicitud:", error);
   }
 };
-
-

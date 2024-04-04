@@ -3,7 +3,6 @@ const router = express.Router();
 const crud = require("../model/modelSancionCrud");
 
 // CREATE A SANCTION IN DB
-// RUTA PARA CREAR UNA NUEVA SANCIÓN
 router.post("/newSanction", async (req, res) => {
   try {
     // Verificar si se proporcionan todos los campos requeridos
