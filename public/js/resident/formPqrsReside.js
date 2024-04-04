@@ -7,10 +7,12 @@ const formPQRS = () => {
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
-      "</div>" +
+      '</div>' +
       '<h2 class=""><b id="titregcli" class="titulo">FORMULARIO PQRS</b></h2><br>' +
       '<label class="label"><b>Tipo</b></label><br>' +
-      '<select id="tipo" name="tipo" class="input inputMax" title="Tipo"><option></option><option>Peticion</option><option>Queja</option><option>Reclamo</option><option>Sugerencia</option></select><br>' +
+      '<select id="tipo" name="tipo" class="input inputMax" title="Tipo">'+
+      '<option></option><option>Peticion</option><option>Queja</option>'+
+      '<option>Reclamo</option><option>Sugerencia</option></select><br>' +
       '<label class="label"><b>Asunto</b></label><br>' +
       '<input type="text" id="asunto" name="asunto" class="input" placeholder="Asunto" autocomplete="off"><br>' +
       '<label class="label"><b>Descripción</b></label><br>' +
