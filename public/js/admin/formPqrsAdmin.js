@@ -248,7 +248,7 @@ const formConfirDelet = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar PQRS?</b></h2><br>' +
-      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
+      '<input type="button" id="codi" name="codi" class="btn btninfo" readonly><br><br>' +
       //'<input type="button" id="codi" name="codi" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
       '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="eliminarPQRS(event)" class="btn btnMedio">Eliminar ' +
       '<h3 id="info" class="titazul"></h3>' +

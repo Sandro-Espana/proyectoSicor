@@ -6,7 +6,7 @@ const cors = require('cors');
 const rutasViews = require('./routes/routesViews');
 const auth = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
 const pqrs = require('./routes/routesPqrsCrud');
-const sanction = require('./routes/routesSancionCrud');
+const sancion = require('./routes/routesSancionCrud');
 
 const app = express() // Creación de una aplicación Express
 
@@ -30,7 +30,6 @@ app.use(express.static(path.join(__dirname, 'public'), {
     }
 }));
 
-//app.use(cors()); // Habilita CORS para permitir solicitudes desde otros dominios
 
 app.set('views', path.join(__dirname, 'views')); // Configurar la carpeta 'views' para las vistas EJS
 
@@ -46,7 +45,7 @@ app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ru
 
 app.use('/api', pqrs);
 
-//app.use('/api', sanction);
+app.use('/api', sancion);
 
 
 
@@ -57,10 +56,18 @@ db.once('open', () => {
     console.log('Conectado a Mysql');
 });
 
-// Inicia el servidor y escucha en el puerto especificado
+/* Inicia el servidor y escucha en el puerto especificado
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
+});*/
+
+// Inicia el servidor y escucha en el puerto especificado
+const server = app.listen(port, '127.0.0.1', () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log(`Server is running at http://${host}:${port}`);
 });
+
 
 
 /*

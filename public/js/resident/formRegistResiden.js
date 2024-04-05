@@ -48,12 +48,12 @@ let formResidente = () => {
       //'<input type="text" id="propietarioID" name="propietarioID" class="input" placeholder="ID de Propietario" autocomplete="off"><br>' +
       '<label class="label"><b>Contraseña</b></label><br>' +
       '<input type="password" id="password" name="password" class="input" placeholder="Contraseña"><br>' +
-      //'<label class="label"><b>Perfil</b></label><br>' +
-      //'<input type="text" id="perfil" name="perfil" class="input" placeholder="Perfil" autocomplete="off"><br><br>' +
       '<label class="label"><b>Torre</b></label><br>' +
       '<input type="text" id="torre" name="torre" class="input" placeholder="Torre" autocomplete="off"><br>' +
       '<label class="label"><b>Apartamento</b></label><br>' +
       '<input type="text" id="apartamento" name="apartamento" class="input" placeholder="Apartamento" autocomplete="off"><br><br>' +
+      '<label class="label"><b>Parqueadero</b></label><br>' +
+      '<input type="text" id="parqueadero" name="parqueadero" class="input" placeholder="Parqueadero" autocomplete="off"><br><br>' +
       "</div>" +
       '<input type="submit" id="guardar" name="guardar" class="btn" onclick="RegistResiden(event)" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
@@ -82,6 +82,7 @@ const RegistResiden = async (event) => {
   const passwordr = document.getElementById("password").value;
   const torre = document.getElementById("torre").value;
   const apt = document.getElementById("apartamento").value;
+  const parqueadero = document.getElementById("parqueadero").value;
   if (
     cedula == "" ||
     namer == "" ||
@@ -90,7 +91,8 @@ const RegistResiden = async (event) => {
     mobile == "" ||
     passwordr == "" ||
     torre == "" ||
-    apt == ""
+    apt == "" ||
+    parqueadero == ""
   ) {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorio";
@@ -101,10 +103,6 @@ const RegistResiden = async (event) => {
   //document.getElementById("info").innerHTML = "Enviando.....";
   // setTimeout("document.getElementById('info').innerHTML  = ''",);
   try {
-    // Enviar los datos del formulario al servidor usando Axios
-    //const response = await axios.post('/api/registro', 
-    //const response = await axios.post("/api/formPQRS", {
-    //const response = await axios.post("/api/registro",
     const response = await axios.post('/api/registro',  {
         cedula,
         namer,
@@ -113,7 +111,8 @@ const RegistResiden = async (event) => {
         mobile,
         passwordr,
         torre,
-        apt
+        apt,
+        parqueadero
     });
     document.getElementById("info").innerHTML = "Guardado correctamente";
     setTimeout("cerrarSwal()", 3000);

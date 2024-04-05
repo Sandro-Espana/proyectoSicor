@@ -7,7 +7,7 @@ const createUser = (newUsuario, callback) => {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('INSERT INTO residentes SET ?', newUsuario, (error, results) => {
+  connection.query('INSERT INTO residente SET ?', newUsuario, (error, results) => {
     if (error) {
       callback(error, null);
     } else {
@@ -31,10 +31,9 @@ const listUsers = (callback) => {
   });
 };
 
-
 //FIND USER BY NAME
 const findUserByUsername = (username, callback) => {
-  connection.query('SELECT * FROM residentes WHERE username = ?', [username], (error, results) => {
+  connection.query('SELECT * FROM residente WHERE username = ?', [username], (error, results) => {
     if (error) {
       if (typeof callback === 'function') {
       // Manejo del error: se pasa el error al callback
@@ -55,10 +54,9 @@ const findUserByUsername = (username, callback) => {
   });
 };
 
-
 //FIND USER BY ID
 const findUserById = (userId, callback) => {
-  connection.query('SELECT * FROM usuarios WHERE id = ?', [userId], (error, results) => {
+  connection.query('SELECT * FROM residente WHERE residente_id = ?', [userId], (error, results) => {
     if (error) {
       callback(error, null);
     } else {
@@ -69,7 +67,7 @@ const findUserById = (userId, callback) => {
 
 //DELETE USER BY ID
 const deleteUser = (userId, callback) => {
-  connection.query('DELETE FROM usuarios WHERE id = ?', [userId], (error, results) => {
+  connection.query('DELETE FROM residente WHERE residente_id = ?', [userId], (error, results) => {
     if (error) {
       callback(error, null);
     } else {
@@ -78,28 +76,12 @@ const deleteUser = (userId, callback) => {
   });
 };
 
-//Función para la tabla unidades_residenciales
-const saveFormData = (formData, callback) => {
-  //  console.log("Valor de callback: ", callback);
-    if (typeof callback !== 'function') {
-      console.error('Error: La función de devolución de llamada no está definida.');
-      return;
-    }
-    connection.query('INSERT INTO unidades_residenciales SET ?', formData, (error, results) => {
-      if (error) {
-        console.log(error);
-        callback(error, null);
-      } else {
-        callback(null, results.insertId);
-      }
-    });
-  };
+
 
 module.exports = {
   createUser,
   findUserByUsername,
   deleteUser,
   findUserById,
-  saveFormData,
   listUsers
 };

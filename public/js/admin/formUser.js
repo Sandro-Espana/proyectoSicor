@@ -43,13 +43,12 @@ const listUser = async (event) => {
 function rendertUser(response) {
   cerrarSwal();
   const data = response.data;
-  console.log("users: ", data.data);
   if (data && data.length > 0) {
     // Construir la tabla HTML para mostrar los datos
     let tableHtml =
       "<table id='tablaPQRS'><thead><tr>" +
       "<th>ID</th>" +
-      "<th>Apt</th>" +
+      "<th>ID Apt</th>" +
       "<th>Nombres</th>" +
       "<th>Apellidos</th>" +
       "<th>Email</th>" +
@@ -88,6 +87,7 @@ function rendertUser(response) {
 
 //FORM MANAGE USER
 let modiUser = (id) => {
+  console.log("modiUser ", id);
   Swal.fire({
     html:
       '<br><br><center><form id="modiUser" name="modiUser" class="formSwal" onsubmit="sendText(event)">' +
@@ -101,7 +101,9 @@ let modiUser = (id) => {
       id +
       ')" value="Sancionar"><br><br>' +
       '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo"' +
-      ' onClick="formConfirDelet()" value="Eliminar"><br><br>' +
+      ' onClick="formDeleUser(' +
+      id +
+      ')" value="Eliminar"><br><br>' +
       //'<input type="button" id="actualizar" name="actualizar" class="btn" onclick="UpdatePqrs(event)" value="Guardar"><br><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
@@ -116,6 +118,7 @@ let modiUser = (id) => {
 
 // FORM SANCTION
 let formSanciones = (id) => {
+  console.log("formSancione ", id);
   Swal.fire({
     html:
       '<br><br><center><form id="regSancion" name="regSancion" class="formSwal" onsubmit="sendText(event)">' +
@@ -129,16 +132,16 @@ let formSanciones = (id) => {
       "<option></option><option>Activa</option>" +
       "<option>Revocada</option><option>Apelación</option></select><br>" +
       '<label class="label"><b>Residente ID</b></label><br>' +
-      '<input type="text" id="residenteID" name="residenteID" class="input" placeholder="Residente ID" '+
+      '<input type="text" id="residenteID" name="residenteID" class="input" readonly ' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Fecha y hora</b></label><br>' +
       '<input type="datetime-local" id="fechaCreacion" name="fechaCreacion" readonly class="input"><br>' +
       '<label class="label"><b>Descripción</b></label><br>' +
-      '<input type="text" id="descripcion" name="descripcion" class="input" placeholder="Descripción" '+
+      '<input type="text" id="descripcion" name="descripcion" class="input" placeholder="Descripción" ' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Foto de Evidencia</b></label><br>' +
       '<input type="file" id="fotoEvidencia" name="fotoEvidencia" class="input" accept="image/*"><br><br>' +
-      '<input type="button" id="guardar" name="guardar" class="btn" onClick="saveSanction(event)" '+
+      '<input type="button" id="guardar" name="guardar" class="btn" onClick="saveSanction(event)" ' +
       'value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
@@ -184,7 +187,7 @@ const saveSanction = async (event) => {
   document.getElementById("info").innerHTML = "Enviando.....";
   try {
     const response = await axios.post("/api/newSanction", {
-      residenteID,
+      residente_id,
       fecha_hora,
       descripcion,
       estado,
@@ -217,7 +220,9 @@ function cerrarSwal() {
 }
 
 //FORM DELETE CONFIRM
-const formDeleUser = () => {
+const formDeleUser = (id) => {
+  console.log("formDeleUser ", id);
+ 
   // let cod = document.getElementById("codigo").value;
   Swal.fire({
     html:
@@ -225,11 +230,13 @@ const formDeleUser = () => {
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
-      "</div>" +
+      '</div>' +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar usuario?</b></h2><br>' +
-      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="deletUser()" value="Eliminar usuario"><br><br>' +
-      //'<input type="button" id="codi" name="codi" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
-      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="deletUser(event)" class="btn btnMedio">hola ' +
+      '<input type="button" id="BtndeleUser" name="codi" class="btn btninfo" readonly><br><br>' +
+      //'<button type="button" id="BtndeleUser" name="eliminarBtn" onClick="deletUser(event)" ' +
+      //'class="btn btnMedio"></button>' +
+      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="deletUser('+id+')"' +
+      'value="Eliminarr"><br><br>' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -240,19 +247,21 @@ const formDeleUser = () => {
     showConfirmButton: false,
   });
   //document.getElementById("codi").value = cod;
+  document.getElementById("BtndeleUser").value = id;
   //console.log(cod);
 };
 
 // FUNCTION DELETE USER
-const deletUser = async (event) => {
-  event.preventDefault();
-
-  const codigo = document.getElementById("codi").value;
-  //console.log("LINEA 208 codigo: ", codigo);
-  //document.getElementById("info").innerHTML = "Eliminando.....";
+const deletUser = async (codi) => {
+  //event.preventDefault();
+  let codigo = codi
+   //codigo = document.getElementById("BtndeleUser").value;
+  console.log(" codigo deletUser : ", codigo);
+  document.getElementById("info").innerHTML = "Eliminando.....";
   try {
     const response = await axios.delete(`/api/deleteUser/${codigo}`);
     document.getElementById("info").innerHTML = "Eliminando";
+    console.log("response: ",response);
     setTimeout("cerrarSwal()", 2000);
     if (response.status === 200) {
       console.log("Eliminación de PQRS exitosa");
