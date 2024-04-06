@@ -2,14 +2,11 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Usuario = require("../model/modelResident");
+const Usuario = require("../model/modelTbResident");
 const util = require("util");
-const {
-  createUnitResiden,
-  searchUnitById,
-} = require("../model/modelUnitResidencial");
-const { error } = require("console");
-const { ifError } = require("assert");
+const {createUnitResiden,searchUnitById,} = require("../model/modelTbApt");
+//const { error } = require("console");
+//const { ifError } = require("assert");
 const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
 
 //          VALIDAR CC REPETIDA
@@ -161,10 +158,16 @@ router.post("/registro", async (req, res) => {
         .json({ error: "El nombre de usuario ya está en uso." });
     }
 
-    //HASH PASSWORD
-    const hashedPassword = await bcrypt.hash(req.body.passwordr, 12);
+    // Verifica si ya existe un usuario con la cédula proporcionada
+    const existingUserByCedula = await Usuario.searchUserByCedu(req.body.cedula);
 
-    //CREO NEW USER
+    if (existingUserByCedula) {
+      return res.status(400).json({ error: "Ya existe un usuario con esta cédula." });
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.passwordr, 12); // HASH PASSWORD
+
+    //CREATE NEW USER
     const newUsuario = {
       residente_id: req.body.cedula,
       nombre: req.body.namer,
@@ -173,37 +176,42 @@ router.post("/registro", async (req, res) => {
       celular: req.body.mobile,
       username: req.body.usernamer,
       password: hashedPassword,
+      unidad_residencial: `${req.body.torre}_${req.body.apt}`
     };
 
-    console.log(newUsuario);
+    console.log("newUsuario resident: ",newUsuario);
 
     //INSERT USER IN TABLE RESIDENT
     const userId = await new Promise((resolve, reject) => {
       Usuario.createUser(newUsuario, (error, id) => {
         if (error) {
-          console.error("Error al registrar el usuario:", error);
+          console.error("Error al registrar el usuario residente:", error);
           reject(error);
+         // return res.status(400).json({ error: error.message });
+          console.log("reject: ",reject)
         } else {
           resolve(id);
+          console.log("resolve: ",id)
+          console.log("Usuario registrado exitosamente. ID:", userId);
         }
       });
     });
-
+    console.log("INSERT RESIDENT: ", userId);
     console.log("Registrado con éxito");
-    res.status(201).json({ mensaje: "Usuario registrado correctamente." });
+    //res.status(201).json({ mensaje: "Usuario registrado correctamente." });
 
     //NEW unidad_residencial
     const newUnitReside = {
       id_unidad_residencial: `${req.body.torre}_${req.body.apt}`,
       torre: req.body.torre,
-      apartamento: req.body.apt,
+      apartamento: req.body.parqueadero,
       parqueadero: req.body.apt,
     };
-    console.log("unidad_residencial: ", newUnitReside);
+    console.log("newUnitReside: ", newUnitReside);
 
     // Uso de la función para buscar una unidad residencial por ID
     const existingUnit = await new Promise((resolve, reject) => {
-      searchUnitById(newUnitReside.id_unidad_residencial, (error, unit) => {
+      Usuario.searchResidentById(newUnitReside.id_unidad_residencial, (error, unit) => {
         if (error) {
           console.error("Error al buscar unidad residencial:", error);
           reject(error);
@@ -230,9 +238,10 @@ router.post("/registro", async (req, res) => {
         }
       });
     }
+    res.status(201).json({ mensaje: "Usuario registrado correctamente." });
   } catch (error) {
     console.error("Error al registrar el usuario:", error);
-    res.status(500).json({ error: "Error al registrar el usuario." });
+    res.status(500).json({ error: "237 Error al registrar el usuario." });
   }
 });
 

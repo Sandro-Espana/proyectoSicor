@@ -27,7 +27,7 @@ let formLogin = () => {
   });
 };
 
-// SENDDATA TO THE SERVER
+// SEND DATA TO THE SERVER
 const loginSession = async (event) => {
   event.preventDefault();
 
@@ -59,7 +59,7 @@ const loginSession = async (event) => {
   } catch (error) {
     if (error.response) {
       const mensaje = error.response.data.error; // Obtiene el mensaje de error del cuerpo de la respuesta
-      //alert(mensaje);// Muestra una alerta en el navegador con el mensaje de error
+      // Muestra una alerta en el navegador con el mensaje de error
       Swal.fire({
         icon: "error",
         text: mensaje,
@@ -71,7 +71,7 @@ const loginSession = async (event) => {
 };
 
 /*
-   Este código contiene función asíncrona (loginSession) para enviar datos de registro
-   al servidor utilizando Axios. También incluye manejo de errores y actualización
-   del mensaje de registro en la interfaz de usuario en consecuencia.
-   */
+Este código contiene función asíncrona (loginSession) para enviar datos de registro
+al servidor utilizando Axios. También incluye manejo de errores y actualización
+del mensaje de registro en la interfaz de usuario en consecuencia.
+*/

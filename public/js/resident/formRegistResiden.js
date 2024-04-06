@@ -1,4 +1,4 @@
-//FORM REGISTER
+//FORM REGISTER RESIDENT PROPRIETARY
 const formRegist = () => {
   Swal.fire({
     html:
@@ -8,8 +8,10 @@ const formRegist = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">REGISTRAR</b></h2><br>' +
-      '<button type="button" id="BtnResidente" name="BtnResidente" onClick="formResidente()" class="btn btnRegis">Residente</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<button type="button" id="BtnPropietario" name="BtnPropietario" onClick="listarPQRS(event)" class="btn btnRegis">Propietario</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="BtnResidente" name="BtnResidente" onClick="formResidente()" ' +
+      'class="btn btnRegis">Residente</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="BtnPropietario" name="BtnPropietario" onClick="listarPQRS(event)" ' +
+      'class="btn btnRegis">Propietario</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -20,9 +22,6 @@ const formRegist = () => {
     showConfirmButton: false,
   });
 };
-function cerrarSwal() {
-  Swal.close();
-}
 
 //FORM REGISTER RESIDENT
 let formResidente = () => {
@@ -66,11 +65,7 @@ let formResidente = () => {
   });
 };
 
-function cerrarSwal() {
-  Swal.close();
-}
-
-//ENVIAR REGISTRO RESIDENTE
+// FUNCTION SEND RESIDENT REGISTRATION
 const RegistResiden = async (event) => {
   event.preventDefault();
 
@@ -100,26 +95,38 @@ const RegistResiden = async (event) => {
     return;
   }
   //document.getElementById("actualizar").disabled = true;
-  //document.getElementById("info").innerHTML = "Enviando.....";
+  document.getElementById("info").innerHTML = "Enviando...";
   // setTimeout("document.getElementById('info').innerHTML  = ''",);
   try {
-    const response = await axios.post('/api/registro',  {
-        cedula,
-        namer,
-        lastname,
-        usernamer,
-        mobile,
-        passwordr,
-        torre,
-        apt,
-        parqueadero
+    const response = await axios.post("/api/registro", {
+      cedula,
+      namer,
+      lastname,
+      usernamer,
+      mobile,
+      passwordr,
+      torre,
+      apt,
+      parqueadero,
     });
-    document.getElementById("info").innerHTML = "Guardado correctamente";
-    setTimeout("cerrarSwal()", 3000);
+    Swal.fire({
+      icon: "success",
+      text: "Guardado con exito",
+    });
     if (response.status === 201) {
       console.log("Registro de PQRS exitoso");
     }
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    //console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const mensaje = error.response.data.error
+      console.log("mensaje: ", mensaje)
+      Swal.fire({
+        icon: "error",
+        text: mensaje,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
   }
 };

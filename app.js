@@ -56,18 +56,19 @@ db.once('open', () => {
     console.log('Conectado a Mysql');
 });
 
-/* Inicia el servidor y escucha en el puerto especificado
+ //Inicia el servidor y escucha en el puerto especificado
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-});*/
-
+});
+/*
 // Inicia el servidor y escucha en el puerto especificado
 const server = app.listen(port, '127.0.0.1', () => {
     const host = server.address().address;
     const port = server.address().port;
     console.log(`Server is running at http://${host}:${port}`);
+      
 });
-
+*/
 
 
 /*

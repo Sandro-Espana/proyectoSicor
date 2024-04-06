@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const crud = require("../model/modelSancionCrud");
+const crud = require("../model/modelTbSancion");
 
 // CREATE A SANCTION IN DB
 router.post("/newSanction", async (req, res) => {

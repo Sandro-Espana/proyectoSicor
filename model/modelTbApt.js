@@ -9,7 +9,7 @@ const createUnitResiden = (newUnitReside, callback) => {
     return;
   }
   connection.query(
-    "INSERT INTO unidad_residencial SET ?",
+    "INSERT INTO tb_apartamento SET ?",
     newUnitReside,
     (error, results) => {
       if (error) {
@@ -25,7 +25,7 @@ const createUnitResiden = (newUnitReside, callback) => {
 // SEARCH UNIT BY ID
 const searchUnitById = (unidadId, callback) => {
   connection.query(
-    "SELECT * FROM unidad_residencial WHERE id_unidad_residencial = ?",
+    "SELECT * FROM tb_apartamento  WHERE id_unidad_residencial = ?",
     [unidadId],
     (error, results) => {
       if (error) {
@@ -51,7 +51,21 @@ const searchUnitById = (unidadId, callback) => {
   );
 };
 
+const eliminarDatosTablaApartamentos = () => {
+  const sql = "DELETE FROM tb_apartamento";
+
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error al eliminar datos de tb_apartamentos:", err);
+      return;
+    }
+    console.log("Datos de tb_apartamentos eliminados correctamente");
+  });
+};
+
+//eliminarDatosTablaApartamentos()
+
 module.exports = {
   createUnitResiden,
-  searchUnitById
+  searchUnitById,
 };
