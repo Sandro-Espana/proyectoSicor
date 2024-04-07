@@ -10,9 +10,6 @@ router.get('/', (req, res) => {
 });
 
 // PROFILES
-router.post('/registro', (req, res) => {
-});
-
 router.get('/admin', (req, res) => {
     const viewPath = path.join(__dirname,  '../views/profile/admin.ejs');
     res.render(viewPath);
@@ -38,6 +35,9 @@ router.delete('/deletePQRS/:id', (req, res) => {
 
 
 // MANEGE USERS
+router.post('/register', (req, res) => {
+});
+
 router.post('/formUser', (req, res) => {
 });
 

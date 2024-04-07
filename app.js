@@ -4,7 +4,7 @@ const path = require('path');
 const conectarDB = require('./DB/dbMysql'); // Importar la función de conexión a la base de datos
 const cors = require('cors');
 const rutasViews = require('./routes/routesViews');
-const auth = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
+const residen = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
 const pqrs = require('./routes/routesPqrsCrud');
 const sancion = require('./routes/routesSancionCrud');
 
@@ -41,7 +41,7 @@ app.use(express.json()); // Configuración para manejar solicitudes JSON
 
 app.use('/', rutasViews); // Uso de las rutas desde rutasViews.js
 
-app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
+app.use('/api', residen); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
 
 app.use('/api', pqrs);
 

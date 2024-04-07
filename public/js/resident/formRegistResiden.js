@@ -43,16 +43,10 @@ let formResidente = () => {
       '<input type="text" id="email" name="email" class="input" placeholder="email" autocomplete="off"><br>' +
       '<label class="label"><b>Celular</b></label><br>' +
       '<input type="text" id="celular" name="celular" class="input" placeholder="Número de Contacto" autocomplete="off"><br>' +
-      //'<label class="label"><b>ID de Propietario</b></label><br>' +
-      //'<input type="text" id="propietarioID" name="propietarioID" class="input" placeholder="ID de Propietario" autocomplete="off"><br>' +
       '<label class="label"><b>Contraseña</b></label><br>' +
       '<input type="password" id="password" name="password" class="input" placeholder="Contraseña"><br>' +
       '<label class="label"><b>ID Residencia</b></label><br>' +
       '<input type="text" id="IDResidencia" name="ID Residencia" class="input" placeholder="ID Residencia" autocomplete="off"><br>' +
-      // '<label class="label"><b>Apartamento</b></label><br>' +
-      // '<input type="text" id="apartamento" name="apartamento" class="input" placeholder="Apartamento" autocomplete="off"><br><br>' +
-      // '<label class="label"><b>Parqueadero</b></label><br>' +
-      // '<input type="text" id="parqueadero" name="parqueadero" class="input" placeholder="Parqueadero" autocomplete="off"><br><br>' +
       "</div>" +
       '<input type="submit" id="guardar" name="guardar" class="btn" onclick="RegistResiden(event)" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
@@ -76,8 +70,6 @@ const RegistResiden = async (event) => {
   const mobile = document.getElementById("celular").value;
   const passwordr = document.getElementById("password").value;
   const unidad_residencial = document.getElementById("IDResidencia").value;
-  // const apt = document.getElementById("apartamento").value;
-  // const parqueadero = document.getElementById("parqueadero").value;
   if (
     cedula == "" ||
     namer == "" ||
@@ -86,19 +78,15 @@ const RegistResiden = async (event) => {
     mobile == "" ||
     passwordr == "" ||
     unidad_residencial == ""
-    //apt == "" ||
-   // parqueadero == ""
   ) {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorio";
     setTimeout("document.getElementById('info').innerHTML = ''", 3000);
     return;
   }
-  //document.getElementById("actualizar").disabled = true;
   document.getElementById("info").innerHTML = "Enviando...";
-  // setTimeout("document.getElementById('info').innerHTML  = ''",);
   try {
-    const response = await axios.post("/api/registro", {
+    const response = await axios.post("/api/register", {
       cedula,
       namer,
       lastname,
@@ -106,8 +94,6 @@ const RegistResiden = async (event) => {
       mobile,
       passwordr,
       unidad_residencial,
-      //apt,
-     // parqueadero,
     });
     Swal.fire({
       icon: "success",
