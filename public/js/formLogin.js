@@ -27,7 +27,7 @@ let formLogin = () => {
   });
 };
 
-// SEND DATA TO THE SERVER
+// FUNCTION SEND DATA TO THE SERVER
 const loginSession = async (event) => {
   event.preventDefault();
 
@@ -71,7 +71,7 @@ const loginSession = async (event) => {
 };
 
 /*
-Este código contiene función asíncrona (loginSession) para enviar datos de registro
+Este código contiene función asíncrona (loginSession) para enviar datos de inicio de sesion
 al servidor utilizando Axios. También incluye manejo de errores y actualización
 del mensaje de registro en la interfaz de usuario en consecuencia.
 */

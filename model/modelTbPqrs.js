@@ -21,7 +21,7 @@ const getAllPQRS = (callback) => {
     console.error('Error: La función de devolución de llamada no está definida, soy modelPqrsCrud.');
     return;
   }
-  connection.query('SELECT * FROM pqrs', (error, results) => {
+  connection.query('SELECT * FROM tb_pqrs', (error, results) => {
     if (error) {
       callback(error, null);
     } else {

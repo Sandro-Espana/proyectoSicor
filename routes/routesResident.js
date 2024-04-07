@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Usuario = require("../model/modelTbResident");
 const util = require("util");
-const {createUnitResiden,searchUnitById,} = require("../model/modelTbApt");
+const { createUnitResiden, searchUnitById } = require("../model/modelTbApt");
 //const { error } = require("console");
 //const { ifError } = require("assert");
 const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
@@ -132,8 +132,8 @@ router.post("/registro", async (req, res) => {
       !req.body.lastname ||
       !req.body.cedula ||
       !req.body.mobile ||
-      !req.body.torre ||
-      !req.body.apt
+      !req.body.unidad_residencial
+      //  !req.body.apt
     ) {
       return res
         .status(400)
@@ -159,84 +159,91 @@ router.post("/registro", async (req, res) => {
     }
 
     // Verifica si ya existe un usuario con la cédula proporcionada
-    const existingUserByCedula = await Usuario.searchUserByCedu(req.body.cedula);
+    const existingUserByCedula = await Usuario.searchUserByCedu(
+      req.body.cedula
+    );
 
     if (existingUserByCedula) {
-      return res.status(400).json({ error: "Ya existe un usuario con esta cédula." });
+      return res
+        .status(400)
+        .json({ error: "Ya existe un usuario con esta cédula." });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.passwordr, 12); // HASH PASSWORD
+    //temporalmente
+    // const newUnitReside = {
+    //   id_unidad_residencial: `${req.body.torre}_${req.body.apt}`,
+    //   torre: req.body.torre,
+    //   apartamento: req.body.parqueadero,
+    //   parqueadero: req.body.apt,
+    // };
 
-    //CREATE NEW USER
-    const newUsuario = {
-      residente_id: req.body.cedula,
-      nombre: req.body.namer,
-      apellido: req.body.lastname,
-      cedula: req.body.cedula,
-      celular: req.body.mobile,
-      username: req.body.usernamer,
-      password: hashedPassword,
-      unidad_residencial: `${req.body.torre}_${req.body.apt}`
-    };
-
-    console.log("newUsuario resident: ",newUsuario);
-
-    //INSERT USER IN TABLE RESIDENT
-    const userId = await new Promise((resolve, reject) => {
-      Usuario.createUser(newUsuario, (error, id) => {
-        if (error) {
-          console.error("Error al registrar el usuario residente:", error);
-          reject(error);
-         // return res.status(400).json({ error: error.message });
-          console.log("reject: ",reject)
-        } else {
-          resolve(id);
-          console.log("resolve: ",id)
-          console.log("Usuario registrado exitosamente. ID:", userId);
-        }
-      });
-    });
-    console.log("INSERT RESIDENT: ", userId);
-    console.log("Registrado con éxito");
-    //res.status(201).json({ mensaje: "Usuario registrado correctamente." });
-
-    //NEW unidad_residencial
-    const newUnitReside = {
-      id_unidad_residencial: `${req.body.torre}_${req.body.apt}`,
-      torre: req.body.torre,
-      apartamento: req.body.parqueadero,
-      parqueadero: req.body.apt,
-    };
-    console.log("newUnitReside: ", newUnitReside);
-
-    // Uso de la función para buscar una unidad residencial por ID
     const existingUnit = await new Promise((resolve, reject) => {
-      Usuario.searchResidentById(newUnitReside.id_unidad_residencial, (error, unit) => {
-        if (error) {
-          console.error("Error al buscar unidad residencial:", error);
-          reject(error);
-        } else {
-          resolve(unit);
+      Usuario.searchResidentById(
+        req.body.unidad_residencial,
+        (error, unit) => {
+          if (error) {
+            console.error("Error al buscar unidad residencial:", error);
+            reject(error);
+          } else {
+            resolve(unit);
+          }
         }
-      });
+      );
     });
-
+    console.log("existingUnit ", existingUnit);
     if (existingUnit) {
       return res
         .status(400)
         .json({ error: "La unidad residencial ya está en uso." });
     } else {
-      // La unidad residencial no existe, la puedes crear
-      createUnitResiden(newUnitReside, (error, insertId) => {
-        if (error) {
-          console.error("Error al guardar los datos del formulario:", error);
-        } else {
-          console.log(
-            "Los datos del formulario se han guardado correctamente. ID:",
-            insertId
-          );
-        }
+     // console.log("newUnitReside: ", newUnitReside);
+      //CREATE NEW USER
+      const newUsuario = {
+        residente_id: req.body.cedula,
+        nombre: req.body.namer,
+        apellido: req.body.lastname,
+        cedula: req.body.cedula,
+        celular: req.body.mobile,
+        username: req.body.usernamer,
+        password: hashedPassword,
+        unidad_residencial: req.body.unidad_residencial,
+      };
+
+      console.log("newUsuario resident: ", newUsuario);
+
+      //INSERT USER IN TABLE RESIDENT
+      const userId = await new Promise((resolve, reject) => {
+        Usuario.createUser(newUsuario, (error, id) => {
+          if (error) {
+            console.error("Error al registrar el usuario residente:", error);
+            reject(error);
+            // return res.status(400).json({ error: error.message });
+          } else {
+            resolve(id);
+          }
+        });
       });
+      console.log("Usuario registrado exitosamente. ID:", userId);
+      console.log("INSERT RESIDENT: ", userId);
+      console.log("Registrado con éxito");
+      //res.status(201).json({ mensaje: "Usuario registrado correctamente." });
+
+      //NEW unidad_residencial
+
+      // Uso de la función para buscar una unidad residencial por ID
+
+      // La unidad residencial no existe, la puedes crear
+      // createUnitResiden(newUnitReside, (error, insertId) => {
+      //   if (error) {
+      //     console.error("Error al guardar los datos del formulario:", error);
+      //   } else {
+      //     console.log(
+      //       "Los datos del formulario se han guardado correctamente. ID:",
+      //       insertId
+      //     );
+      //   }
+      // });
     }
     res.status(201).json({ mensaje: "Usuario registrado correctamente." });
   } catch (error) {

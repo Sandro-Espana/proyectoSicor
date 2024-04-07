@@ -6,7 +6,7 @@ const createSancion = (newSancion, callback) => {
     console.error("Error: La función de devolución de llamada no está definida.");
     return;
   }
-  connection.query("INSERT INTO sancion SET ?", newSancion,(error, results) => {
+  connection.query("INSERT INTO tb_sancion SET ?", newSancion,(error, results) => {
       if (error) {
         callback(error, null);
       } else {

@@ -7,7 +7,7 @@ const createUser = (newUsuario, callback) => {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('INSERT INTO residente SET ?', newUsuario, (error, results) => {
+  connection.query('INSERT INTO tb_residente SET ?', newUsuario, (error, results) => {
     if (error) {
       callback(error, null);
     } else {
