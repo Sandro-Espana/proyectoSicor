@@ -1,19 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const crud = require("../model/modelTbSancion");
 
 // CREATE A SANCTION IN DB
 router.post("/newSanction", async (req, res) => {
   try {
-    // Verificar si se proporcionan todos los campos requeridos
     if (
       !req.body.estado ||
       !req.body.descripcion ||
       !req.body.fecha_hora ||
       !req.body.foto_evidencia ||
-      !req.body.residente_id
+      !req.body.residente_id ||
+      !req.body.unidad_residencial
     ) {
       return res
         .status(400)
@@ -27,6 +25,7 @@ router.post("/newSanction", async (req, res) => {
       fecha_hora: req.body.fecha_hora,
       foto_evidencia: req.body.foto_evidencia,
       residente_id: req.body.residente_id,
+      unidad_residencial: req.body.unidad_residencial
     };
 
     // Llamar a la función createSancion para insertar la nueva sanción en la base de datos
@@ -88,5 +87,28 @@ router.put("/updateSanction/:id", async (req, res) => {
     res.status(500).json({ error: "Error al actualizar la sanción." });
   }
 });
+
+
+
+// Ruta para eliminar una sanción por su ID
+router.delete("/deleteSanction/:id", async (req, res) => {
+  try {
+    const sancionId = req.params.id;
+    
+    // Llama a la función para eliminar la sanción del modelo o controlador
+    crud.deleteSancion(sancionId, (error, result) => {
+      if (error) {
+        console.error("Error al eliminar la sanción:", error);
+        return res.status(500).json({ message: "Sanción no eliminada" });
+      }
+      console.log("Sanción eliminada con éxito");
+      res.status(201).json({ mensaje: "Sanción eliminada con éxito", result });
+    });
+  } catch (error) {
+    console.error("Error al eliminar la sanción:", error);
+    res.status(500).json({ error: "Error al eliminar la sanción" });
+  }
+});
+
 
 module.exports = router;

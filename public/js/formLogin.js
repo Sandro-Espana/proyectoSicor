@@ -1,3 +1,4 @@
+// FUNCTION FORM LOGIN
 let formLogin = () => {
   Swal.fire({
     html:
@@ -45,6 +46,8 @@ const loginSession = async (event) => {
       username,
       password,
     });
+    const { profile, userId } = response.data; // Capturar el ID del usuario desde la respuesta
+    console.log("id de usuario: ",profile, userId);
     if (response.status === 200) {
       const profile = response.data.profile; // Redirige a la página correspondiente según su perfil
       console.log("perfil de user: ", profile);
@@ -70,8 +73,49 @@ const loginSession = async (event) => {
   }
 };
 
+
+// FUNCTION CAPTURES THE TIME AND DATE OF THE MOMENT
+function vfecha() {
+  let fecha = new Date(); // Fecha actual
+  let mes = fecha.getMonth() + 1; // Obteniendo mes
+  let dia = fecha.getDate(); // Obteniendo dia
+  let anio = fecha.getFullYear(); // Obteniendo año
+  let horas = fecha.getHours(); // Obteniendo horas
+  let minutos = fecha.getMinutes(); // Obteniendo minutos
+  let segundos = fecha.getSeconds(); // Obteniendo segundos
+
+  if (dia < 10) {
+    dia = "0" + dia; // Agrega cero si el menor de 10
+  }
+  if (mes < 10) {
+    mes = "0" + mes; // Agrega cero si el menor de 10
+  }
+  if (horas < 10) {
+    horas = "0" + horas; // Agrega cero si el menor de 10
+  }
+  if (minutos < 10) {
+    minutos = "0" + minutos; // Agrega cero si el menor de 10
+  }
+  if (segundos < 10) {
+    segundos = "0" + segundos; // Agrega cero si el menor de 10
+  }
+
+  // FORMAT THE DATA STRING
+  let fec =
+    anio + "-" + mes + "-" + dia + "T" + horas + ":" + minutos + ":" + segundos;
+  return fec;
+}
+
+// CLOSE FORM
+function cerrarSwal() {
+  Swal.close();
+}
+
+
+
 /*
-Este código contiene función asíncrona (loginSession) para enviar datos de inicio de sesion
-al servidor utilizando Axios. También incluye manejo de errores y actualización
-del mensaje de registro en la interfaz de usuario en consecuencia.
+This code contains asynchronous funtion loginSession to send login data to the server using Axion.
+To the server using Axion. It also includes function to close the form and capture the data and
+time of the error handling moment and update the log message in the of the log message in the
+user interface accordingly.
 */

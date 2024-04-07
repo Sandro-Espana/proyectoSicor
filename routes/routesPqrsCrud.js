@@ -1,15 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const Crud = require("../model/modelTbPqrs");
 
-
-// FOR CREATING A NEW PQRS
-router.post("/formPQRS", async (req, res) => {
-  //Manejar la solicitud de registro en el servidor
+// ROUTES CREATING A NEW PQRS
+router.post("/createPQRS", async (req, res) => {
   try {
-    // Verificar si se proporcionan todos los campos requeridos
     if (
       !req.body.tipo ||
       !req.body.asunto ||
@@ -23,7 +18,7 @@ router.post("/formPQRS", async (req, res) => {
         .json({ error: "Por favor, proporciona todos los campos requeridos." });
     }
 
-    // Crear un objeto con los datos del nuevo PQRS
+    // CREATE A NEW OBJECT PQRS
     const newPQRS = {
       Tipo: req.body.tipo,
       Asunto: req.body.asunto,
@@ -32,14 +27,15 @@ router.post("/formPQRS", async (req, res) => {
       FechaCreacion: req.body.fechaCreacion,
       UsuarioID: req.body.usuarioId,
     };
-    // Llamar a la función createPQRS para insertar el nuevo PQRS en la base de datos
+
+    // INSERT NEW newPQRS IN tb_pqrs
     Crud.createPQRS(newPQRS, (error, insertId) => {
       if (error) {
         console.error("Error al crear el PQRS:", error);
         return res.status(500).json({ error: "Error al crear el PQRS." });
       }
-      console.log("PQRS creado con éxito");
-      res.status(201).json({ mensaje: "PQRS creado correctamente.", insertId });
+      console.log("PQRS creado con éxito server");
+      res.status(201).json({ mensaje: "status 201 server PQRS creado correctamente." });
     });
   } catch (error) {
     console.error("Error al registrar el PQRS:", error);
@@ -65,21 +61,6 @@ router.get("/listarPQRS", async (req, res) => {
   }
 });
 
-// ROUTES TO OBTAIN A PQRS BY YOUR ID
-router.get("/pqrs/:id", async (req, res) => {
-  try {
-    const pqrsId = req.params.id;
-    const pqrs = await Crud.getPQRSById(pqrsId);
-    if (!pqrs) {
-      res.status(404).json({ message: "PQRS no encontrada" });
-    } else {
-      res.json(pqrs);
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // ROUTES FOR UPDATING A PQRS BY YOUR ID
 router.put("/updatePQRS/:id", async (req, res) => {
   try {
@@ -91,7 +72,7 @@ router.put("/updatePQRS/:id", async (req, res) => {
         return res.status(500).json({ message: "PQRS no encontrada" });
       }
       console.log("PQRS actualizada con éxito");
-      res.status(200).json({ mensaje: "PQRS actualizada con éxito", resul });
+      res.status(201).json({ mensaje: "PQRS actualizada con éxito"});
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -108,11 +89,33 @@ router.delete("/deletePQRS/:id", async (req, res) => {
         return res.status(500).json({ message: "PQRS no eliminado" });
       }
       console.log("PQRS eliminado con éxito");
-      res.status(200).json({ mensaje: "PQRS eliminado con éxito", resul });
+      res.status(201).json({ mensaje: "PQRS eliminado con éxito", resul });
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+// ROUTES TO OBTAIN A PQRS BY YOUR ID
+router.get("/pqrs/:id", async (req, res) => {
+  try {
+    const pqrsId = req.params.id;
+    const pqrs = await Crud.getPQRSById(pqrsId);
+    if (!pqrs) {
+      res.status(404).json({ message: "PQRS no encontrada" });
+    } else {
+      res.json(pqrs);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/*
+router.post("/createPQRS", async (req, res) => CONTROLLER TO CREATE THE PQRS IN TABLE tb_pqrs
+router.get("/listarPQRS", async (req, res) => CONTROLLER TO LIST THE PQRS
+router.put("/updatePQRS/:id", async (req, res) => CONTROLLER TO RESPOND TO A PQRS BY ID IN TABLE tb_pqrs
+router.delete("/deletePQRS/:id", async (req, res) => CONTROLLER TO DELETE A PQRS BY ID IN THE TABLE tb_pqrs
+*/
 
 module.exports = router;

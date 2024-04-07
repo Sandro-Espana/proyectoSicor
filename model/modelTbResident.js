@@ -62,10 +62,10 @@ const findUserByUsername = (username, callback) => {
   );
 };
 
-//FIND RESIDENT BY ID
-const searchResidentById = (userId, callback) => {
+// FIND RESIDENT BY unidad_residencial
+const searchByIdResident = (userId, callback) => {
   connection.query(
-    "SELECT * FROM tb_residente WHERE unidad_residencial = ?",
+    "SELECT * FROM tb_residente WHERE id_residente = ?",
     [userId],
     (error, results) => {
       if (error) {
@@ -101,11 +101,26 @@ const searchUserByCedu = (cedula) => {
   });
 };
 
+const searchResidentById = (residentId, callback) => {
+  connection.query(
+    "SELECT * FROM tb_residente WHERE id_residente = ?",
+    [residentId],
+    (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results[0]);
+      }
+    }
+  );
+};
+
+
 
 //DELETE USER BY ID
 const deleteUser = (userId, callback) => {
   connection.query(
-    "DELETE FROM tb_residente WHERE residente_id = ?",
+    "DELETE FROM tb_residente WHERE id_residente = ?",
     [userId],
     (error, results) => {
       if (error) {
@@ -123,5 +138,6 @@ module.exports = {
   deleteUser,
   searchResidentById,
   searchUserByCedu,
+  searchByIdResident,
   listUsers,
 };

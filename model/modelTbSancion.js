@@ -15,6 +15,23 @@ const createSancion = (newSancion, callback) => {
     });
 };
 
+// DELETE SANCION
+const deleteSancion = (sancionId, callback) => {
+  if (typeof callback !== "function") {
+    console.error("Error: La función de devolución de llamada no está definida.");
+    return;
+  }
+  
+  connection.query("DELETE FROM tb_sancion WHERE id = ?", sancionId, (error, results) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results.affectedRows);
+    }
+  });
+};
+
 module.exports = {
-  createSancion
+  createSancion,
+  deleteSancion
 };

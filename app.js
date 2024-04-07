@@ -1,64 +1,71 @@
 // Importación de módulos
-const express = require('express');
-const path = require('path');
-const conectarDB = require('./DB/dbMysql'); // Importar la función de conexión a la base de datos
-const cors = require('cors');
-const rutasViews = require('./routes/routesViews');
-const residen = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
-const pqrs = require('./routes/routesPqrsCrud');
-const sancion = require('./routes/routesSancionCrud');
+const express = require("express");
+const path = require("path");
+const conectarDB = require("./DB/dbMysql"); // Importar la función de conexión a la base de datos
+const cors = require("cors");
+const rutasViews = require("./routes/routesViews");
+const auth = require("./routes/routesAuth");
+const residen = require("./routes/routesResidentCrud"); // Importa las rutas de autenticación desde el archivo auth.js
+const pqrs = require("./routes/routesPqrsCrud");
+const sancion = require("./routes/routesSancionCrud");
+const vehicle = require("./routes/routesVehiculosCrud");
 
-const app = express() // Creación de una aplicación Express
+const app = express(); // Creación de una aplicación Express
 
-app.use(cors()) // Habilita CORS para permitir solicitudes desde otros dominios
+app.use(cors()); // Habilita CORS para permitir solicitudes desde otros dominios
 
 // Middleware para servir archivos estáticos desde la carpeta 'public'
-app.use(express.static(path.join(__dirname, 'public'), {
+app.use(
+  express.static(path.join(__dirname, "public"), {
     // Configurar los tipos MIME para los archivos estáticos
     setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        }
-    }
-}));
+      if (filePath.endsWith(".css")) {
+        res.setHeader("Content-Type", "text/css");
+      }
+    },
+  })
+);
 
-app.use(express.static(path.join(__dirname, 'public'), {
+app.use(
+  express.static(path.join(__dirname, "public"), {
     setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.js')) {
-            res.setHeader('Content-Type', 'text/javascript');
-        }
-    }
-}));
+      if (filePath.endsWith(".js")) {
+        res.setHeader("Content-Type", "text/javascript");
+      }
+    },
+  })
+);
 
+app.set("views", path.join(__dirname, "views")); // Configurar la carpeta 'views' para las vistas EJS
 
-app.set('views', path.join(__dirname, 'views')); // Configurar la carpeta 'views' para las vistas EJS
-
-app.set('view engine', 'ejs'); // Configuración del motor de plantillas EJS
+app.set("view engine", "ejs"); // Configuración del motor de plantillas EJS
 
 const port = 3000; // Puerto en el que el servidor escuchará las solicitudes
 
 app.use(express.json()); // Configuración para manejar solicitudes JSON
 
-app.use('/', rutasViews); // Uso de las rutas desde rutasViews.js
+app.use("/", rutasViews); // Uso de las rutas desde rutasViews.js
 
-app.use('/api', residen); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
+app.use("/api", auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
 
-app.use('/api', pqrs);
+app.use("/api", residen);
 
-app.use('/api', sancion);
+app.use("/api", pqrs);
 
+app.use("/api", sancion);
 
+app.use("/api", vehicle);
 
 const db = conectarDB; // Conexión a Mysql
 
-db.on('error', console.error.bind(console, 'Error de conexión a Mysql:')); // Manejo de eventos de conexión y error
-db.once('open', () => {
-    console.log('Conectado a Mysql');
+db.on("error", console.error.bind(console, "Error de conexión a Mysql:")); // Manejo de eventos de conexión y error
+db.once("open", () => {
+  console.log("Conectado a Mysql");
 });
 
- //Inicia el servidor y escucha en el puerto especificado
+//Inicia el servidor y escucha en el puerto especificado
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
 /*
 // Inicia el servidor y escucha en el puerto especificado
@@ -69,7 +76,6 @@ const server = app.listen(port, '127.0.0.1', () => {
       
 });
 */
-
 
 /*
 El código que se proporciona es un servidor web básico utilizando Node.js y

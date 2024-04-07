@@ -47,9 +47,10 @@ let formResidente = () => {
       '<input type="password" id="password" name="password" class="input" placeholder="Contraseña"><br>' +
       '<label class="label"><b>ID Residencia</b></label><br>' +
       '<input type="text" id="IDResidencia" name="ID Residencia" class="input" placeholder="ID Residencia" autocomplete="off"><br>' +
-      "</div>" +
+      " <br>" +
       '<input type="submit" id="guardar" name="guardar" class="btn" onclick="RegistResiden(event)" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
+      "</div>" +
       "</form></center><br><br>",
     width: "100%",
     background: "rgba(0,0,0,0.0)",
@@ -95,17 +96,18 @@ const RegistResiden = async (event) => {
       passwordr,
       unidad_residencial,
     });
-    Swal.fire({
-      icon: "success",
-      text: "Guardado con exito",
-    });
     if (response.status === 201) {
       console.log("Registro de PQRS exitoso");
+      const mensaje = response.data;
+      Swal.fire({
+        icon: "success",
+        text: mensaje,
+      });
     }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error
-      console.log("mensaje: ", mensaje)
+      const mensaje = error.response.data.error;
+      console.log("mensaje: ", mensaje);
       Swal.fire({
         icon: "error",
         text: mensaje,
@@ -115,7 +117,6 @@ const RegistResiden = async (event) => {
     }
   }
 };
-
 
 /*
 This file containes the resident registration form and the function to send the data to the server.

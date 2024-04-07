@@ -1,4 +1,4 @@
-//FORMULARIO LISTAR PQRS
+// FORM LIST PQRS
 const formPqrsAdmin = () => {
   Swal.fire({
     html:
@@ -8,7 +8,8 @@ const formPqrsAdmin = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">GESTIONAR PQRS</b></h2><br>' +
-      '<button type="button" id="listarBtn" name="listarBtn" onClick="listarPQRS(event)" class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="listarBtn" name="listarBtn" onClick="listarPQRS(event)"'+
+      'class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -19,43 +20,11 @@ const formPqrsAdmin = () => {
     showConfirmButton: false,
   });
 };
-function cerrarSwal() {
-  Swal.close();
-}
-
-//CAPTURA LA HORA Y FECHA DEL MOMENTO
-function vfecha() {
-  let fecha = new Date();
-  let mes = fecha.getMonth() + 1;
-  let dia = fecha.getDate();
-  let anio = fecha.getFullYear();
-  let horas = fecha.getHours();
-  let minutos = fecha.getMinutes();
-  let segundos = fecha.getSeconds();
-
-  if (dia < 10) {
-    dia = "0" + dia;
-  }
-  if (mes < 10) {
-    mes = "0" + mes;
-  }
-  if (horas < 10) {
-    horas = "0" + horas;
-  }
-  if (minutos < 10) {
-    minutos = "0" + minutos;
-  }
-  if (segundos < 10) {
-    segundos = "0" + segundos;
-  }
-  let fec =
-    anio + "-" + mes + "-" + dia + "T" + horas + ":" + minutos + ":" + segundos;
-  return fec;
-}
 
 // FUNCTION LIST PQRS
 const listarPQRS = async (event) => {
   event.preventDefault();
+  
   document.getElementById("info").innerHTML = "Listando PQRS.....";
   try {
     const response = await axios.get("/api/listarPQRS");
@@ -68,7 +37,7 @@ const listarPQRS = async (event) => {
   }
 };
 
-//Renderiza JSON
+// RENDER JSON
 function listData(response) {
   cerrarSwal();
   const data = response.data;
@@ -116,7 +85,7 @@ function listData(response) {
   }
 }
 
-//FORM UPDATE PQRS
+// FORM UPDATE PQRS
 let modiData = (cod) => {
   console.log(cod);
   Swal.fire({
@@ -136,14 +105,14 @@ let modiData = (cod) => {
       '<label class="label"><b>Asunto</b></label><br>' +
       '<input type="text" id="asunto" name="asunto" class="input" readOnly><br><br><br>' +
       '<label class="label"><b>Descripcion</b></label><br>' +
-      '<textarea id="descripcion" name="descripcion" class="input inputext" readonly'+
+      '<textarea id="descripcion" name="descripcion" class="input inputext" readonly' +
       'rows="4" placeholder="Descripción"></textarea><br>' +
       '<label class="label"><b>Respuesta</b></label><br>' +
       '<textarea id="respuesta" name="respuesta" class="input inputext"  rows="4" ' +
       'placeholder="Respuesta"></textarea><br>' +
       '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo"' +
       'onClick="formConfirDelet()" value="Eliminar"><br><br>' +
-      '<input type="button" id="actualizar" name="actualizar" class="btn" '+
+      '<input type="button" id="actualizar" name="actualizar" class="btn" ' +
       'onclick="UpdatePqrs(event)" value="Guardar"><br><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
@@ -151,7 +120,7 @@ let modiData = (cod) => {
     width: "100%",
     background: "rgba(0,0,0,0.0)",
     backdrop: true,
-    allowOutsideClick: false, // solo puede cerrar con el boton
+    allowOutsideClick: false,
     showConfirmButton: false,
   });
 
@@ -169,7 +138,7 @@ let modiData = (cod) => {
   }
 };
 
-//FUNCION BARRA-BUSCAR
+// FUNCTION SEARCH-BAR
 function doSearch() {
   if (document.getElementById("tablaPQRS")) {
     const tableReg = document.getElementById("tablaPQRS");
@@ -205,7 +174,7 @@ function doSearch() {
   }
 }
 
-//UPDATE PQRS
+// FUNCTION UPDATE PQRS
 const UpdatePqrs = async (event) => {
   event.preventDefault();
 
@@ -213,31 +182,33 @@ const UpdatePqrs = async (event) => {
   const codigo = document.getElementById("codigo").value;
   const respuesta = document.getElementById("respuesta").value;
   if (estado == "" || respuesta == "") {
-    document.getElementById("info").innerHTML =
-      "Campos estado y respuesta es obligatorio";
-    setTimeout("document.getElementById('info').innerHTML = ''", 4000);
+    Swal.fire({
+      icon: "error",
+      text: "Todos los campos son obligatorios",
+    });
     return;
   }
   document.getElementById("actualizar").disabled = true;
   document.getElementById("info").innerHTML = "Enviando.....";
-  // setTimeout("document.getElementById('info').innerHTML  = ''",);
   try {
-    // Enviar los datos del formulario al servidor usando Axios
     const response = await axios.put(`/api/updatePQRS/${codigo}`, {
       estado,
       respuesta,
     });
-    document.getElementById("info").innerHTML = "Guardado correctamente";
-    setTimeout("cerrarSwal()", 3000);
     if (response.status === 201) {
       console.log("Registro de PQRS exitoso");
+      const mensaje = response.data.mensaje;
+      Swal.fire({
+        icon: "success",
+        text: mensaje,
+      });
     }
   } catch (error) {
     console.error("Error en la solicitud:", error);
   }
 };
 
-//FORM DELETE CONFIRM
+// FORM DELETE CONFIRM
 const formConfirDelet = () => {
   let cod = document.getElementById("codigo").value;
   Swal.fire({
@@ -249,8 +220,7 @@ const formConfirDelet = () => {
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar PQRS?</b></h2><br>' +
       '<input type="button" id="codi" name="codi" class="btn btninfo" readonly><br><br>' +
-      //'<input type="button" id="codi" name="codi" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
-      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="eliminarPQRS(event)" class="btn btnMedio">Eliminar ' +
+      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="deletePQRS(event)" class="btn btnMedio">Eliminar ' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -261,24 +231,44 @@ const formConfirDelet = () => {
     showConfirmButton: false,
   });
   document.getElementById("codi").value = cod;
-  console.log(cod);
 };
 
-//FUNCTION DELETE
-const eliminarPQRS = async (event) => {
+// FUNCTION DELETE PQRS BY ID
+const deletePQRS = async (event) => {
   event.preventDefault();
-  //console.log(event.target)
-  const codigo = document.getElementById("codi").value;
-  console.log("LINEA 208 codigo: ", codigo);
-  //document.getElementById("info").innerHTML = "Eliminando.....";
+
+  const id_pqrs = document.getElementById("codi").value;
+  
+  document.getElementById("info").innerHTML = "Eliminando";
+  //document.getElementById("guardarPqrs").disabled = true;
   try {
-    const response = await axios.delete(`/api/deletePQRS/${codigo}`);
-    document.getElementById("info").innerHTML = "Eliminando";
-    setTimeout("cerrarSwal()", 2000);
-    if (response.status === 200) {
-      console.log("Eliminación de PQRS exitosa");
+    const response = await axios.delete(`/api/deletePQRS/${id_pqrs}`);
+    if (response.status === 201) {
+      console.log("PQRS eliminada con exitosa");
+      const mensaje = response.data.mensaje;
+      Swal.fire({
+        icon: "success",
+        text: mensaje,
+      });
     }
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const mensaje = error.response.data.error;
+      Swal.fire({
+        icon: "error",
+        text: mensaje,
+      });
+      console.error("Error catch, Error en la solicitud:", error);
+    }
   }
 };
+
+/*
+formPqrsAdmin() + listarPQRS -> LIST PQRS OBJECTS
+listData() -> RENDERS THE OBJECTS LISTED IN AN HTML TABLE
+modiData() -> FORM TO ANSWER PQRS
+doSearch() -> FUNCTION TO SEARCH IN THE TABLE
+UpdatePqrs -> FUNCTION TO SEND A RESPONSE TO THE SERVER
+formConfirDelet -> CONFIRMATION FORM TO DELETE PQRS
+deletePQRS -> FUNCTION TO DELETE PQRS
+*/

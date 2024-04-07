@@ -5,11 +5,13 @@ const path = require('path');
 
 
 // HOME APP
+
 router.get('/', (req, res) => {
     res.render('index');
 });
 
 // PROFILES
+
 router.get('/admin', (req, res) => {
     const viewPath = path.join(__dirname,  '../views/profile/admin.ejs');
     res.render(viewPath);
@@ -21,7 +23,8 @@ router.get('/residen', (req, res) => {
 });
 
 // MANAGE PQRS
-router.post('/formPQRS', (req, res) => {
+
+router.post('/createPQRS', (req, res) => {
 });
 
 router.get('/listarPQRS', (req, res) => {
@@ -35,6 +38,7 @@ router.delete('/deletePQRS/:id', (req, res) => {
 
 
 // MANEGE USERS
+
 router.post('/register', (req, res) => {
 });
 
@@ -51,6 +55,7 @@ router.delete('/deleteUser/:id', (req, res) => {
 });
 
 // MANEGE SANCTION
+
 router.post('/newSanction', (req, res) => {
 });
 
@@ -61,6 +66,20 @@ router.put('/updateSanction/:id', (req, res) => {
 });
 
 router.delete('/deleteSanction/:id', (req, res) => {
+});
+
+// MANEGE VEHICLE
+
+router.post('/newVehicle', (req, res) => {
+});
+
+router.get('/listVehicle', (req, res) => {
+});
+
+router.put('/updateVehicle/:id', (req, res) => {
+});
+
+router.delete('/deleteVehicle/:id', (req, res) => {
 });
 
 

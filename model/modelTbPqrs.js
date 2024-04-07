@@ -6,7 +6,7 @@ const createPQRS = (newPQRS, callback) => {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('INSERT INTO pqrs SET ?', newPQRS, (error, results) => {
+  connection.query('INSERT INTO tb_pqrs SET ?', newPQRS, (error, results) => {
     if (error) {
       callback(error, null);
     } else {
@@ -36,7 +36,7 @@ const getPQRSById = (pqrsId, callback) => {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('SELECT * FROM pqrs WHERE PQRSID = ?', [pqrsId], (error, results) => {
+  connection.query('SELECT * FROM tb_pqrs WHERE PQRSID = ?', [pqrsId], (error, results) => {
     if (error) {
       callback(error, null);
     } else {
@@ -51,7 +51,7 @@ const updatePQRS = (pqrsId, updatedPQRS, callback) => {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('UPDATE pqrs SET ? WHERE PQRSID = ?', [updatedPQRS, pqrsId], (error, results) => {
+  connection.query('UPDATE tb_pqrs SET ? WHERE PQRSID = ?', [updatedPQRS, pqrsId], (error, results) => {
     if (error) {
       callback(error, null);
     } else {
@@ -66,7 +66,7 @@ const deletePQRS = (pqrsId, callback) => {
     console.error('Error: La función de devolución de llamada no está definida.');
     return;
   }
-  connection.query('DELETE FROM pqrs WHERE PQRSID = ?', [pqrsId], (error, results) => {
+  connection.query('DELETE FROM tb_pqrs WHERE PQRSID = ?', [pqrsId], (error, results) => {
     if (error) {
       callback(error, null);
     } else {
