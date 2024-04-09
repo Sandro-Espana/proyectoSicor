@@ -63,5 +63,18 @@ router.put('/updateSanction/:id', (req, res) => {
 router.delete('/deleteSanction/:id', (req, res) => {
 });
 
+// MANEGE VEHICLE
+router.post('/newVehicle', (req, res) => {
+});
+
+router.get('/listVehicle', (req, res) => {
+});
+
+router.put('/updateVehicle/:id', (req, res) => {
+});
+
+router.delete('/deleteVehicle/:id', (req, res) => {
+});
+
 
 module.exports = router;

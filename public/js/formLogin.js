@@ -45,6 +45,10 @@ const loginSession = async (event) => {
       username,
       password,
     });
+    const userId = response.data.idUser;
+    const idApt = response.data.idApt;
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("idApt", idApt);
     if (response.status === 200) {
       const profile = response.data.profile; // Redirige a la página correspondiente según su perfil
       console.log("perfil de user: ", profile);

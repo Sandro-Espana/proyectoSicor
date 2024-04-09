@@ -95,17 +95,18 @@ const RegistResiden = async (event) => {
       passwordr,
       unidad_residencial,
     });
-    Swal.fire({
-      icon: "success",
-      text: "Guardado con exito",
-    });
     if (response.status === 201) {
       console.log("Registro de PQRS exitoso");
+      const mensaje = error.response.data.error;
+      Swal.fire({
+        icon: "success",
+        text: mensaje,
+      });
     }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error
-      console.log("mensaje: ", mensaje)
+      const mensaje = error.response.data.error;
+      console.log("mensaje: ", mensaje);
       Swal.fire({
         icon: "error",
         text: mensaje,
@@ -115,7 +116,6 @@ const RegistResiden = async (event) => {
     }
   }
 };
-
 
 /*
 This file containes the resident registration form and the function to send the data to the server.

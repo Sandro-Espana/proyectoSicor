@@ -4,9 +4,11 @@ const path = require('path');
 const conectarDB = require('./DB/dbMysql'); // Importar la función de conexión a la base de datos
 const cors = require('cors');
 const rutasViews = require('./routes/routesViews');
+const auth = require('./routes/routesAuth')
 const residen = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
 const pqrs = require('./routes/routesPqrsCrud');
 const sancion = require('./routes/routesSancionCrud');
+const vehicle = require('./routes/routesVehiculoCrud');
 
 const app = express() // Creación de una aplicación Express
 
@@ -41,11 +43,15 @@ app.use(express.json()); // Configuración para manejar solicitudes JSON
 
 app.use('/', rutasViews); // Uso de las rutas desde rutasViews.js
 
-app.use('/api', residen); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
+app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
+
+app.use('/api', residen);
 
 app.use('/api', pqrs);
 
 app.use('/api', sancion);
+
+app.use('/api', vehicle);
 
 
 
@@ -61,14 +67,6 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 /*
-// Inicia el servidor y escucha en el puerto especificado
-const server = app.listen(port, '127.0.0.1', () => {
-    const host = server.address().address;
-    const port = server.address().port;
-    console.log(`Server is running at http://${host}:${port}`);
-      
-});
-*/
 
 
 /*
