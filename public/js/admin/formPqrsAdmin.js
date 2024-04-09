@@ -28,7 +28,6 @@ const listarPQRS = async (event) => {
   document.getElementById("info").innerHTML = "Listando PQRS.....";
   try {
     const response = await axios.get("/api/listarPQRS");
-    console.log(response)
     listData(response);
     if (response.status === 200) {
       console.log("Listado de PQRS exitoso");
@@ -219,8 +218,8 @@ const formConfirDelet = () => {
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar PQRS?</b></h2><br>' +
       '<input type="button" id="codi" name="codi" class="btn btninfo" readonly><br><br>' +
-      //'<input type="button" id="codi" name="codi" class="btn btninfo" onclick="formConfirDelet()" value="Eliminar"><br><br>' +
-      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="eliminarPQRS(event)" class="btn btnMedio">Eliminar ' +
+      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="eliminarPQRS(event)"'+
+      'class="btn btnMedio">Eliminar ' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",

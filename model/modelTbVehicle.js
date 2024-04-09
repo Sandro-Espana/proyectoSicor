@@ -1,5 +1,6 @@
 const connection = require("../DB/dbMysql"); // Importa el módulo MySQL
 
+// VALID PLACA
 const validatePlate = (placa, callback) => {
   connection.query(
     "SELECT * FROM tb_vehiculo WHERE placa = ?",
@@ -60,9 +61,32 @@ const vehiclesByIdApt = (IDApt, callback) => {
   );
 };
 
+// FUNCTION TO DELETE A VEHICLE BY ID
+const deleteVehicleById = (vehicleId, callback) => {
+  if (typeof callback !== "function") {
+    console.error(
+      "Error: La función de devolución de llamada no está definida."
+    );
+    return;
+  }
+
+  connection.query(
+    "DELETE FROM tb_vehiculo WHERE id_vehiculo = ?",
+    [vehicleId],
+    (error, result) => {
+      if (error) {
+        console.error(error);
+        callback(error, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
 
 module.exports = {
   validatePlate,
   createVehicle,
   vehiclesByIdApt,
+  deleteVehicleById
 };

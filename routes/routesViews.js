@@ -73,7 +73,7 @@ router.get('/listVehicle', (req, res) => {
 router.get('/listVehicle/:userId', (req, res) => {
 });
 
-router.put('/updateVehicle/:id', (req, res) => {
+router.put('/updateVehicle/:vehicleId', (req, res) => {
 });
 
 router.delete('/deleteVehicle/:id', (req, res) => {

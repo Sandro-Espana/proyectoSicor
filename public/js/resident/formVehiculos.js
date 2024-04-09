@@ -89,7 +89,7 @@ const storeVehicle = async () => {
       idApt,
     });
     if (response.status === 201) {
-      console.log("Registro de PQRS exitoso");
+      console.log("Registro de vehiculo exitoso");
       const mensaje = response.data.mensaje;
       Swal.fire({
         icon: "success",
@@ -121,7 +121,7 @@ const listVehicle = async (event) => {
     console.log(response);
     renderVehicle(response);
     if (response.status === 201) {
-      console.log("Registro de PQRS exitoso");
+      console.log("Listado de vehiculo exitoso");
       const mensaje = response.data.mensaje;
       Swal.fire({
         icon: "success",
@@ -173,8 +173,8 @@ function renderVehicle(response) {
       <td><button
       type='button'
       class=''
-      onclick='modiData(${item.PQRSID})'
-      >modificar
+      onclick='formDeletVehi(${item.id_vehiculo})'
+      >Eliminar
       </button>
       </td>
       </tr>`;
@@ -184,9 +184,105 @@ function renderVehicle(response) {
     // Renderizar la tabla en el contenedor deseado
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
-     } else {
+  } else {
     //  Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
 }
+
+//FUNCION BARRA-BUSCAR
+function doSearch() {
+  if (document.getElementById("tablaVehicle")) {
+    const tableReg = document.getElementById("tablaVehicle");
+    const searchText = document
+      .getElementById("searchInput")
+      .value.toLowerCase();
+    let total = 0;
+
+    // Recorremos todas las filas con contenido de la tabla
+    for (let i = 1; i < tableReg.rows.length; i++) {
+      let found = false;
+      const cellsOfRow = tableReg.rows[i].getElementsByTagName("td");
+      // Recorremos todas las celdas
+      for (let j = 0; j < cellsOfRow.length && !found; j++) {
+        const compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+        // Buscamos el texto en el contenido de la celda
+        if (searchText.length == 0 || compareWith.indexOf(searchText) > -1) {
+          found = true;
+          total++;
+        }
+      }
+      if (found) {
+        tableReg.rows[i].style.display = "";
+      } else {
+        // si no ha encontrado ninguna coincidencia, esconde la fila de la tabla
+        tableReg.rows[i].style.display = "none";
+      }
+    }
+    // mostramos las coincidencias
+  } else {
+    document.getElementById("container-table").innerHTML =
+      "No hay vehiculos para buscar";
+  }
+}
+
+
+//FORM DELETE CONFIRM
+const formDeletVehi = (dele) => {
+  //let dele = dele
+  console.log("dele",dele)
+  Swal.fire({
+    html:
+      '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
+      '<div class="formulario-container">' +
+      '<div class="cerrarX-container">' +
+      '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
+      "</div>" +
+      '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar vehiculo?</b></h2><br>' +
+      '<input type="button" id="deleVehi" name="codi" class="btn btninfo" readonly><br><br>' +
+      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="deletVehicle(event, '+dele+')"'+
+      'class="btn btnMedio">Eliminar ' +
+      '<h3 id="info" class="titazul"></h3>' +
+      "</div>" +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+  document.getElementById("deleVehi").value = dele;
+  console.log("f",dele);
+};
+
+//FUNCTION DELETE
+const deletVehicle = async (event, codigo) => {
+  event.preventDefault();
+
+  //const codigo = document.getElementById("deleVehi").value;
+  //console.log("LINEA 264 deletVehicle: ", codigo);
+  document.getElementById("info").innerHTML = "Eliminando...";
+  try {
+    const response = await axios.delete(`/api/deleteVehicle/${codigo}`);
+    if (response.status === 201) {
+      console.log("Vehiculo eliminado");
+      const mensaje = response.data.mensaje;
+      Swal.fire({
+        icon: "success",
+        text: mensaje,
+      });
+    }
+  } catch (error) {
+    if (error.response) {
+      const mensaje = error.response.data.error;
+      console.log("mensaje: ", mensaje);
+      Swal.fire({
+        icon: "error",
+        text: mensaje,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
+  }
+};

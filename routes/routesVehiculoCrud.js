@@ -35,11 +35,9 @@ router.post("/newVehicle", async (req, res) => {
         crudVehicle.createVehicle(newVehicle, (error, insertId) => {
           if (error) {
             console.error("Error al crear el vehículo:", error);
-            return res
-              .status(500)
-              .json({
-                error: "Error al crear el vehículo en la base de datos.",
-              });
+            return res.status(500).json({
+              error: "Error al crear el vehículo en la base de datos.",
+            });
           }
           console.log("Vehículo registrado con éxito");
           res
@@ -61,8 +59,8 @@ router.post("/newVehicle", async (req, res) => {
 router.get("/listVehicle/:userId", async (req, res) => {
   try {
     const Id_Apt = req.params.userId;
-    console.log("Id_Apt ",Id_Apt);
-    crudVehicle.vehiclesByIdApt( Id_Apt, (error, vehicle) => {
+    console.log("Id_Apt ", Id_Apt);
+    crudVehicle.vehiclesByIdApt(Id_Apt, (error, vehicle) => {
       if (error) {
         console.error("Error en la solicitud: ", error);
         res.status(500).json({ error: error.message });
@@ -73,6 +71,26 @@ router.get("/listVehicle/:userId", async (req, res) => {
     });
   } catch (error) {
     console.log("Error en la solicitud:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ROUTE TO DELETE A VEHICLE
+router.delete("/deleteVehicle/:vehicleId", async (req, res) => {
+  try {
+    const vehicleId = req.params.vehicleId;
+    console.log("Vehicle ID to delete: ", vehicleId);
+    crudVehicle.deleteVehicleById(vehicleId, (error, deletVehi) => {
+      if (error) {
+        console.error("Error deleting vehicle: ", error);
+        res.status(500).json({ error: error.message });
+      } else {
+        console.log("Vehicle deleted successfully ", deletVehi);
+        res.status(201).json({ message: "Vehicle deleted successfully" });
+      }
+    });
+  } catch (error) {
+    console.log("Error in request:", error);
     res.status(500).json({ error: error.message });
   }
 });
