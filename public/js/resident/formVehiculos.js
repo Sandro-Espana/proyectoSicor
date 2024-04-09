@@ -267,7 +267,7 @@ const deletVehicle = async (event, codigo) => {
     const response = await axios.delete(`/api/deleteVehicle/${codigo}`);
     if (response.status === 201) {
       console.log("Vehiculo eliminado");
-      const mensaje = response.data.mensaje;
+      const mensaje = response.data.message;
       Swal.fire({
         icon: "success",
         text: mensaje,

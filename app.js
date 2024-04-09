@@ -9,6 +9,7 @@ const residen = require('./routes/routesResident'); // Importa las rutas de aute
 const pqrs = require('./routes/routesPqrsCrud');
 const sancion = require('./routes/routesSancionCrud');
 const vehicle = require('./routes/routesVehiculoCrud');
+const pet = require('./routes/routesMascotaCrud');
 
 const app = express() // Creación de una aplicación Express
 
@@ -52,6 +53,8 @@ app.use('/api', pqrs);
 app.use('/api', sancion);
 
 app.use('/api', vehicle);
+
+app.use('/api', pet);
 
 
 

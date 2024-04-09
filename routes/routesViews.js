@@ -80,4 +80,17 @@ router.delete('/deleteVehicle/:id', (req, res) => {
 });
 
 
+// MANEGE PET
+router.post('/newPet', (req, res) => {
+});
+
+router.get('/listPet', (req, res) => {
+});
+
+router.put('/updatePet/:idApt', (req, res) => {
+});
+
+router.delete('/deletePet/:petId', (req, res) => {
+});
+
 module.exports = router;

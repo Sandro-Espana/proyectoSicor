@@ -55,7 +55,7 @@ router.post("/newVehicle", async (req, res) => {
   }
 });
 
-// ROUTES TO OBTAIN ALL VEHICLE
+// ROUTES TO OBTAIN ALL VEHICLE POR ID_APT
 router.get("/listVehicle/:userId", async (req, res) => {
   try {
     const Id_Apt = req.params.userId;
@@ -94,5 +94,8 @@ router.delete("/deleteVehicle/:vehicleId", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+
 
 module.exports = router;
