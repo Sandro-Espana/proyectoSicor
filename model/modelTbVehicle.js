@@ -39,7 +39,7 @@ const createVehicle = (newVehicle, callback) => {
 };
 
 // FUNCTION TO LIST VEHICLES BY UnidadResidencialID
-const listVehiclesByUnidadResidencialID = (unidadResidencialID, callback) => {
+const vehiclesByIdApt = (IDApt, callback) => {
   if (typeof callback !== "function") {
     console.error(
       "Error: La función de devolución de llamada no está definida."
@@ -47,8 +47,8 @@ const listVehiclesByUnidadResidencialID = (unidadResidencialID, callback) => {
     return;
   }
   connection.query(
-    "SELECT * FROM tb_vehiculo WHERE UnidadResidencialID = ?",
-    [unidadResidencialID],
+    "SELECT * FROM tb_vehiculo WHERE id_apartamento = ?",
+    [IDApt],
     (error, results) => {
       if (error) {
         console.error(error);
@@ -60,12 +60,9 @@ const listVehiclesByUnidadResidencialID = (unidadResidencialID, callback) => {
   );
 };
 
-module.exports = {
-  createVehicle,
-  listVehiclesByUnidadResidencialID,
-};
 
 module.exports = {
   validatePlate,
   createVehicle,
+  vehiclesByIdApt,
 };

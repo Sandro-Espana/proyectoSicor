@@ -58,15 +58,17 @@ router.post("/newVehicle", async (req, res) => {
 });
 
 // ROUTES TO OBTAIN ALL VEHICLE
-router.get("/listVehicle", async (req, res) => {
+router.get("/listVehicle/:userId", async (req, res) => {
   try {
-    crudVehicle.vehiclesByIdApt((error, pqrs) => {
+    const Id_Apt = req.params.userId;
+    console.log("Id_Apt ",Id_Apt);
+    crudVehicle.vehiclesByIdApt( Id_Apt, (error, vehicle) => {
       if (error) {
         console.error("Error en la solicitud: ", error);
         res.status(500).json({ error: error.message });
       } else {
-        res.json(pqrs);
-        console.log("listar pqrs ", pqrs);
+        res.json(vehicle);
+        console.log("Listado de vehiculos", vehicle);
       }
     });
   } catch (error) {

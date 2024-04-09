@@ -19,39 +19,8 @@ const formPqrsAdmin = () => {
     showConfirmButton: false,
   });
 };
-function cerrarSwal() {
-  Swal.close();
-}
 
-//CAPTURA LA HORA Y FECHA DEL MOMENTO
-function vfecha() {
-  let fecha = new Date();
-  let mes = fecha.getMonth() + 1;
-  let dia = fecha.getDate();
-  let anio = fecha.getFullYear();
-  let horas = fecha.getHours();
-  let minutos = fecha.getMinutes();
-  let segundos = fecha.getSeconds();
 
-  if (dia < 10) {
-    dia = "0" + dia;
-  }
-  if (mes < 10) {
-    mes = "0" + mes;
-  }
-  if (horas < 10) {
-    horas = "0" + horas;
-  }
-  if (minutos < 10) {
-    minutos = "0" + minutos;
-  }
-  if (segundos < 10) {
-    segundos = "0" + segundos;
-  }
-  let fec =
-    anio + "-" + mes + "-" + dia + "T" + horas + ":" + minutos + ":" + segundos;
-  return fec;
-}
 
 // FUNCTION LIST PQRS
 const listarPQRS = async (event) => {
@@ -59,6 +28,7 @@ const listarPQRS = async (event) => {
   document.getElementById("info").innerHTML = "Listando PQRS.....";
   try {
     const response = await axios.get("/api/listarPQRS");
+    console.log(response)
     listData(response);
     if (response.status === 200) {
       console.log("Listado de PQRS exitoso");

@@ -18,3 +18,62 @@ main {
   margin-bottom: 10px; /* Añade un margen inferior entre los botones */
 }
 
+
+/* Estilos para la barra de búsqueda */
+.search-container {
+  margin-bottom: 20px;
+  /* display: none; */
+}
+
+.search-container input[type=text] {
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 17px;
+  border: 2px solid black;
+}
+
+.search-container input[type=text]:focus {
+  outline: 3px solid #f58642;
+}
+
+
+/* Estilos para la tabla */
+.divTable{
+  overflow-x:scroll;
+  width: 94%;
+  max-width: 1200px; 
+}
+
+
+table {
+  width: 400px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #ddd; /* Borde para la tabla */
+}
+
+/* Estilos para las celdas de encabezado */
+th {
+  background-color: #008080;
+  color: white; /* Color del texto del encabezado */
+  text-align: center; /* Centrar el texto del encabezado */
+  padding: 8px;
+  border: 1px solid #ddd; /* Borde para las celdas de encabezado */
+}
+
+/* Estilos para las celdas de datos */
+td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  border: 1px solid #ddd; /* Borde para las celdas de datos */
+}
+
+/* Estilos para las filas impares */
+tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Estilos para el contenedor de la tabla */
+#container-table {
+  margin-top: 20px;
+}

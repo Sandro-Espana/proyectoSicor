@@ -70,6 +70,9 @@ router.post('/newVehicle', (req, res) => {
 router.get('/listVehicle', (req, res) => {
 });
 
+router.get('/listVehicle/:userId', (req, res) => {
+});
+
 router.put('/updateVehicle/:id', (req, res) => {
 });
 
