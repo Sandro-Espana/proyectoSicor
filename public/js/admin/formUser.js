@@ -8,7 +8,12 @@ const formUser = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">Gestionar usuarios</b></h2><br>' +
-      '<button type="button" id="Btnlistar" name="Btnlistar" onClick="listUser(event)" class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="BtnlistReside" name="Btnlistar" onClick="listUser(event)"' +
+      'class="btn ">Residentes</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="BtnlistPropie" name="Btnlistar" onClick="listUser(event)"' +
+      'class="btn ">Propietarios</button>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>' +
+      '<button type="button" id="BtnlistColab" name="Btnlistar" onClick="listUser(event)"' +
+      'class="btn ">Colaboradores</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -47,8 +52,8 @@ function rendertUser(response) {
     // Construir la tabla HTML para mostrar los datos
     let tableHtml =
       "<table id='tablaPQRS'><thead><tr>" +
-      "<th>ID</th>" +
-      "<th>ID Apt</th>" +
+      "<th>Residente</th>" +
+      "<th>APT</th>" +
       "<th>Nombres</th>" +
       "<th>Apellidos</th>" +
       "<th>Email</th>" +
@@ -58,17 +63,22 @@ function rendertUser(response) {
       "</tr></thead><tbody>";
     data.forEach((item) => {
       tableHtml += `<tr>
-      <td>${item.residente_id}</td>
-      <td>${item.unidad_residencial}</td>
+      <td>${item.id_residente}</td>
+      <td>${item.id_apartamento}</td>
       <td>${item.nombre}</td>
       <td>${item.apellido}</td>
       <td>${item.username}</td>
       <td>${item.celular}</td>
-      <td>${item.prpietario_id}</td>
       <td><button
       type='button'
       class=''
-      onclick='modiUser(${item.residente_id})'>
+      onclick='modiUser(${item.id_propietario})'>
+      Gestionar
+      </button></td>
+      <td><button
+      type='button'
+      class=''
+      onclick='sanUser(${item.id_residente},  "${item.id_apartamento}")'>
       Gestionar
       </button></td>
       </tr>`;
@@ -86,8 +96,8 @@ function rendertUser(response) {
 }
 
 //FORM MANAGE USER
-let modiUser = (id) => {
-  console.log("modiUser ", id);
+let sanUser = (id, apt) => {
+  console.log("sanUser ", id, apt);
   Swal.fire({
     html:
       '<br><br><center><form id="modiUser" name="modiUser" class="formSwal" onsubmit="sendText(event)">' +
@@ -99,7 +109,9 @@ let modiUser = (id) => {
       '<input type="button" id="sancionar" name="sancionar" class="btn btninfo" ' +
       'onClick="formSanciones(' +
       id +
-      ')" value="Sancionar"><br><br>' +
+      ", '" +
+      apt +
+      '\')" value="Sancionar"><br><br>' +
       '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo"' +
       ' onClick="formDeleUser(' +
       id +
@@ -117,8 +129,8 @@ let modiUser = (id) => {
 };
 
 // FORM SANCTION
-let formSanciones = (id) => {
-  console.log("formSancione ", id);
+let formSanciones = (id, apt) => {
+  console.log("formSancione ", id, apt);
   Swal.fire({
     html:
       '<br><br><center><form id="regSancion" name="regSancion" class="formSwal" onsubmit="sendText(event)">' +
@@ -131,7 +143,10 @@ let formSanciones = (id) => {
       '<select id="estado" name="tipo" class="input inputMax" title="Tipo">' +
       "<option></option><option>Activa</option>" +
       "<option>Revocada</option><option>Apelación</option></select><br>" +
-      '<label class="label"><b>Residente ID</b></label><br>' +
+      '<label class="label"><b>Apartamento</b></label><br>' +
+      '<input type="text" id="IdApt" name="IdApt" class="input" readonly ' +
+      'autocomplete="off"><br>' +
+      '<label class="label"><b>Residente</b></label><br>' +
       '<input type="text" id="residenteID" name="residenteID" class="input" readonly ' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Fecha y hora</b></label><br>' +
@@ -153,8 +168,8 @@ let formSanciones = (id) => {
     showConfirmButton: false,
   });
   document.getElementById("fechaCreacion").value = vfecha();
-
   document.getElementById("residenteID").value = id;
+  document.getElementById("IdApt").value = apt;
 };
 
 function cerrarSwal() {
@@ -165,14 +180,13 @@ function cerrarSwal() {
 const saveSanction = async (event) => {
   event.preventDefault();
 
-  const residente_id = document.getElementById("residenteID").value;
+  const id_residente = document.getElementById("residenteID").value;
   const fecha_hora = document.getElementById("fechaCreacion").value;
   const descripcion = document.getElementById("descripcion").value;
   const estado = document.getElementById("estado").value;
   const foto_evidencia = document.getElementById("fotoEvidencia").value;
-  // const unidad_residencial = document.getElementById("estado").value;
   if (
-    residente_id == "" ||
+    id_residente == "" ||
     fecha_hora == "" ||
     descripcion == "" ||
     estado == "" ||
@@ -180,49 +194,45 @@ const saveSanction = async (event) => {
   ) {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorio";
-    setTimeout("document.getElementById('info').innerHTML  = ''", 4000);
+    setTimeout("document.getElementById('info').innerHTML  = ''", 3000);
     return;
   }
   //document.getElementById("actualizar").disabled = true;
   document.getElementById("info").innerHTML = "Enviando.....";
   try {
     const response = await axios.post("/api/newSanction", {
-      residente_id,
+      id_residente,
       fecha_hora,
       descripcion,
       estado,
       foto_evidencia,
     });
     if (response.status === 201) {
-      console.log("Sanción creada correctamente");
+      console.log("Mascota eliminada");
+      const mensaje = response.data.message;
       Swal.fire({
         icon: "success",
-        text: "Sanción creada correctamente",
-        onClose: () => {
-          // Cerrar el formulario después de mostrar el mensaje de éxito
-          cerrarSwal();
-        },
+        text: mensaje,
       });
     }
   } catch (error) {
-    console.error("Error al guardar la sanción:", error);
-    // Mostrar mensaje de error
-    Swal.fire({
-      icon: "error",
-      text: "Error al guardar la sanción",
-    });
+    if (error.response) {
+      const mensaje = error.response.data.error;
+      console.log("mensaje: ", mensaje);
+      Swal.fire({
+        icon: "error",
+        text: mensaje,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
   }
 };
-
-// Función para cerrar el formulario de SweetAlert
-function cerrarSwal() {
-  Swal.close();
-}
 
 //FORM DELETE CONFIRM
 const formDeleUser = (id) => {
   console.log("formDeleUser ", id);
- 
+
   // let cod = document.getElementById("codigo").value;
   Swal.fire({
     html:
@@ -230,12 +240,14 @@ const formDeleUser = (id) => {
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
-      '</div>' +
+      "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar usuario?</b></h2><br>' +
       '<input type="button" id="BtndeleUser" name="codi" class="btn btninfo" readonly><br><br>' +
       //'<button type="button" id="BtndeleUser" name="eliminarBtn" onClick="deletUser(event)" ' +
       //'class="btn btnMedio"></button>' +
-      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="deletUser('+id+')"' +
+      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="deletUser(' +
+      id +
+      ')"' +
       'value="Eliminarr"><br><br>' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
@@ -254,19 +266,30 @@ const formDeleUser = (id) => {
 // FUNCTION DELETE USER
 const deletUser = async (codi) => {
   //event.preventDefault();
-  let codigo = codi
-   //codigo = document.getElementById("BtndeleUser").value;
+  let codigo = codi;
+  //codigo = document.getElementById("BtndeleUser").value;
   console.log(" codigo deletUser : ", codigo);
   document.getElementById("info").innerHTML = "Eliminando.....";
   try {
     const response = await axios.delete(`/api/deleteUser/${codigo}`);
-    document.getElementById("info").innerHTML = "Eliminando";
-    console.log("response: ",response);
-    setTimeout("cerrarSwal()", 2000);
-    if (response.status === 200) {
-      console.log("Eliminación de PQRS exitosa");
+    if (response.status === 201) {
+      console.log("Mascota eliminada");
+      const message = response.data.message;
+      Swal.fire({
+        icon: "success",
+        text: message,
+      });
     }
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const mensaje = error.response.data.error.message;
+      console.log("mensaje: ", mensaje);
+      Swal.fire({
+        icon: "error",
+        text: mensaje,
+      });
+    } else {
+      console.error("Error en la solicitud:", error);
+    }
   }
 };

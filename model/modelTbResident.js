@@ -1,19 +1,24 @@
 const connection = require("../DB/dbMysql"); // Importa el módulo MySQL
 
-
 // CREATE USER
 const createUser = (newUsuario, callback) => {
-  if (typeof callback !== 'function') {
-    console.error('Error: La función de devolución de llamada no está definida.');
+  if (typeof callback !== "function") {
+    console.error(
+      "Error: La función de devolución de llamada no está definida."
+    );
     return;
   }
-  connection.query('INSERT INTO tb_residente SET ?', newUsuario, (error, results) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      callback(null, results.insertId);
+  connection.query(
+    "INSERT INTO tb_residente SET ?",
+    newUsuario,
+    (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results.insertId);
+      }
     }
-  });
+  );
 };
 
 // LIST USERS
@@ -33,7 +38,7 @@ const listUsers = (callback) => {
   });
 };
 
-//FIND USER BY NAME
+//FIND RESIDENT BY NAME
 const findUserByUsername = (username, callback) => {
   connection.query(
     "SELECT * FROM tb_residente WHERE username = ?",
@@ -62,10 +67,10 @@ const findUserByUsername = (username, callback) => {
   );
 };
 
-//FIND RESIDENT BY ID
-const searchResidentById = (userId, callback) => {
+//FIND RESIDENT BY ID APT
+const searchById = (userId, callback) => {
   connection.query(
-    "SELECT * FROM tb_residente WHERE unidad_residencial = ?",
+    "SELECT * FROM tb_residente WHERE id_apartamento = ?",
     [userId],
     (error, results) => {
       if (error) {
@@ -101,11 +106,25 @@ const searchUserByCedu = (cedula) => {
   });
 };
 
+const searchByIdUser = (userId, callback) => {
+  connection.query(
+    "SELECT * FROM tb_residente WHERE id_residente = ?",
+    [userId],
+    (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results[0]);
+      }
+    }
+  );
+};
+
 
 //DELETE USER BY ID
 const deleteUser = (userId, callback) => {
   connection.query(
-    "DELETE FROM tb_residente WHERE residente_id = ?",
+    "DELETE FROM tb_residente WHERE id_residente = ?",
     [userId],
     (error, results) => {
       if (error) {
@@ -121,7 +140,8 @@ module.exports = {
   createUser,
   findUserByUsername,
   deleteUser,
-  searchResidentById,
+  searchById,
   searchUserByCedu,
   listUsers,
+  searchByIdUser
 };

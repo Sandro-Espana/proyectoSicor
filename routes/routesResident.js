@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const Usuario = require("../model/modelTbResident");
-
+const resident = require("../model/modelTbResident");
 
 // REGISTER RESIDENT IN DB
 router.post("/register", async (req, res) => {
@@ -23,7 +22,7 @@ router.post("/register", async (req, res) => {
 
     // SEARCH USER BY NAME
     const existingUser = await new Promise((resolve, reject) => {
-      Usuario.findUserByUsername(req.body.usernamer, (error, user) => {
+      resident.findUserByUsername(req.body.usernamer, (error, user) => {
         if (error) {
           console.error("Error al buscar usuario:", error);
           reject(error);
@@ -54,14 +53,17 @@ router.post("/register", async (req, res) => {
 
     // VERIFY APARTMENT AVAILABILITY
     const existingUnit = await new Promise((resolve, reject) => {
-      Usuario.searchResidentById(req.body.unidad_residencial, (error, unit) => {
-        if (error) {
-          console.error("Error al buscar unidad residencial:", error);
-          reject(error);
-        } else {
-          resolve(unit);
+      resident.searchResidentById(
+        req.body.unidad_residencial,
+        (error, unit) => {
+          if (error) {
+            console.error("Error al buscar unidad residencial:", error);
+            reject(error);
+          } else {
+            resolve(unit);
+          }
         }
-      });
+      );
     });
 
     if (existingUnit) {
@@ -83,7 +85,7 @@ router.post("/register", async (req, res) => {
 
       //INSERT USER IN TABLE RESIDENT
       const userId = await new Promise((resolve, reject) => {
-        Usuario.createUser(newUsuario, (error, id) => {
+        resident.createUser(newUsuario, (error, id) => {
           if (error) {
             console.error("Error al registrar el usuario residente:", error);
             reject(error);
@@ -104,7 +106,7 @@ router.post("/register", async (req, res) => {
 // GET ALL USERS FROM DB
 router.get("/listUsers", async (req, res) => {
   try {
-    Usuario.listUsers((error, users) => {
+    resident.listUsers((error, users) => {
       if (error) {
         console.error("Error en la solicitud: ", error);
         res.status(500).json({ error: error.message });
@@ -122,35 +124,29 @@ router.get("/listUsers", async (req, res) => {
 // REMOVE USER FROM DB
 router.delete("/deleteUser/:id", async (req, res) => {
   const usuarioId = req.params.id;
-  // if (req.user && req.user.profile === "Administrador") {
+  console.log("delete", usuarioId);
+// if (req.user && req.user.profile === "Administrador")
   try {
-    const usuario = await Usuario.findUserById(usuarioId, (error, usuario) => {
+    resident.deleteUser(usuarioId, (error, affectedRows) => {
       if (error) {
-        console.error("Error al buscar el usuario: " + error.message);
-        return res.status(500).json("Error en el servidor: " + error.message);
+        console.error("Error al eliminar el usuario en el servidor:", error);
+        return res.status(500).json({ error: "Error en el servidor" });
       }
-      if (!usuario) {
+
+      if (affectedRows === 0) {
         return res.status(404).json({ error: "El usuario no existe" });
       }
-      Usuario.deleteUser(usuarioId, (error) => {
-        if (error) {
-          console.error("Error al eliminar el usuario en el servidor:", error);
-          return res.status(500).json({ error: "Error en el servidor" });
-        }
-        res.json({ mensaje: "Usuario eliminado exitosamente" });
-      });
+      res.status(201).json({ message: "Usuario eliminado exitosamente." });
+     // res.json({ message: "Usuario eliminado exitosamente" });
     });
   } catch (error) {
     console.error("Error en el servidor:", error);
     res.status(500).json({ error: "Error en el servidor" });
   }
-  //}
 });
-
 
 module.exports = router;
 
 //Funciones para:
 //REGISTRO
 //ELIMINAR
-

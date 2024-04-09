@@ -13,7 +13,7 @@ router.post("/newSanction", async (req, res) => {
       !req.body.descripcion ||
       !req.body.fecha_hora ||
       !req.body.foto_evidencia ||
-      !req.body.residente_id
+      !req.body.id_residente
     ) {
       return res
         .status(400)
@@ -21,16 +21,16 @@ router.post("/newSanction", async (req, res) => {
     }
 
     // Crear un objeto con los datos de la nueva sanción
-    const nuevaSancion = {
+    const newSanction = {
       estado: req.body.estado,
       descripcion: req.body.descripcion,
       fecha_hora: req.body.fecha_hora,
       foto_evidencia: req.body.foto_evidencia,
-      residente_id: req.body.residente_id,
+      id_residente: req.body.id_residente,
     };
-
+    console.log(newSanction);
     // Llamar a la función createSancion para insertar la nueva sanción en la base de datos
-    crud.createSancion(nuevaSancion, (error, insertId) => {
+    crud.createSancion(newSanction, (error, insertId) => {
       if (error) {
         console.error("Error al crear la sanción:", error);
         return res.status(500).json({ error: "Error al crear la sanción en la db." });
@@ -38,7 +38,7 @@ router.post("/newSanction", async (req, res) => {
       console.log("Sanción creada con éxito");
       res
         .status(201)
-        .json({ mensaje: "Sanción creada correctamente.", insertId });
+        .json({ message: "Sanción creada correctamente.", insertId });
     });
   } catch (error) {
     console.error("Error al registrar la sanción:", error);

@@ -17,7 +17,7 @@ router.post("/newPet", async (req, res) => {
       tipo: req.body.tipoMascota,
       foto: req.body.foto,
     };
-
+    console.log(newPet);
     // Llamar a la función createPet para insertar la nueva mascota en la base de datos
     crudPet.createPet(newPet, (error, insertId) => {
       if (error) {
