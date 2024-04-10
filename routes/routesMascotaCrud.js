@@ -58,23 +58,23 @@ router.get("/listPets/:idApt", async (req, res) => {
   }
 });
 
-
 router.delete("/deletePet/:petId", async (req, res) => {
-    try {
-      const petId = req.params.petId;
-      console.log("Pet ID to delete: ", petId);
-      crudPet.deletePetById(petId, (error, deletedPet) => {
-        if (error) {
-          console.error("Error deleting pet: ", error);
-          res.status(500).json({ error: error.message });
-        } else {
-          console.log("Pet deleted successfully ", deletedPet);
-          res.status(201).json({ message: "Pet deleted successfully" });
-        }
-      });
-    } catch (error) {
-      console.log("Error in request:", error);
-      res.status(500).json({ error: error.message });
-    }
-  });
+  try {
+    const petId = req.params.petId;
+    console.log("Pet ID to delete: ", petId);
+    crudPet.deletePetById(petId, (error, deletedPet) => {
+      if (error) {
+        console.error("Error deleting pet: ", error);
+        res.status(500).json({ error: error.message });
+      } else {
+        console.log("Pet deleted successfully ", deletedPet);
+        res.status(201).json({ message: "Pet deleted successfully" });
+      }
+    });
+  } catch (error) {
+    console.log("Error in request:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

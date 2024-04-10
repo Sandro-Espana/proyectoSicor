@@ -28,7 +28,6 @@ let formProveedor = () => {
   Swal.fire({
     html:
       '<br><br><center><form id="regprov" name="regprov" class="formSwal"' +
-      //'onsubmit="enviarProveedor(event)">' +
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
@@ -66,12 +65,10 @@ let formProveedor = () => {
   });
 };
 
-
-// Función para enviar los datos del formulario del proveedor
+// FUNCTION FOR SENDING SUPPLIER FORM DATA
 const sendSupplier = async (event) => {
   event.preventDefault();
-  
-  // Obtener los valores del formulario
+
   const tipo_servicio = document.getElementById("tipoServicio").value;
   const razon_social = document.getElementById("nombreProveedor").value;
   const descripcion = document.getElementById("descripcionServicio").value;
@@ -98,11 +95,9 @@ const sendSupplier = async (event) => {
       descripcion,
       nombre_contacto,
       celular,
-      email
+      email,
     });
-    console.log(response);
     if (response.status === 201) {
-      console.log("Mascota eliminada");
       const message = response.data.message;
       Swal.fire({
         icon: "success",
@@ -123,7 +118,6 @@ const sendSupplier = async (event) => {
   }
 };
 
-
 // FUNCTION LIST SUPPLIERS
 const listSuppliers = async (event) => {
   event.preventDefault();
@@ -132,22 +126,20 @@ const listSuppliers = async (event) => {
     const response = await axios.get("/api/listSupplier");
     renderProvid(response);
     if (response.status === 201) {
-      console.log("Listado de proveedores exitoso");
     }
   } catch (error) {
     console.error("Error en la solicitud:", error);
   }
 };
 
-
-//RENDER JSON
+// RENDER JSON
 function renderProvid(response) {
   cerrarSwal();
   const data = response.data;
   if (data && data.length > 0) {
-    // Construir la tabla HTML para mostrar los datos
+    // BUIL THE HTML TABLE TO DISPLAY THE DATA
     let tableHtml =
-      "<table id='tablaPQRS'>"+
+      "<table id='tablaPQRS'>" +
       "<thead><tr>" +
       "<th>Razon social</th>" +
       "<th>Tipo servicio</th>" +
@@ -156,10 +148,10 @@ function renderProvid(response) {
       "<th>Email</th>" +
       "<th>Celular</th>" +
       "<th>Gestion</th>" +
-      "</tr></thead>"+
+      "</tr></thead>" +
       "<tbody>";
     data.forEach((item) => {
-      const descripcion = item.descripcion.replace(/\r?\n/g, '');
+      const descripcion = item.descripcion.replace(/\r?\n/g, "");
       tableHtml += `<tr>
       <td>${item.razon_social}</td>
       <td>${item.tipo_servicio}</td>
@@ -181,12 +173,11 @@ function renderProvid(response) {
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
   } else {
-    // Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
 }
-// form update or delete
+// FORM UPDATE OR DELETE
 const updatSupli = (id, ts, rz, nc, cell, email, des) => {
   const idp = id;
   const tsp = ts;
@@ -203,11 +194,27 @@ const updatSupli = (id, ts, rz, nc, cell, email, des) => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">Gestionar proveedor</b></h2><br>' +
-      '<button type="button" id="btnformProvi" name="btnformProvi" onClick="formUpdatSup'+
-      '(' + idp + ', \'' + tsp + '\', \'' + rzp + '\', \'' + ncp + '\', \'' + cellp + '\', '+
-      '\'' + emailp + '\', \'' + desp + '\')" ' +
+      '<button type="button" id="btnformProvi" name="btnformProvi" onClick="formUpdatSup' +
+      "(" +
+      idp +
+      ", '" +
+      tsp +
+      "', '" +
+      rzp +
+      "', '" +
+      ncp +
+      "', '" +
+      cellp +
+      "', " +
+      "'" +
+      emailp +
+      "', '" +
+      desp +
+      "')\" " +
       'class="btn ">Actualizar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<button type="button" id="listarBtn" name="listarBtn" onClick="listSuppliers(event)"' +
+      '<button type="button" id="btndelSup" name="btndelSup" onClick="formDeletSuppl(' +
+      id +
+      ')"' +
       'class="btn btnMedio">Eliminar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
@@ -220,7 +227,7 @@ const updatSupli = (id, ts, rz, nc, cell, email, des) => {
   });
 };
 
-// FORM update SUPPLIER
+// FORM UPDATE SUPPLIER
 let formUpdatSup = (id, ts, rz, nc, cell, email, des) => {
   const idp = id;
   const tsp = ts;
@@ -257,7 +264,9 @@ let formUpdatSup = (id, ts, rz, nc, cell, email, des) => {
       '<textarea id="ds" name="descripcionServicio" class="input inputext"' +
       'rows="4" placeholder="Descripción del Servicio"></textarea><br><br>' +
       '<input type="button" id="guardar" name="guardar" class="btn btnMedio" ' +
-      'onClick="updateSupplier('+ idp +')" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
+      'onClick="updateSupplier(' +
+      idp +
+      ')" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -269,7 +278,7 @@ let formUpdatSup = (id, ts, rz, nc, cell, email, des) => {
   });
   document.getElementById("ts").value = tsp;
   document.getElementById("rz").value = rzp;
-  document.getElementById("cn").value = ncp ;
+  document.getElementById("cn").value = ncp;
   document.getElementById("cell").value = cellp;
   document.getElementById("Email").value = emailp;
   document.getElementById("ds").value = desp;
@@ -277,16 +286,13 @@ let formUpdatSup = (id, ts, rz, nc, cell, email, des) => {
 
 // FUNCTION UPDATE SUPPLIER
 const updateSupplier = async (id) => {
-  //event.preventDefault();
-
-  const id_proveedor = id
+  const id_proveedor = id;
   const tipo_servicio = document.getElementById("ts").value;
   const razon_social = document.getElementById("rz").value;
   const nombre_contacto = document.getElementById("cn").value;
   const descripcion = document.getElementById("ds").value;
   const celular = document.getElementById("cell").value;
   const email = document.getElementById("Email").value;
-  const ds = document.getElementById("ds").value;
 
   try {
     const response = await axios.put(`/api/updateSupplier/${id}`, {
@@ -296,11 +302,10 @@ const updateSupplier = async (id) => {
       descripcion,
       nombre_contacto,
       celular,
-      email
+      email,
     });
-    console.log(response);
     if (response.status === 201) {
-      console.log("Mascota eliminada");
+      console.log("Proveedor actualizado");
       const message = response.data.message;
       Swal.fire({
         icon: "success",
@@ -321,4 +326,59 @@ const updateSupplier = async (id) => {
   }
 };
 
-    
+// FORM DELETE CONFIRM
+const formDeletSuppl = (id) => {
+  Swal.fire({
+    html:
+      '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
+      '<div class="formulario-container">' +
+      '<div class="cerrarX-container">' +
+      '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
+      "</div>" +
+      '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar Proveedor?</b></h2><br>' +
+      '<input type="button" id="id" name="codi" class="btn btninfo" readonly><br><br>' +
+      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="deletSuppl(' +
+      id +
+      ')"' +
+      'class="btn btnMedio">Eliminar ' +
+      '<h3 id="info" class="titazul"></h3>' +
+      "</div>" +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+  document.getElementById("id").value = id;
+};
+
+const deletSuppl = async (id) => {
+  const idProveedor = id;
+  try {
+    const response = await axios.delete(`/api/deleteSupplier/${idProveedor}`);
+    if (response.status === 201) {
+      console.log("Proveedor actualizado");
+      const message = response.data.message;
+      Swal.fire({
+        icon: "success",
+        text: message,
+      });
+    }
+  } catch (error) {
+    if (error.response) {
+      const message = error.response.data.error;
+      console.log("mensaje: ", message);
+      Swal.fire({
+        icon: "error",
+        text: message,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
+  }
+};
+
+/*
+This scrip contains the functions for creating, listing, searching, updating and deleting supplier data.
+*/
