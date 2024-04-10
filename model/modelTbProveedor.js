@@ -41,6 +41,21 @@ const suppliersList = (callback) => {
   );
 };
 
+// FUNCIÓN PARA ACTUALIZAR LOS DATOS DE UN PROVEEDOR
+const updateSupplier = (supplierId, updatedSupplier, callback) => {
+  if (typeof callback !== 'function') {
+    console.error('Error: La función de devolución de llamada no está definida.');
+    return;
+  }
+  connection.query('UPDATE tb_proveedor SET ? WHERE id = ?', [updatedSupplier, supplierId], (error, results) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results.changedRows > 0); // Devuelve true si se realizó la actualización, de lo contrario, false
+    }
+  });
+};
+
 
 module.exports = {
   createSupplier,

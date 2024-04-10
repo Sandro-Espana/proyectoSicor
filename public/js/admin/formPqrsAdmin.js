@@ -29,7 +29,7 @@ const listarPQRS = async (event) => {
   try {
     const response = await axios.get("/api/listarPQRS");
     listData(response);
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log("Listado de PQRS exitoso");
     }
   } catch (error) {

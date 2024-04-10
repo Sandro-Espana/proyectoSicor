@@ -56,10 +56,8 @@ router.get("/listSupplier", async (req, res) => {
         res.status(500).json({ error: error.message });
       } else {
         console.log("Listado de proveedores", suppliers);
-        res.status(201).json({
-          message: "Proveedor registrado correctamente.",
-          id: suppliers,
-        });
+        //res.status(201).json({message: "Listado de proveedores.", id: suppliers,});}
+        res.status(201).json(suppliers);
       }
     });
   } catch (error) {
@@ -67,5 +65,25 @@ router.get("/listSupplier", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// RUTA PARA ACTUALIZAR UN PROVEEDOR POR SU ID
+router.put("/updateSupplier/:id", async (req, res) => {
+  try {
+    const supplierId = req.params.id;
+    const updatedSupplier = req.body;
+    // Suponiendo que tienes una función en tu módulo Crud llamada updateSupplier para manejar la actualización del proveedor
+    crudSupplier.updateSupplier(supplierId, updatedSupplier, (error, result) => {
+      if (error) {
+        console.error("Error al actualizar el proveedor:", error);
+        return res.status(500).json({ message: "Proveedor no encontrado" });
+      }
+      console.log("Proveedor actualizado con éxito");
+      res.status(200).json({ mensaje: "Proveedor actualizado con éxito", result });
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 module.exports = router;
