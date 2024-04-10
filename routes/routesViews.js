@@ -93,4 +93,18 @@ router.put('/updatePet/:idApt', (req, res) => {
 router.delete('/deletePet/:petId', (req, res) => {
 });
 
+
+// MANEGE SUPPLIER
+router.post('/newSupplier', (req, res) => {
+});
+
+router.get('/listSupplier', (req, res) => {
+});
+
+router.put('/updateSupplier/:id', (req, res) => {
+});
+
+router.delete('/deleteSupplier/:id', (req, res) => {
+});
+
 module.exports = router;

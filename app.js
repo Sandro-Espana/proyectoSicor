@@ -10,6 +10,7 @@ const pqrs = require('./routes/routesPqrsCrud');
 const sancion = require('./routes/routesSancionCrud');
 const vehicle = require('./routes/routesVehiculoCrud');
 const pet = require('./routes/routesMascotaCrud');
+const supplier = require('./routes/routerProveedorCrud');
 
 const app = express() // Creación de una aplicación Express
 
@@ -56,6 +57,7 @@ app.use('/api', vehicle);
 
 app.use('/api', pet);
 
+app.use('/api', supplier);
 
 
 const db = conectarDB; // Conexión a Mysql
