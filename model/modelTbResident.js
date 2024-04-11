@@ -1,4 +1,4 @@
-const connection = require("../DB/dbMysql"); // Importa el módulo MySQL
+const connection = require("../DB/dbMysql");
 
 // CREATE USER
 const createUser = (newUsuario, callback) => {

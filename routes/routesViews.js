@@ -120,4 +120,18 @@ router.put('/updateSupplier/:id', (req, res) => {
 router.delete('/deleteSupplier/:id', (req, res) => {
 });
 
+// MANEGE COMMON ZONE
+
+router.post('/newCommon', (req, res) => {
+});
+
+router.get('/listCommon', (req, res) => {
+});
+
+router.put('/updateCommon/:id', (req, res) => {
+});
+
+router.delete('/deleteCommon/:id', (req, res) => {
+});
+
 module.exports = router;

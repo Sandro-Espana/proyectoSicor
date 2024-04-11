@@ -11,6 +11,8 @@ const sancion = require('./routes/routesSancionCrud');
 const vehicle = require('./routes/routesVehiculoCrud');
 const pet = require('./routes/routesMascotaCrud');
 const supplier = require('./routes/routerProveedorCrud');
+const common = require('./routes/routesZonComunCrud');
+
 
 const app = express() // Creación de una aplicación Express
 
@@ -59,6 +61,7 @@ app.use('/api', pet);
 
 app.use('/api', supplier);
 
+app.use('/api', common);
 
 const db = conectarDB; // Conexión a Mysql
 
