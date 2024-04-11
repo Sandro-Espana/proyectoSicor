@@ -1,4 +1,4 @@
-//FORMULARIO LISTAR PQRS
+// FORM LIST PQRS
 const formPqrsAdmin = () => {
   Swal.fire({
     html:
@@ -19,8 +19,6 @@ const formPqrsAdmin = () => {
     showConfirmButton: false,
   });
 };
-
-
 
 // FUNCTION LIST PQRS
 const listarPQRS = async (event) => {
@@ -85,8 +83,8 @@ function listData(response) {
   }
 }
 
-//FORM UPDATE PQRS
-let modiData = (cod) => {
+// FORM UPDATE PQRS
+const modiData = (cod) => {
   console.log(cod);
   Swal.fire({
     html:

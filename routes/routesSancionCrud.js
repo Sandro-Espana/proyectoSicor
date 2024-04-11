@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const crud = require("../model/modelTbSancion");
+//const bcrypt = require("bcrypt");
+//const jwt = require("jsonwebtoken");
+const crudSanction = require("../model/modelTbSancion");
+
 
 // CREATE A SANCTION IN DB
 router.post("/newSanction", async (req, res) => {
   try {
-    // Verificar si se proporcionan todos los campos requeridos
     if (
       !req.body.estado ||
       !req.body.descripcion ||
@@ -19,8 +19,7 @@ router.post("/newSanction", async (req, res) => {
         .status(400)
         .json({ error: "Por favor, proporciona todos los campos requeridos del server." });
     }
-
-    // Crear un objeto con los datos de la nueva sanción
+    // CREATE AN OBJECT NEW SANCTION
     const newSanction = {
       estado: req.body.estado,
       descripcion: req.body.descripcion,
@@ -29,8 +28,8 @@ router.post("/newSanction", async (req, res) => {
       id_residente: req.body.id_residente,
     };
     console.log(newSanction);
-    // Llamar a la función createSancion para insertar la nueva sanción en la base de datos
-    crud.createSancion(newSanction, (error, insertId) => {
+    // INSERT THE NEW SANCTION IN THE DB
+    crudSanction.createSancion(newSanction, (error, insertId) => {
       if (error) {
         console.error("Error al crear la sanción:", error);
         return res.status(500).json({ error: "Error al crear la sanción en la db." });
@@ -46,13 +45,29 @@ router.post("/newSanction", async (req, res) => {
   }
 });
 
+// GET ALL SANCTION FROM DB
+router.get("/listSanction", async (req, res) => {
+  try {
+    crudSanction.listSanction((error, users) => {
+      if (error) {
+        console.error("Error en la solicitud: ", error);
+        res.status(500).json({ error: error.message });
+      } else {
+        res.json(users);
+        console.log("Listado de usuarios: ", users);
+      }
+    });
+  } catch (error) {
+    console.log("Error en la solicitud:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
-// ACTUALIZAR UNA SANCIÓN EN LA BASE DE DATOS
+
+// ROUTE TO UPDATE A SANCTION IN THE DB
 router.put("/updateSanction/:id", async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Verificar si se proporcionan todos los campos requeridos
     if (
       !req.body.tipo ||
       !req.body.descripcion ||
@@ -64,8 +79,7 @@ router.put("/updateSanction/:id", async (req, res) => {
         .status(400)
         .json({ error: "Por favor, proporciona todos los campos requeridos." });
     }
-
-    // Crear un objeto con los datos actualizados de la sanción
+    // OBJECT WITH UPDATED SANCTION DATA
     const sancionActualizada = {
       Tipo: req.body.tipo,
       Descripcion: req.body.descripcion,
@@ -73,9 +87,8 @@ router.put("/updateSanction/:id", async (req, res) => {
       FechaFin: req.body.fechaFin,
       UsuarioID: req.body.usuarioId,
     };
-
-    // Llamar a la función de actualización de la sanción en la base de datos
-    crud.updateSanction(id, sancionActualizada, (error) => {
+    // UPDATING THE SANCTION IN THE DB
+    crudSanction.updateSanction(id, sancionActualizada, (error) => {
       if (error) {
         console.error("Error al actualizar la sanción:", error);
         return res.status(500).json({ error: "Error al actualizar la sanción." });

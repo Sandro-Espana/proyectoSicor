@@ -38,48 +38,38 @@ const listUsers = (callback) => {
   });
 };
 
-//FIND RESIDENT BY NAME
-const findUserByUsername = (username, callback) => {
-  connection.query(
-    "SELECT * FROM tb_residente WHERE username = ?",
-    [username],
-    (error, results) => {
-      if (error) {
-        if (typeof callback === "function") {
-          callback(error, null);
-          console.log(error);
+// FIND RESIDENT BY NAME - Promisificar la función
+const findUserByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT * FROM tb_residente WHERE username = ?",
+      [username],
+      (error, results) => {
+        if (error) {
+          reject(error);
         } else {
-          console.error(
-            "Error: La función de devolución de llamada no es una función."
-          );
-        }
-      } else {
-        if (typeof callback === "function") {
-          callback(null, results[0]); // Se asume que solo se espera un usuario
-        } else {
-          console.error(
-            "Error callback: La función de devolución de llamada no es una función."
-          );
-          console.log("valor callback", error);
+          resolve(results[0]); // Se asume que solo se espera un usuario
         }
       }
-    }
-  );
+    );
+  });
 };
 
-//FIND RESIDENT BY ID APT
-const searchById = (userId, callback) => {
-  connection.query(
-    "SELECT * FROM tb_residente WHERE id_apartamento = ?",
-    [userId],
-    (error, results) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, results[0]);
+// FIND RESIDENT BY ID APT - Promisificar la función
+const searchById = (userId) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT * FROM tb_residente WHERE id_apartamento = ?",
+      [userId],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
       }
-    }
-  );
+    );
+  });
 };
 
 // Buscar usuario por número de cédula

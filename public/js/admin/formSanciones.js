@@ -1,33 +1,132 @@
-/*Formulario Sanciones
-let formSanciones = () => {
-    Swal.fire({
-      html:
-        '<br><br><center><form id="regSancion" name="regSancion" class="formSwal" onsubmit="sendText(event)">' +
-        '<h2 class=""><b class="titulo">Formulario de Sanciones</b></h2><br>' +
-        '<label class="label"><b>Residente ID</b></label><br>' +
-        '<input type="text" id="residenteID" name="residenteID" class="input" placeholder="Residente ID" autocomplete="off"><br>' +
-        '<label class="label"><b>Fecha y Hora de Sanción</b></label><br>' +
-        '<input type="datetime-local" id="fechaHoraSancion" name="fechaHoraSancion" class="input" placeholder="Fecha y Hora de Sanción" autocomplete="off"><br>' +
-        '<label class="label"><b>Descripción</b></label><br>' +
-        '<input type="text" id="descripcion" name="descripcion" class="input" placeholder="Descripción" autocomplete="off"><br>' +
-        '<label class="label"><b>Estado</b></label><br>' +
-        '<input type="text" id="estado" name="estado" class="input" placeholder="Estado" autocomplete="off"><br>' +
-        '<label class="label"><b>Respuesta del Residente</b></label><br>' +
-        '<input type="text" id="respuestaResidente" name="respuestaResidente" class="input" placeholder="Respuesta del Residente" autocomplete="off"><br>' +
-        '<label class="label"><b>Foto de Evidencia</b></label><br>' +
-        '<input type="file" id="fotoEvidencia" name="fotoEvidencia" class="input" accept="image/*"><br><br>' +
-        '<input type="button" id="guardar" name="guardar" class="btn" onclick="guardarSancion()" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
-        '<input type="button" id="cerrar" name="cerrar" class="btn" onclick="cerrarSwal()" value="Cerrar"><br><br>' +
-        '<h3 id="info" class="titazul">.</h3>' +
-        "</form></center><br><br>",
-      width: "100%",
-      background: "rgba(0,0,0,0.0)",
-      backdrop: true,
-      allowOutsideClick: false,
-      showConfirmButton: false,
-    });
-  };
+// FORM LIST PQRS
+const formSanctions = () => {
+  Swal.fire({
+    html:
+      '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
+      '<div class="formulario-container">' +
+      '<div class="cerrarX-container">' +
+      '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
+      "</div>" +
+      '<h2 class=""><b id="titregcli" class="titulo">Gestionar Sanciones</b></h2><br>' +
+      '<button type="button" id="listarBtn" name="listarBtn" onClick="listarPQRS(event)" class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<h3 id="info" class="titazul"></h3>' +
+      "</div>" +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+};
 
-  function cerrarSwal() {
-    swal.close();
-  }*/
+// FUNCTION LIST SANCTIONS
+const listSanctions = async (event) => {
+  event.preventDefault();
+  document.getElementById("info").innerHTML = "Listando Sanciones...";
+  try {
+    const response = await axios.get("/api/listSanction");
+    listSanction(response);
+    console.log(response);
+    if (response.status === 201) {
+      console.log("Listado de sanciones exitoso");
+    }
+  } catch (error) {
+    console.error("Error en la solicitud:", error);
+  }
+};
+
+// RENDER JSON
+function listSanction(response) {
+  cerrarSwal();
+  const data = response.data;
+  if (data && data.length > 0) {
+    // Construir la tabla HTML para mostrar los datos
+    let tableHtml =
+      "<table id='tablaPQRS'>" +
+      "<thead><tr>" +
+      "<th>ID</th>" +
+      "<th>Estado</th>" +
+      "<th>Tipo</th>" +
+      "<th>Asunto</th>" +
+      "<th>Descripción</th>" +
+      "<th>Fecha</th>" +
+      "<th>Gestionar</th>" +
+      "</tr></thead><tbody>";
+    data.forEach((item) => {
+      const fecha = new Date(item.FechaCreacion);
+      const fechaFormateada = `${fecha.getDate()}/${fecha.getMonth() + 1}`;
+      tableHtml += `<tr>
+      <td>${item.PQRSID}</td>
+      <td>${item.Estado}</td>
+      <td>${item.Tipo}</td>
+      <td>${item.Asunto}</td>
+      <td>${item.Descripcion}</td>
+      <td>${fechaFormateada}</td>
+      <td><button
+      type='button'
+      class=''
+      onclick='formUpdateSanc(${item.PQRSID})'
+      >modificar
+      </button>
+      </td>
+      </tr>`;
+    });
+    tableHtml += "</tbody></table>";
+
+    // RENDER THE TABLE IN THE CONTAINER
+    document.getElementById("container-table").innerHTML = tableHtml;
+    document.getElementById("searchInput").style.display = "block";
+  } else {
+    // Mostrar un mensaje si no hay datos
+    document.getElementById("container-table").innerHTML =
+      "No hay datos disponibles.";
+  }
+}
+
+// FORM SANCTION
+let formUpdateSanc = (id, apt) => {
+  console.log("formSancione ", id, apt);
+  Swal.fire({
+    html:
+      '<br><br><center><form id="regSancion" name="regSancion" class="formSwal" onsubmit="sendText(event)">' +
+      '<div class="formulario-container">' +
+      '<div class="cerrarX-container">' +
+      '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
+      "</div>" +
+      '<h2 class=""><b class="titulo">Responder sancion</b></h2><br>' +
+      '<label class="label"><b>Estado</b></label><br>' +
+      '<select id="estado" name="tipo" class="input inputMax" title="Tipo">' +
+      "<option></option><option>Activa</option>" +
+      "<option>Revocada</option><option>Apelación</option></select><br>" +
+      '<label class="label"><b>Apartamento</b></label><br>' +
+      '<input type="text" id="IdApt" name="IdApt" class="input" readonly ' +
+      'autocomplete="off"><br>' +
+      '<label class="label"><b>Residente</b></label><br>' +
+      '<input type="text" id="residente" name="residenteID" class="input" readonly ' +
+      'autocomplete="off"><br>' +
+      '<label class="label"><b>Fecha y hora</b></label><br>' +
+      '<input type="datetime-local" id="fechaCreacion" name="fechaCreacion" readonly class="input"><br>' +
+      '<label class="label"><b>Descripción</b></label><br>' +
+      '<input type="text" id="descripcion" name="descripcion" class="input" placeholder="Descripción" ' +
+      'autocomplete="off"><br>' +
+      '<label class="label"><b>Foto de Evidencia</b></label><br>' +
+      '<input type="file" id="fotoEvidencia" name="fotoEvidencia" class="input" accept="image/*"><br><br>' +
+      '<input type="button" id="guardar" name="guardar" class="btn" onClick="saveSanction(event)" ' +
+      'value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<h3 id="info" class="titazul">.</h3>' +
+      "</div>" +
+      "</form></center><br><br>",
+    width: "100%",
+    background: "rgba(0,0,0,0.0)",
+    backdrop: true,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+  document.getElementById("estado").value = id;
+  document.getElementById("IdApt").value = apt;
+  document.getElementById("residente").value = id;
+  document.getElementById("fechaCreacion").value = id;
+  document.getElementById("descripcion").value = id;
+  document.getElementById("fotoEvidencia").value = id;
+};

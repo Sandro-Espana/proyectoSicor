@@ -21,7 +21,7 @@ const createPQRS = (newPQRS, callback) => {
 const getAllPQRS = (callback) => {
   if (typeof callback !== "function") {
     console.error(
-      "Error: La función de devolución de llamada no está definida, soy modelPqrsCrud."
+      "Error: La función de devolución de llamada no está definida."
     );
     return;
   }

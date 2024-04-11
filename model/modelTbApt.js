@@ -23,33 +23,22 @@ const createUnitResiden = (newUnitReside, callback) => {
 };
 
 // SEARCH UNIT BY ID
-const searchUnitById = (unidadId, callback) => {
-  connection.query(
-    "SELECT * FROM tb_apartamento  WHERE id_unidad_residencial = ?",
-    [unidadId],
-    (error, results) => {
-      if (error) {
-        if (typeof callback === "function") {
-          callback(error, null);
-          console.log(error);
+const searchUnitById = (unidadId) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT * FROM tb_apartamento  WHERE id_apartamento = ?",
+      [unidadId],
+      (error, results) => {
+        if (error) {
+          reject(error);
         } else {
-          console.error(
-            "Error: La función de devolución de llamada no es una función."
-          );
-        }
-      } else {
-        if (typeof callback === "function") {
-          callback(null, results[0]); // Se asume que solo se espera una unidad residencial
-        } else {
-          console.error(
-            "Error callback: La función de devolución de llamada no es una función."
-          );
-          console.log("valor callback", error);
+          resolve(results);
         }
       }
-    }
-  );
+    );
+  });
 };
+
 
 const eliminarDatosTablaApartamentos = () => {
   const sql = "DELETE FROM tb_apartamento";

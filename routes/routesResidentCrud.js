@@ -2,106 +2,92 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const resident = require("../model/modelTbResident");
+const aptCrud = require("../model/modelTbApt");
 
 // REGISTER RESIDENT IN DB
 router.post("/register", async (req, res) => {
   try {
     if (
-      !req.body.namer ||
-      !req.body.usernamer ||
-      !req.body.passwordr ||
-      !req.body.lastname ||
+      !req.body.nombre ||
+      !req.body.username ||
+      !req.body.password ||
+      !req.body.apellido ||
       !req.body.cedula ||
-      !req.body.mobile ||
-      !req.body.unidad_residencial
+      !req.body.celular ||
+      !req.body.id_apartamento
     ) {
       return res
         .status(400)
         .json({ error: "Por favor, proporciona todos los campos requeridos." });
     }
 
-    // SEARCH USER BY NAME
-    const existingUser = await new Promise((resolve, reject) => {
-      resident.findUserByUsername(req.body.usernamer, (error, user) => {
-        if (error) {
-          console.error("Error al buscar usuario:", error);
-          reject(error);
-        } else {
-          resolve(user);
-        }
-      });
-    });
-
+    // Verificar si el nombre de usuario ya existe
+    const existingUser = await resident.findUserByUsername(req.body.username);
     if (existingUser) {
       return res
         .status(400)
         .json({ error: "El nombre de usuario ya está en uso." });
     }
 
-    // SEARCH USER BY CC
-    const existingUserByCedula = await Usuario.searchUserByCedu(
+    // Verificar si la cédula ya está registrada
+    const existingUserByCedula = await resident.searchUserByCedu(
       req.body.cedula
     );
-
     if (existingUserByCedula) {
       return res
         .status(400)
         .json({ error: "Ya existe un usuario con esta cédula." });
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.passwordr, 12); // HASH PASSWORD
+    // Verificar si el apartamento existe
+    const existingApt = await aptCrud.searchUnitById(req.body.id_apartamento);
+    if (!existingApt) {
+      return res.status(400).json({ error: "No existe copropiedad." });
+    }
 
-    // VERIFY APARTMENT AVAILABILITY
-    const existingUnit = await new Promise((resolve, reject) => {
-      resident.searchResidentById(
-        req.body.unidad_residencial,
-        (error, unit) => {
-          if (error) {
-            console.error("Error al buscar unidad residencial:", error);
-            reject(error);
-          } else {
-            resolve(unit);
-          }
-        }
-      );
-    });
-
+    // Verificar si la unidad residencial ya está ocupada
+    const existingUnit = await resident.searchById(req.body.id_apartamento);
     if (existingUnit) {
       return res
         .status(400)
         .json({ error: "La unidad residencial ya está en uso." });
-    } else {
-      // CREATE NEW RESIDENT
-      const newUsuario = {
-        residente_id: req.body.cedula,
-        nombre: req.body.namer,
-        apellido: req.body.lastname,
-        cedula: req.body.cedula,
-        celular: req.body.mobile,
-        username: req.body.usernamer,
-        password: hashedPassword,
-        unidad_residencial: req.body.unidad_residencial,
-      };
-
-      //INSERT USER IN TABLE RESIDENT
-      const userId = await new Promise((resolve, reject) => {
-        resident.createUser(newUsuario, (error, id) => {
-          if (error) {
-            console.error("Error al registrar el usuario residente:", error);
-            reject(error);
-          } else {
-            resolve(id);
-          }
-        });
-      });
-      console.log("Registrado con éxito");
     }
+
+    // Hashear la contraseña
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+
+    // Crear nuevo residente
+    const newResident = {
+      id_residente: req.body.cedula,
+      nombre: req.body.nombre,
+      apellido: req.body.apellido,
+      cedula: req.body.cedula,
+      celular: req.body.celular,
+      username: req.body.username,
+      password: hashedPassword,
+      id_apartamento: req.body.id_apartamento,
+    };
+
+    // INSERTAR USUARIO EN LA TABLA RESIDENTE
+    const userId = await new Promise((resolve, reject) => {
+      resident.createUser(newResident, (error, id) => {
+        if (error) {
+          console.error("Error al registrar el usuario residente:", error);
+          reject(error);
+        } else {
+          console.log("Registrado con éxito");
+          resolve(id);
+        }
+      });
+    });
     res.status(201).json({ mensaje: "Usuario registrado correctamente." });
+
   } catch (error) {
     console.error("Error al registrar el usuario:", error);
     res.status(500).json({ error: "Error al registrar el usuario." });
   }
 });
+
 
 // GET ALL USERS FROM DB
 router.get("/listUsers", async (req, res) => {
@@ -125,7 +111,7 @@ router.get("/listUsers", async (req, res) => {
 router.delete("/deleteUser/:id", async (req, res) => {
   const usuarioId = req.params.id;
   console.log("delete", usuarioId);
-// if (req.user && req.user.profile === "Administrador")
+  // if (req.user && req.user.profile === "Administrador")
   try {
     resident.deleteUser(usuarioId, (error, affectedRows) => {
       if (error) {
@@ -137,7 +123,7 @@ router.delete("/deleteUser/:id", async (req, res) => {
         return res.status(404).json({ error: "El usuario no existe" });
       }
       res.status(201).json({ message: "Usuario eliminado exitosamente." });
-     // res.json({ message: "Usuario eliminado exitosamente" });
+      // res.json({ message: "Usuario eliminado exitosamente" });
     });
   } catch (error) {
     console.error("Error en el servidor:", error);
@@ -149,4 +135,5 @@ module.exports = router;
 
 //Funciones para:
 //REGISTRO
+//LISTAR
 //ELIMINAR

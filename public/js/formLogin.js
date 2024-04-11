@@ -1,8 +1,9 @@
+// FORM LOGIN
 let formLogin = () => {
   Swal.fire({
     html:
       '<br><br><center><form id="formLogin" name="formLogin" class="formSwal" ' +
-      'onsubmit="enviarContactenos(event)">' +
+      //'onsubmit="enviarContactenos(event)">' +
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
@@ -15,7 +16,9 @@ let formLogin = () => {
       '<input type="password" id="password" name="password" class="input" placeholder="contraseña" ' +
       'autocomplete="off"><br><br>' +
       '<input type="submit" id="iniciar" name="iniciar" class="btn" onClick="loginSession(event)" ' +
-      'value="Iniciar"><br>' +
+      'value="Iniciar"><br><br> ' +
+      '<input type="button" id="recuperar" name="recuperar" class="btn" onClick="(event)" ' +
+      'value="Recuperar"><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -39,18 +42,18 @@ const loginSession = async (event) => {
     setTimeout("document.getElementById('info').innerHTML = ''", 4000);
     return;
   }
-  document.getElementById("info").innerHTML = "Iniciando sesion.....";
+  document.getElementById("info").innerHTML = "Iniciando sesion...";
   try {
     const response = await window.axios.post("/api/login", {
       username,
       password,
     });
-    const userId = response.data.idUser;
+    const userId = response.data.idUser;   // SAVE userId AND idApt IN localStorage
     const idApt = response.data.idApt;
     localStorage.setItem("userId", userId);
     localStorage.setItem("idApt", idApt);
     if (response.status === 200) {
-      const profile = response.data.profile; // Redirige a la página correspondiente según su perfil
+      const profile = response.data.profile; // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
       console.log("perfil de user: ", profile);
       if (profile === "Administrador") {
         window.location.href = "/admin";
@@ -62,20 +65,19 @@ const loginSession = async (event) => {
     }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error; // Obtiene el mensaje de error del cuerpo de la respuesta
-      // Muestra una alerta en el navegador con el mensaje de error
+      const mensaje = error.response.data.error;
       Swal.fire({
         icon: "error",
         text: mensaje,
       });
     } else {
-      console.error("Error en la solicitud:", error.message); // Muestra un mensaje de error en la consola si no hay una respuesta del servidor
+      console.error("Error en la solicitud:", error.message);
     }
   }
 };
 
 
-//CAPTURA LA HORA Y FECHA DEL MOMENTO
+// CAPTURES THE TIME AND DATE OF THE MOMENT
 function vfecha() {
   let fecha = new Date();
   let mes = fecha.getMonth() + 1;

@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// NO SE PARA QUE ES ESTA FUNCION
+// para cerrar sesion explicitamente 
 router.post("/logout", (req, res) => {
   const token = req.headers.authorization;
   if (!token) {

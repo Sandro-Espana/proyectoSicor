@@ -5,11 +5,18 @@ const path = require('path');
 
 
 // HOME APP
+
 router.get('/', (req, res) => {
     res.render('index');
 });
 
+// LOGIN
+
+router.post('/login',  (req, res)=> {
+});
+
 // PROFILES
+
 router.get('/admin', (req, res) => {
     const viewPath = path.join(__dirname,  '../views/profile/admin.ejs');
     res.render(viewPath);
@@ -21,6 +28,7 @@ router.get('/residen', (req, res) => {
 });
 
 // MANAGE PQRS
+
 router.post('/formPQRS', (req, res) => {
 });
 
@@ -35,6 +43,7 @@ router.delete('/deletePQRS/:id', (req, res) => {
 
 
 // MANEGE USERS
+
 router.post('/register', (req, res) => {
 });
 
@@ -51,6 +60,7 @@ router.delete('/deleteUser/:id', (req, res) => {
 });
 
 // MANEGE SANCTION
+
 router.post('/newSanction', (req, res) => {
 });
 
@@ -64,6 +74,7 @@ router.delete('/deleteSanction/:id', (req, res) => {
 });
 
 // MANEGE VEHICLE
+
 router.post('/newVehicle', (req, res) => {
 });
 
@@ -81,6 +92,7 @@ router.delete('/deleteVehicle/:id', (req, res) => {
 
 
 // MANEGE PET
+
 router.post('/newPet', (req, res) => {
 });
 
@@ -95,6 +107,7 @@ router.delete('/deletePet/:petId', (req, res) => {
 
 
 // MANEGE SUPPLIER
+
 router.post('/newSupplier', (req, res) => {
 });
 

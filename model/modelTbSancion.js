@@ -1,6 +1,6 @@
-const connection = require("../DB/dbMysql"); // IMPORT MUSQL MODULE
+const connection = require("../DB/dbMysql"); // IMPORT CONNECTION
 
-// CREATE SANCION
+// FUNCTION CREATE SANCION
 const createSancion = (newSancion, callback) => {
   if (typeof callback !== "function") {
     console.error("Error: La función de devolución de llamada no está definida.");
@@ -15,6 +15,24 @@ const createSancion = (newSancion, callback) => {
     });
 };
 
+// FUNCTION TO LIST ALL USERS FROM DB
+const listSanction = (callback) => {
+  if (typeof callback !== "function") {
+    console.error(
+      "Error: La función de devolución de llamada no está definida."
+    );
+    return;
+  }
+  connection.query("SELECT * FROM tb_sancion", (error, results) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
 module.exports = {
-  createSancion
+  createSancion,
+  listSanction
 };
