@@ -122,16 +122,16 @@ router.delete('/deleteSupplier/:id', (req, res) => {
 
 // MANEGE COMMON ZONE
 
-router.post('/newCommon', (req, res) => {
+router.post('/newCommonArea', (req, res) => {
 });
 
-router.get('/listCommon', (req, res) => {
+router.get('/listCommonArea', (req, res) => {
 });
 
-router.put('/updateCommon/:id', (req, res) => {
+router.put('/updateCommonArea/:id', (req, res) => {
 });
 
-router.delete('/deleteCommon/:id', (req, res) => {
+router.delete('/deleteCommonArea/:id', (req, res) => {
 });
 
 module.exports = router;
