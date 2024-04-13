@@ -1,43 +1,37 @@
+require("dotenv").config({ path: ".env" })
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {findUserByUsername} = require("../model/tbResident");
-// const util = require("util");
-// const findUserByUsernameAsync = util.promisify(resident.findUserByUsername);
+const jwtKey = process.env.JWT_KEY;
+const { findUserByUsername } = require("../model/tbResident");
+
 
 // LOGIN PATH
 router.post("/login", async (req, res) => {
   try {
-    console.log("Soy server")
     const { username, password } = req.body;
-    console.log(username, password)
-    const user = await findUserByUsername(username); // Buscar usuario por nombre de usuario
-    console.log("user: ", user);
-    // Comprobar si el usuario existe
+    const user = await findUserByUsername(username); // SEARCH USER BY USERNAME
+    // CHECK IF USER EXISTS
     if (!user) {
-      console.log("El usuario no existe");
       return res.status(404).json({ error: "El usuario no existe" });
     }
 
-    const passwordValido = await bcrypt.compare(password, user.password); // Verificar la contraseña
+    const passwordValido = await bcrypt.compare(password, user.password); // VERIFY PASSWORD
     if (!passwordValido) {
-      console.log("Contraseña incorrecta");
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
 
-    // Generar token
-    const token = jwt.sign({ usuarioId: user._id }, "secreto", {
+    // GENERATE TOKEN
+    const token = jwt.sign({ usuarioId: user._id }, jwtKey, {
       expiresIn: "1h",
     });
-    console.log("token: ", token);
 
+    // DELIVERY TO CUSTOMER idUser idUser
     idUser = user.id_residente;
-    idApt = user.id_apartamento
-    console.log("idApt: ", idApt);
-    console.log("idUser: ", idUser);
+    idApt = user.id_apartamento;
 
-    // Determinar la redirección según el perfil del usuario
+    // DETERMINE REDIRECTION ACCORDING TO USER PROFILE
     let redirectTo = "/";
     if (user.Perfil === "Administrador") {
       redirectTo = "/admin";
@@ -46,9 +40,8 @@ router.post("/login", async (req, res) => {
     } else {
       redirectTo = "/normal";
     }
-    console.log("user.profile: ", user.Perfil);
-    console.log("redirectTo: ", redirectTo);
-    // Enviar token y redirección al cliente
+
+    // SEND TOKEN AND REDIRECT TO CUSTOMER
     return res.json({
       token: token,
       profile: user.Perfil,
@@ -63,7 +56,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// para cerrar sesion explicitamente 
+// para cerrar sesion explicitamente
 router.post("/logout", (req, res) => {
   const token = req.headers.authorization;
   if (!token) {

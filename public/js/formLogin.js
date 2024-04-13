@@ -48,29 +48,24 @@ const loginSession = async (event) => {
       username,
       password,
     });
-    // const userId = response.data.idUser;   // SAVE userId AND idApt IN localStorage
-    // const idApt = response.data.idApt;
-    // localStorage.setItem("userId", userId);
-    // localStorage.setItem("idApt", idApt);
-    if (response.status === 200) {
-      const profile = response.data.profile; // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
-      console.log("perfil de user: ", profile);
-      if (profile === "Administrador") {
-        window.location.href = "/admin";
-      } else if (profile === "Residente") {
-        window.location.href = "/residen";
-      } else {
-        window.location.href = "/";
-      }
+    const userId = response.data.idUser; // SAVE userId AND idApt IN localStorage
+    const idApt = response.data.idApt;
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("idApt", idApt);
+    const profile = response.data.profile; // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
+    if (profile === "Administrador") {
+      window.location.href = "/admin";
+    } else if (profile === "Residente") {
+      window.location.href = "/residen";
+    } else {
+      window.location.href = "/";
     }
-    console.log("user.Perfil: ", profile);
-    console.log("redirectTo: ", redirectTo);
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error;
+      const message = error.response.data.error;
       Swal.fire({
         icon: "error",
-        text: mensaje,
+        text: message,
       });
     } else {
       console.error("Error en la solicitud:", error.message);
@@ -78,12 +73,7 @@ const loginSession = async (event) => {
   }
 };
 
-
-
-
-
 /*
-Este código contiene función asíncrona (loginSession) para enviar datos de inicio de sesion
-al servidor utilizando Axios. También incluye manejo de errores y actualización
-del mensaje de registro en la interfaz de usuario en consecuencia.
+This code contains asynchronous function (loginSession) to send login data to the server using Axios.
+It also includes error handling and updating of the log message in the user interface accordingly.
 */
