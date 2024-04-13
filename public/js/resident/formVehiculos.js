@@ -1,3 +1,6 @@
+
+// AGREGAR NUMERO DE PARQUEADERO  // EN PROPIETARIOS PONER COEFICIENTE DE COPROPIEDAD  UN NUMERO PORCENTUAL
+
 const userId = localStorage.getItem("userId");
 const idApt = localStorage.getItem("idApt");
 console.log(userId, idApt);

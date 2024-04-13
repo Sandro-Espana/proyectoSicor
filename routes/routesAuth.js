@@ -2,16 +2,17 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Usuario = require("../model/modelTbResident");
-const util = require("util");
-const findUserByUsernameAsync = util.promisify(Usuario.findUserByUsername);
+const {findUserByUsername} = require("../model/tbResident");
+// const util = require("util");
+// const findUserByUsernameAsync = util.promisify(resident.findUserByUsername);
 
-// LOGIN
+// LOGIN PATH
 router.post("/login", async (req, res) => {
   try {
+    console.log("Soy server")
     const { username, password } = req.body;
-
-    const user = await findUserByUsernameAsync(username); // Buscar usuario por nombre de usuario
+    console.log(username, password)
+    const user = await findUserByUsername(username); // Buscar usuario por nombre de usuario
     console.log("user: ", user);
     // Comprobar si el usuario existe
     if (!user) {
@@ -29,7 +30,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ usuarioId: user._id }, "secreto", {
       expiresIn: "1h",
     });
-    //console.log("token: ", token);
+    console.log("token: ", token);
 
     idUser = user.id_residente;
     idApt = user.id_apartamento
@@ -38,14 +39,15 @@ router.post("/login", async (req, res) => {
 
     // Determinar la redirección según el perfil del usuario
     let redirectTo = "/";
-    if (user.profile === "Administrador") {
+    if (user.Perfil === "Administrador") {
       redirectTo = "/admin";
     } else if (user.profile === "Residente") {
       redirectTo = "/residen";
     } else {
       redirectTo = "/normal";
     }
-    //console.log("redirectTo: ", redirectTo);
+    console.log("user.profile: ", user.Perfil);
+    console.log("redirectTo: ", redirectTo);
     // Enviar token y redirección al cliente
     return res.json({
       token: token,

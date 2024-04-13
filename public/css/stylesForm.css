@@ -8,9 +8,16 @@
   max-width: 500px;
 }
 
+.question-container {
+  position: relative;
+  display: flex; 
+  justify-content: flex-end;
+  padding-right: 55px;
+  padding-top: 18px;
+}
+
 .cerrarX-container {
   position: relative;
-  /* right: 5px; */
   display: flex;
   justify-content: flex-end;
   padding-right: 20px;

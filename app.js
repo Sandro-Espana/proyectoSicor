@@ -47,7 +47,7 @@ app.use(express.json()); // Configuración para manejar solicitudes JSON
 
 app.use('/', rutasViews); // Uso de las rutas desde rutasViews.js
 
-app.use('/api', auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
+app.use("/api", auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
 
 app.use('/api', residen);
 

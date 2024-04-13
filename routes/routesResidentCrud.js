@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const resident = require("../model/modelTbResident");
+const resident = require("../model/tbResident");
 const aptCrud = require("../model/modelTbApt");
 
 // REGISTER RESIDENT IN DB

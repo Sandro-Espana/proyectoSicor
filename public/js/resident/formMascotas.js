@@ -1,3 +1,8 @@
+
+//LISTA DESPLEGABLE DE ESPECI
+//INPUT RAZA /TENER EN CUENTA EL PESO DE LAS FOTOS
+
+
 // FORM LIST OR REGISTER
 const formListOrPet = () => {
   Swal.fire({

@@ -1,3 +1,5 @@
+// TENER UN CAMPO PARA SELECCIONAR POR TORRES EL ENVIO DE LA NOVEDAD
+
 //Formulario Cartelera
 let formCartelera = () => {
     Swal.fire({

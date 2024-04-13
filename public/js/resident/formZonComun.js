@@ -1,3 +1,7 @@
+// ADENAS DE LA ZONA COMUN NECESITA SILAS O MESAS
+// SE ALQUIILA POR DIA 
+// FOTO ESTADO ELIMINAR FECHA FIN ELIMINAR
+
 let formReservasZonasComunes = () => {
     Swal.fire({
       html:

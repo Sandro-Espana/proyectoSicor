@@ -1,9 +1,8 @@
-// FORM LOGIN
+// LOGIN FORM
 let formLogin = () => {
   Swal.fire({
     html:
       '<br><br><center><form id="formLogin" name="formLogin" class="formSwal" ' +
-      //'onsubmit="enviarContactenos(event)">' +
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
@@ -36,10 +35,11 @@ const loginSession = async (event) => {
 
   const username = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  console.log(username, password);
   if (username == "" || password == "") {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorio";
-    setTimeout("document.getElementById('info').innerHTML = ''", 4000);
+    setTimeout("document.getElementById('info').innerHTML = ''", 3000);
     return;
   }
   document.getElementById("info").innerHTML = "Iniciando sesion...";
@@ -48,10 +48,10 @@ const loginSession = async (event) => {
       username,
       password,
     });
-    const userId = response.data.idUser;   // SAVE userId AND idApt IN localStorage
-    const idApt = response.data.idApt;
-    localStorage.setItem("userId", userId);
-    localStorage.setItem("idApt", idApt);
+    // const userId = response.data.idUser;   // SAVE userId AND idApt IN localStorage
+    // const idApt = response.data.idApt;
+    // localStorage.setItem("userId", userId);
+    // localStorage.setItem("idApt", idApt);
     if (response.status === 200) {
       const profile = response.data.profile; // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
       console.log("perfil de user: ", profile);
@@ -63,6 +63,8 @@ const loginSession = async (event) => {
         window.location.href = "/";
       }
     }
+    console.log("user.Perfil: ", profile);
+    console.log("redirectTo: ", redirectTo);
   } catch (error) {
     if (error.response) {
       const mensaje = error.response.data.error;
@@ -77,35 +79,7 @@ const loginSession = async (event) => {
 };
 
 
-// CAPTURES THE TIME AND DATE OF THE MOMENT
-function vfecha() {
-  let fecha = new Date();
-  let mes = fecha.getMonth() + 1;
-  let dia = fecha.getDate();
-  let anio = fecha.getFullYear();
-  let horas = fecha.getHours();
-  let minutos = fecha.getMinutes();
-  let segundos = fecha.getSeconds();
 
-  if (dia < 10) {
-    dia = "0" + dia;
-  }
-  if (mes < 10) {
-    mes = "0" + mes;
-  }
-  if (horas < 10) {
-    horas = "0" + horas;
-  }
-  if (minutos < 10) {
-    minutos = "0" + minutos;
-  }
-  if (segundos < 10) {
-    segundos = "0" + segundos;
-  }
-  let fec =
-    anio + "-" + mes + "-" + dia + "T" + horas + ":" + minutos + ":" + segundos;
-  return fec;
-}
 
 
 /*

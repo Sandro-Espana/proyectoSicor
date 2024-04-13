@@ -10,10 +10,6 @@ router.get('/', (req, res) => {
     res.render('index');
 });
 
-// LOGIN
-
-router.post('/login',  (req, res)=> {
-});
 
 // PROFILES
 
