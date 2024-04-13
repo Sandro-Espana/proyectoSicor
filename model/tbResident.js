@@ -9,7 +9,7 @@ const createUser = (newUsuario, callback) => {
     return;
   }
   connection.query(
-    "INSERT INTO tb_residente SET ?",
+    "INSERT INTO tb_resident SET ?",
     newUsuario,
     (error, results) => {
       if (error) {
@@ -42,7 +42,7 @@ const listUsers = (callback) => {
 const findUserByUsername = (username) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "SELECT * FROM tb_residente WHERE username = ?",
+      "SELECT * FROM tb_resident WHERE username = ?",
       [username],
       (error, results) => {
         if (error) {

@@ -48,9 +48,9 @@ const loginSession = async (event) => {
       username,
       password,
     });
-    const userId = response.data.idUser; // SAVE userId AND idApt IN localStorage
+    const idUser = response.data.idUser; // SAVE userId AND idApt IN localStorage
     const idApt = response.data.idApt;
-    localStorage.setItem("userId", userId);
+    localStorage.setItem("userId", idUser);
     localStorage.setItem("idApt", idApt);
     const profile = response.data.profile; // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
     if (profile === "Administrador") {

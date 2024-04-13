@@ -28,25 +28,25 @@ router.post("/login", async (req, res) => {
     });
 
     // DELIVERY TO CUSTOMER idUser idUser
-    idUser = user.id_residente;
-    idApt = user.id_apartamento;
+    idUser = user.id_resident;
+    idApt = user.id_apartament;
 
     // DETERMINE REDIRECTION ACCORDING TO USER PROFILE
-    let redirectTo = "/";
+    let redirection = "/";
     if (user.Perfil === "Administrador") {
-      redirectTo = "/admin";
+      redirection = "/admin";
     } else if (user.profile === "Residente") {
-      redirectTo = "/residen";
+      redirection = "/residen";
     } else {
-      redirectTo = "/normal";
+      redirection = "/normal";
     }
 
     // SEND TOKEN AND REDIRECT TO CUSTOMER
     return res.json({
       token: token,
-      profile: user.Perfil,
-      redirectTo: redirectTo,
-      mensaje: "Inicio de sesión exitoso",
+      profile: user.profile,
+      redirection: redirection,
+      message: "Inicio de sesión exitoso",
       idUser: idUser,
       idApt: idApt,
     });
@@ -63,7 +63,7 @@ router.post("/logout", (req, res) => {
     return res.status(401).json({ error: "Token no proporcionado" });
   }
   try {
-    const decodedToken = jwt.verify(token, "secreto");
+    const decodedToken = jwt.verify(token, jwtKey);
     res.json({ mensaje: "Cierre de sesión exitoso" });
   } catch (error) {
     console.error("Error al verificar el token:", error);
@@ -72,3 +72,9 @@ router.post("/logout", (req, res) => {
 });
 
 module.exports = router;
+
+/*
+Path to receive the data from the login form and validate it with the data stored in the DB
+Generates the token, redirects the user's page according to the profile and sends to al client the user
+id an apartament
+*/
