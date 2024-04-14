@@ -1,7 +1,83 @@
 const connection = require("../DB/dbMysql");
 
+
+// FIND USERNAME IN tb_resident BY username
+const searchResidenByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT * FROM tb_resident WHERE username = ?",
+      [username],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
+      }
+    );
+  });
+};
+
+// RESIDENT WANTED IN tb_resident BY id_resident
+const searchResidentById = (id_resident) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT * FROM tb_resident WHERE id_resident = ?",
+      [id_resident],
+      (error, results) => {
+        if (error) {
+          console.error("Error al buscar usuario por cédula:", error);
+          reject(error);
+        } else {
+          if (results.length > 0) {
+            resolve(results[0]);
+          } else {
+            resolve(null);
+          }
+        }
+      }
+    );
+  });
+};
+
+// SEARCH APARTMENT IN tb_resident BY id_apartament
+const apartamentAvailability = (id_apartament) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT * FROM tb_resident WHERE id_apartament = ?",
+      [id_apartament],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
+      }
+    );
+  });
+};
+
+// INSERT NEW OBJECT RESIDENT IN THE tb_resident
+const createResident = (newResident) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "INSERT INTO tb_resident SET ?",
+      [newResident],
+      (error, results) => {
+        if (error) {
+          
+          reject(error);
+          console.error("error. ", error);
+        } else {
+          resolve(results);
+          console.log("results ",results);
+        }
+      }
+    );
+  });
+};
 // CREATE USER
-const createUser = (newUsuario, callback) => {
+/*const createResident1 = (newUsuario, callback) => {
   if (typeof callback !== "function") {
     console.error(
       "Error: La función de devolución de llamada no está definida."
@@ -19,7 +95,7 @@ const createUser = (newUsuario, callback) => {
       }
     }
   );
-};
+};*/
 
 // LIST USERS
 const listUsers = (callback) => {
@@ -38,67 +114,14 @@ const listUsers = (callback) => {
   });
 };
 
-// FIND RESIDENT BY NAME - Promisificar la función
-const findUserByUsername = (username) => {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM tb_resident WHERE username = ?",
-      [username],
-      (error, results) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(results[0]); // Se asume que solo se espera un usuario
-        }
-      }
-    );
-  });
-};
 
-// FIND RESIDENT BY ID APT - Promisificar la función
-const searchById = (userId) => {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM tb_residente WHERE id_apartamento = ?",
-      [userId],
-      (error, results) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(results[0]);
-        }
-      }
-    );
-  });
-};
 
-// Buscar usuario por número de cédula
-const searchUserByCedu = (cedula) => {
-  return new Promise((resolve, reject) => {
-    // Lógica para buscar el usuario en la base de datos utilizando la cédula
-    connection.query(
-      "SELECT * FROM tb_residente WHERE cedula = ?",
-      [cedula],
-      (error, results) => {
-        if (error) {
-          console.error("Error al buscar usuario por cédula:", error);
-          reject(error);
-        } else {
-          // Si se encuentra algún usuario con la cédula especificada, retornar el usuario
-          if (results.length > 0) {
-            resolve(results[0]); // Retornar el primer usuario encontrado (suponiendo que no hay duplicados)
-          } else {
-            resolve(null); // Si no se encuentra ningún usuario con la cédula especificada, retornar null
-          }
-        }
-      }
-    );
-  });
-};
+
+
 
 const searchByIdUser = (userId, callback) => {
   connection.query(
-    "SELECT * FROM tb_residente WHERE id_residente = ?",
+    "SELECT * FROM tb_resident WHERE id_resident = ?",
     [userId],
     (error, results) => {
       if (error) {
@@ -114,7 +137,7 @@ const searchByIdUser = (userId, callback) => {
 //DELETE USER BY ID
 const deleteUser = (userId, callback) => {
   connection.query(
-    "DELETE FROM tb_residente WHERE id_residente = ?",
+    "DELETE FROM tb_resident WHERE id_resident = ?",
     [userId],
     (error, results) => {
       if (error) {
@@ -127,11 +150,13 @@ const deleteUser = (userId, callback) => {
 };
 
 module.exports = {
-  createUser,
-  findUserByUsername,
+  searchResidentById,
+  searchResidenByUsername,
+  
+  createResident,
   deleteUser,
-  searchById,
-  searchUserByCedu,
+  apartamentAvailability,
+  
   listUsers,
   searchByIdUser
 };

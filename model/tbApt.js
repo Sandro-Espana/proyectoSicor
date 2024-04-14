@@ -22,12 +22,12 @@ const createUnitResiden = (newUnitReside, callback) => {
   );
 };
 
-// SEARCH UNIT BY ID
-const searchUnitById = (unidadId) => {
+// SEARCH APARTAMENT IN tb_apartament BY id_apt
+const searchAptById = (idApt) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "SELECT * FROM tb_apartamento  WHERE id_apartamento = ?",
-      [unidadId],
+      "SELECT * FROM tb_apartament  WHERE id_apt = ?",
+      [idApt],
       (error, results) => {
         if (error) {
           reject(error);
@@ -56,5 +56,5 @@ const eliminarDatosTablaApartamentos = () => {
 
 module.exports = {
   createUnitResiden,
-  searchUnitById,
+  searchAptById,
 };
