@@ -1,10 +1,3 @@
-
-// AGREGAR NUMERO DE PARQUEADERO  // EN PROPIETARIOS PONER COEFICIENTE DE COPROPIEDAD  UN NUMERO PORCENTUAL
-
-const userId = localStorage.getItem("userId");
-const idApt = localStorage.getItem("idApt");
-console.log(userId, idApt);
-
 // FORM LIST OR REGISTER
 const formListOrRegist = () => {
   Swal.fire({
@@ -43,18 +36,22 @@ let formVehiculos = () => {
       "</div>" +
       '<h2 class=""><b class="titulo">Formulario de registro</b></h2><br>' +
       '<label class="label"><b>Tipo de Vehículo</b></label><br>' +
-      '<input type="text" id="tipoVehiculo" name="tipoVehiculo" class="input" ' +
-      'placeholder="Tipo de Vehículo" autocomplete="off"><br>' +
+      '<select id="typeVehicle" name="typeVehicle" class="input inputMax" title="typeVehicle">'+
+      '<option></option><option>Camioneta</option><option>Automivil</option>'+
+      '<option>Motocicleta</option><option>Motocarro</option></select><br>' +
+      '<label class="label"><b>Parqueadero</b></label><br>' +
+      '<input type="text" id="parking" name="parking" class="input" ' +
+      'placeholder="Numero de parqueadero" autocomplete="off"><br>' +
       '<label class="label"><b>Marca</b></label><br>' +
-      '<input type="text" id="marca" name="marca" class="input" placeholder="Marca"' +
+      '<input type="text" id="brand" name="brand" class="input" placeholder="Marca"' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Modelo</b></label><br>' +
-      '<input type="text" id="modelo" name="modelo" class="input" placeholder="Modelo"' +
+      '<input type="text" id="model" name="model" class="input" placeholder="Modelo"' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Placa</b></label><br>' +
-      '<input type="text" id="placa" name="placa" class="input" placeholder="Placa" ' +
+      '<input type="text" id="plate" name="plate" class="input" placeholder="Placa" ' +
       'autocomplete="off"><br><br>' +
-      '<input type="button" id="guardar" name="guardar" class="btn" onclick="storeVehicle()"' +
+      '<input type="button" id="save" name="save" class="btn" onclick="storeVehicle()"' +
       'value="Guardar">' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
@@ -67,45 +64,57 @@ let formVehiculos = () => {
   });
 };
 
-// Función para enviar los datos del formulario de vehículos al backend
+// FUNCTION TO SENN VEHICLE FORM DATA TO BACKEND
 const storeVehicle = async () => {
-  const tipo_vehiculo = document.getElementById("tipoVehiculo").value;
-  const marca = document.getElementById("marca").value;
-  const modelo = document.getElementById("modelo").value;
-  const placa = document.getElementById("placa").value;
 
-  if (tipo_vehiculo == "" || marca == "" || modelo == "" || placa == "") {
+  const id_resident = localStorage.getItem("userId");
+  const type_vehicle = document.getElementById("typeVehicle").value;
+  const brand = document.getElementById("brand").value;
+  const model = document.getElementById("model").value;
+  const plateInput = document.getElementById("plate").value;
+  const plate = convertMayuscules(plateInput)
+  const id_apartament = localStorage.getItem("idApt");
+  const parkingValid = document.getElementById("parking").value;
+  const parking = cleanNumbers(parkingValid)
+
+  if (type_vehicle == "" || brand == "" || model == "" || plate == "") {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorio";
     setTimeout("document.getElementById('info').innerHTML = ''", 3000);
     return;
   }
 
-  // Enviar los datos al backend
+  if (parking == "") {
+    console.log("parking ", parking)
+    document.getElementById("info").innerHTML =
+      "Ingrese solo numeros al campo de parqueadero";
+    setTimeout("document.getElementById('info').innerHTML = ''", 4000);
+    return;
+  }
+
   try {
     const response = await axios.post("/api/newVehicle", {
-      userId,
-      tipo_vehiculo,
-      marca,
-      modelo,
-      placa,
-      idApt,
+      id_resident,
+      type_vehicle,
+      brand,
+      model,
+      plate,
+      id_apartament,
+      parking
     });
     if (response.status === 201) {
-      console.log("Registro de vehiculo exitoso");
-      const mensaje = response.data.mensaje;
+      const message = response.data.message;
       Swal.fire({
         icon: "success",
-        text: mensaje,
+        text: message,
       });
     }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error;
-      console.log("mensaje: ", mensaje);
+      const message = error.response.data.error;
       Swal.fire({
         icon: "error",
-        text: mensaje,
+        text: message,
       });
     } else {
       console.error("Error en la solicitud:", error.message);
@@ -116,28 +125,18 @@ const storeVehicle = async () => {
 // FUNCTION LIST VEHICLE
 const listVehicle = async (event) => {
   event.preventDefault();
-  const IdApt = localStorage.getItem("idApt");
-  console.log("idApt", IdApt);
+  const id_apartament = localStorage.getItem("idApt");
   document.getElementById("info").innerHTML = "Listando Vehiculos...";
   try {
-    const response = await axios.get(`/api/listVehicle/${IdApt}`);
-    console.log(response);
+    const response = await axios.get(`/api/listVehicle/${id_apartament}`);
     renderVehicle(response);
-    if (response.status === 201) {
-      console.log("Listado de vehiculo exitoso");
-      const mensaje = response.data.mensaje;
-      Swal.fire({
-        icon: "success",
-        text: mensaje,
-      });
-    }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error;
-      console.log("mensaje: ", mensaje);
+      const message = error.response.data.error;
+      console.log("mensaje: ", message);
       Swal.fire({
         icon: "error",
-        text: mensaje,
+        text: message,
       });
     } else {
       console.error("Error en la solicitud:", error.message);
@@ -145,15 +144,13 @@ const listVehicle = async (event) => {
   }
 };
 
-//Renderiza JSON
+// RENDER JSON
 function renderVehicle(response) {
   cerrarSwal();
   const data = response.data;
-  console.log("data", data);
   if (data && data.length > 0) {
-    // Construir la tabla HTML para mostrar los datos
     let tableHtml =
-      "<table id='tablaVehicle'>" +
+      "<table id='tablaPQRS'>" +
       "<thead><tr>" +
       "<th>Residente</th>" +
       "<th>Tipo vehiculo</th>" +
@@ -164,19 +161,17 @@ function renderVehicle(response) {
       "<th>Apartamento</th>" +
       "</tr></thead><tbody>";
     data.forEach((item) => {
-      //const fecha = new Date(item.FechaCreacion);
-      //const fechaFormateada = `${fecha.getDate()}/${fecha.getMonth() + 1}`;
       tableHtml += `<tr>
-      <td>${item.id_residente}</td>
-      <td>${item.tipo_vehiculo}</td>
-      <td>${item.marca}</td>
-      <td>${item.modelo}</td>
-      <td>${item.placa}</td>
-      <td>${item.id_apartamento}</td>
+      <td>${item.id_resident}</td>
+      <td>${item.type_vehicle}</td>
+      <td>${item.brand}</td>
+      <td>${item.model}</td>
+      <td>${item.plate}</td>
+      <td>${item.id_apartament}</td>
       <td><button
       type='button'
       class=''
-      onclick='formDeletVehi(${item.id_vehiculo})'
+      onclick='formDeletVehi(${item.id_vehicle})'
       >Eliminar
       </button>
       </td>
@@ -184,52 +179,14 @@ function renderVehicle(response) {
     });
     tableHtml += "</tbody></table>";
 
-    // Renderizar la tabla en el contenedor deseado
+    // RENDER SEARCH BAR IN DESIRED CONTAINER
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
   } else {
-    //  Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
 }
-
-//FUNCION BARRA-BUSCAR
-function doSearch() {
-  if (document.getElementById("tablaVehicle")) {
-    const tableReg = document.getElementById("tablaVehicle");
-    const searchText = document
-      .getElementById("searchInput")
-      .value.toLowerCase();
-    let total = 0;
-
-    // Recorremos todas las filas con contenido de la tabla
-    for (let i = 1; i < tableReg.rows.length; i++) {
-      let found = false;
-      const cellsOfRow = tableReg.rows[i].getElementsByTagName("td");
-      // Recorremos todas las celdas
-      for (let j = 0; j < cellsOfRow.length && !found; j++) {
-        const compareWith = cellsOfRow[j].innerHTML.toLowerCase();
-        // Buscamos el texto en el contenido de la celda
-        if (searchText.length == 0 || compareWith.indexOf(searchText) > -1) {
-          found = true;
-          total++;
-        }
-      }
-      if (found) {
-        tableReg.rows[i].style.display = "";
-      } else {
-        // si no ha encontrado ninguna coincidencia, esconde la fila de la tabla
-        tableReg.rows[i].style.display = "none";
-      }
-    }
-    // mostramos las coincidencias
-  } else {
-    document.getElementById("container-table").innerHTML =
-      "No hay vehiculos para buscar";
-  }
-}
-
 
 //FORM DELETE CONFIRM
 const formDeletVehi = (dele) => {
@@ -260,14 +217,14 @@ const formDeletVehi = (dele) => {
 };
 
 //FUNCTION DELETE
-const deletVehicle = async (event, codigo) => {
+const deletVehicle = async (event, id_vehicle) => {
   event.preventDefault();
 
   //const codigo = document.getElementById("deleVehi").value;
   //console.log("LINEA 264 deletVehicle: ", codigo);
   document.getElementById("info").innerHTML = "Eliminando...";
   try {
-    const response = await axios.delete(`/api/deleteVehicle/${codigo}`);
+    const response = await axios.delete(`/api/deleteVehicle/${id_vehicle}`);
     if (response.status === 201) {
       console.log("Vehiculo eliminado");
       const mensaje = response.data.message;
@@ -289,3 +246,9 @@ const deletVehicle = async (event, codigo) => {
     }
   }
 };
+
+/*
+THIS FILE CONTAINS THE FORM TO REGISTER A NEW VEHICLE AND SEND THE DATA TO THE SERVER. ALSO THE FUNCTION
+TO LIST ALL THE VEHICLES BY APARTMENT ID AND RENDERIZA THEM IN A HTML TABLE WITH SEARCH BAR AND HAS THE
+OPTION TO DELETE
+*/

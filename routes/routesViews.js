@@ -41,7 +41,7 @@ router.delete('/deletePQRS/:id', (req, res) => {
 // MANEGE USERS
 
 router.post('/register', (req, res) => {
-});
+}); //OK
 
 router.post('/formUser', (req, res) => {
 });
@@ -72,19 +72,16 @@ router.delete('/deleteSanction/:id', (req, res) => {
 // MANEGE VEHICLE
 
 router.post('/newVehicle', (req, res) => {
-});
+});// OK
 
 router.get('/listVehicle', (req, res) => {
 });
 
-router.get('/listVehicle/:userId', (req, res) => {
-});
+router.get('/listVehicle/:id_apartament', (req, res) => {
+});//OK
 
-router.put('/updateVehicle/:vehicleId', (req, res) => {
-});
-
-router.delete('/deleteVehicle/:id', (req, res) => {
-});
+router.delete('/deleteVehicle/:id_Vehicle', (req, res) => {
+});//OK
 
 
 // MANEGE PET

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { searchAptById } = require("../model/tbApt.js");
+const { searchAptById } = require("../model/tbApartament.js");
 const {
   searchResidenByUsername,
   searchResidentById,
@@ -30,26 +30,35 @@ router.post("/register", async (req, res) => {
     // CHECK IF THE USER NAME ALREADY EXISTS
     const existsUsername = await searchResidenByUsername(req.body.username);
     if (existsUsername) {
-      return res.status(400).json({ error: "El email ya esta registrada." });
+      return res
+        .status(400)
+        .json({ error: `El email ${req.body.username} ya esta registrada.` });
     }
 
     // CHECK IF THE RESIDENT IS ALREADY REGISTERED
     const existsResident = await searchResidentById(req.body.id_resident);
     if (existsResident) {
-      return res.status(400).json({ error: "La cédula ya esta registrada." });
+        return res.status(400).json({
+        error: `La cédula ${req.body.id_resident} ya esta registrada.`,
+      });
     }
 
     // VERIFY IF THE APARTAMENT EXISTS
     const existsApt = await searchAptById(req.body.id_apartament);
     if (existsApt == "") {
-      return res.status(400).json({ error: "La copropiedad no existe." });
+      return res
+        .status(400)
+        .json({ error: `La copropiedad ${req.body.id_apartament} no existe.` });
     }
 
     // VERIFY IF THE APARTAMENT IS ALREADY OCCUPIED
     const occupiedApt = await apartamentAvailability(req.body.id_apartament);
     if (occupiedApt) {
-      return res.status(400).json({ error: "El apartamento no se encuentra disponible." });
+      return res.status(400).json({
+        error: `El apartamento${req.body.id_apartament} no se encuentra disponible.`,
+      });
     }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 12); // HASHEAR PASSWORD
 
     // CREATE NEW RESIDENT
@@ -73,7 +82,9 @@ router.post("/register", async (req, res) => {
     res.status(400).json({ error: "Error al registrar el residente." });
   } catch (error) {
     console.error("Error al registrar el usuario:", error);
-    res.status(500).json({ error: "Error al registrar el usuario." });
+    res
+      .status(500)
+      .json({ error: `Error al registrar el residente  ${req.body.name}.` });
   }
 });
 

@@ -1,8 +1,3 @@
-
-//LISTA DESPLEGABLE DE ESPECI
-//INPUT RAZA /TENER EN CUENTA EL PESO DE LAS FOTOS
-
-
 // FORM LIST OR REGISTER
 const formListOrPet = () => {
   Swal.fire({
@@ -12,7 +7,7 @@ const formListOrPet = () => {
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
-      '<h2 class=""><b id="titregcli" class="titulo">Gestion mascota</b></h2><br>' +
+      '<h2 class=""><b id="titregcli" class="titulo">Gestion mascotas</b></h2><br>' +
       '<button type="button" id="BtnRegistPet" name="BtnRegistPet" onClick="formPet()" ' +
       'class="btn btnRegis">Registrar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<button type="button" id="btnlistarVehicle" name="btnlistarVehicle" onClick="listPet(event)" ' +
@@ -32,20 +27,29 @@ const formListOrPet = () => {
 let formPet = () => {
   Swal.fire({
     html:
-      '<br><br><center><form id="regMascota" name="regMascota" class="formSwal" onsubmit="sendText(event)">' +
+      '<br><br><center><form id="regMascota" name="regMascota" class="formSwal" '+
+      'onsubmit="sendText(event)">' +
       '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
-      '<h2 class=""><b class="titulo">Formulario de Mascota</b></h2><br>' +
+      '<h2 class=""><b class="titulo">Registrar m ascota</b></h2><br>' +
+      '<label class="label"><b>Especie de la mascota</b></label><br>' +
+      '<select id="petSpecies" name="petSpecies" class="input inputMax" title="petSpecies">'+
+      '<option></option><option>Ave</option><option>Felino</option>'+
+      '<option>Canino</option></select><br>' +
       '<label class="label"><b>Nombre de la Mascota</b></label><br>' +
-      '<input type="text" id="nombreMascota" name="nombreMascota" class="input" placeholder="Nombre de la Mascota" autocomplete="off"><br>' +
-      '<label class="label"><b>Especie de Mascota</b></label><br>' +
-      '<input type="text" id="tipoMascota" name="tipoMascota" class="input" placeholder="Especie: Gato, Perro" autocomplete="off"><br>' +
+      '<input type="text" id="petName" name="petName" class="input" '+
+      'placeholder="Nombre de la Mascota" autocomplete="off"><br>' +
+      '<label class="label"><b>Raza de la mascota</b></label><br>' +
+      '<input type="text" id="petBreed" name="petBreed" class="input" '+
+      'placeholder="Raza: Labrador, Doberman" autocomplete="off"><br>' +
       '<label class="label"><b>Foto de Evidencia</b></label><br>' +
-      '<input type="file" id="fotoEvidencia" name="fotoEvidencia" class="input" accept="image/*"><br><br>' +
-      '<input type="button" id="guardar" name="guardar" class="btn" onclick="keepPet()" value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<input type="file" id="image" name="image" class="input" '+
+      'accept="image/*"><br><br>' +
+      '<input type="button" id="guardar" name="guardar" class="btn" onclick="keepPet()"'+
+      'value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -59,9 +63,10 @@ let formPet = () => {
 
 // SAVE PET
 const keepPet = async () => {
-  const nombreMascota = document.getElementById("nombreMascota").value;
-  const tipoMascota = document.getElementById("tipoMascota").value;
-  const foto = document.getElementById("fotoEvidencia").value;
+  const nombreMascota = document.getElementById("petName").value;
+  const tipoMascota = document.getElementById("petSpecies").value;
+  const foto = document.getElementById("image").value;
+  const raza = document.getElementById("petBreed").value;
   if (
     nombreMascota === "" ||
     tipoMascota === "" ||

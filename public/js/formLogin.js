@@ -57,9 +57,9 @@ const loginSession = async (event) => {
 
     // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
     const profile = response.data.profile;
-    if (profile === "Administrador") {
+    if (profile === "administrador") {
       window.location.href = "/admin";
-    } else if (profile === "Residente") {
+    } else if (profile === "residente") {
       window.location.href = "/residen";
     } else {
       window.location.href = "/";

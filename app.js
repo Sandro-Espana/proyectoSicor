@@ -8,8 +8,8 @@ const auth = require('./routes/routesAuth')
 const residen = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
 const pqrs = require('./routes/routesPqrsCrud');
 const sancion = require('./routes/routesSancionCrud');
-const vehicle = require('./routes/routesVehiculoCrud');
-const pet = require('./routes/routesMascotaCrud');
+const vehicle = require('./routes/routesVehicle');
+const pet = require('./routes/routesPet');
 const supplier = require('./routes/routerProveedorCrud');
 const commonArea = require('./routes/routesCommonArea');
 

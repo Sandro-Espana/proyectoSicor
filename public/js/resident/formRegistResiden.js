@@ -42,19 +42,7 @@ let formRegistResident = () => {
   });
 };
 
-// FUNCTION THE INPUT DATA IS PASSED TO NUMBERS ONLY
-function cleanNumbers(input) {
-  input = input.toString();
-  const regex = /\D/g;
-  const cleanNumber = input.replace(regex, "");
-  return cleanNumber;
-}
 
-// FUNCTION THAT VALIDATES THE EMAIL FORMAT
-function validateEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
 
 // FUNCTION SEND RESIDENT REGISTRATION
 const RegistResiden = async (event) => {

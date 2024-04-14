@@ -50,46 +50,10 @@ const formGuardado = () => {
     showConfirmButton: false,
   });
 };
-function cerrarSwal() {
-  Swal.close();
-}
 
-// Función para cerrar el SweetAlert
-function cerrarSwal() {
-  Swal.close();
-}
 
-//CAPTURA LA HORA Y FECHA DEL MOMENTO
-function vfecha() {
-  let fecha = new Date(); // Fecha actual
-  let mes = fecha.getMonth() + 1; // Obteniendo mes
-  let dia = fecha.getDate(); // Obteniendo dia
-  let anio = fecha.getFullYear(); // Obteniendo año
-  let horas = fecha.getHours(); // Obteniendo horas
-  let minutos = fecha.getMinutes(); // Obteniendo minutos
-  let segundos = fecha.getSeconds(); // Obteniendo segundos
 
-  if (dia < 10) {
-    dia = "0" + dia; // Agrega cero si el menor de 10
-  }
-  if (mes < 10) {
-    mes = "0" + mes; // Agrega cero si el menor de 10
-  }
-  if (horas < 10) {
-    horas = "0" + horas; // Agrega cero si el menor de 10
-  }
-  if (minutos < 10) {
-    minutos = "0" + minutos; // Agrega cero si el menor de 10
-  }
-  if (segundos < 10) {
-    segundos = "0" + segundos; // Agrega cero si el menor de 10
-  }
 
-  // Formatea la cadena de fecha
-  let fec =
-    anio + "-" + mes + "-" + dia + "T" + horas + ":" + minutos + ":" + segundos;
-  return fec;
-}
 
 // Función para enviar el formulario de PQRS al servidor
 const enviarRegistroPQRS = async (event) => {

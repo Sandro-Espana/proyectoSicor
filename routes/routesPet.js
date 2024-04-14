@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const crudPet = require("../model/modelTbMascota");
+const crudPet = require("../model/tbMascota");
 
 router.post("/newPet", async (req, res) => {
   try {

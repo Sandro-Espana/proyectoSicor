@@ -149,14 +149,19 @@ const deleteUser = (userId, callback) => {
   );
 };
 
+// Función para eliminar datos de la tabla tb_resident
+const eliminarDatosResidentes = () => {
+    const sql = 'DELETE FROM tb_resident';
+    connection.query(sql);
+};
+//eliminarDatosResidentes()
+
 module.exports = {
   searchResidentById,
   searchResidenByUsername,
-  
   createResident,
   deleteUser,
   apartamentAvailability,
-  
   listUsers,
   searchByIdUser
 };

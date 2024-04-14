@@ -4,14 +4,14 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtKey = process.env.JWT_KEY;
-const { findUserByUsername } = require("../model/tbResident");
+const { searchResidenByUsername } = require("../model/tbResident");
 
 
 // LOGIN PATH
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await findUserByUsername(username); // SEARCH USER BY USERNAME
+    const user = await searchResidenByUsername(username); // SEARCH USER BY USERNAME
 
     // CHECK IF USER EXISTS
     if (!user) {
@@ -34,9 +34,9 @@ router.post("/login", async (req, res) => {
 
     // DETERMINE REDIRECTION ACCORDING TO USER PROFILE
     let redirection = "/";
-    if (user.Perfil === "Administrador") {
+    if (user.Perfil === "administrador") {
       redirection = "/admin";
-    } else if (user.profile === "Residente") {
+    } else if (user.profile === "residente") {
       redirection = "/residen";
     } else {
       redirection = "/normal";
