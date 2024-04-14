@@ -12,6 +12,7 @@ router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await findUserByUsername(username); // SEARCH USER BY USERNAME
+
     // CHECK IF USER EXISTS
     if (!user) {
       return res.status(404).json({ error: "El usuario no existe" });

@@ -48,11 +48,15 @@ const loginSession = async (event) => {
       username,
       password,
     });
-    const idUser = response.data.idUser; // SAVE userId AND idApt IN localStorage
+
+     // SAVE userId AND idApt IN localStorage
+    const idUser = response.data.idUser;
     const idApt = response.data.idApt;
     localStorage.setItem("userId", idUser);
     localStorage.setItem("idApt", idApt);
-    const profile = response.data.profile; // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
+
+    // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
+    const profile = response.data.profile;
     if (profile === "Administrador") {
       window.location.href = "/admin";
     } else if (profile === "Residente") {
