@@ -82,7 +82,7 @@ const RegistResiden = async (event) => {
 
   document.getElementById("info").innerHTML = "Enviando...";
   try {
-    const response = await axios.post("/api/register", {
+    const response = await axios.post("/api/newResident", {
       id_resident,
       id_apartament,
       name,

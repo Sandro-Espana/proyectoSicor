@@ -1,43 +1,38 @@
 const express = require("express");
 const router = express.Router();
-//const bcrypt = require("bcrypt");
-//const jwt = require("jsonwebtoken");
-const {obtainSanctions} = require("../model/tbSanctions");
+const {createSancion, obtainSanctions} = require("../model/tbSanctions");
 
 
 // CREATE A SANCTION IN DB
 router.post("/newSanction", async (req, res) => {
   try {
     if (
-      !req.body.estado ||
-      !req.body.descripcion ||
-      !req.body.fecha_hora ||
-      !req.body.foto_evidencia ||
-      !req.body.id_residente
+      !req.body.id_resident ||
+      !req.body.date_time ||
+      !req.body.attention ||
+      !req.body.state ||
+      !req.body.id_apt ||
+      !req.body.documentPdf
     ) {
       return res
         .status(400)
         .json({ error: "Por favor, proporciona todos los campos requeridos del server." });
     }
+
     // CREATE AN OBJECT NEW SANCTION
     const newSanction = {
-      estado: req.body.estado,
-      descripcion: req.body.descripcion,
-      fecha_hora: req.body.fecha_hora,
-      foto_evidencia: req.body.foto_evidencia,
-      id_residente: req.body.id_residente,
+      id_resident: req.body.id_resident,
+      date_time: req.body.date_time,
+      attention: req.body.attention,
+      state: req.body.state,
+      id_apt: req.body.id_apt,
+      document: req.body.documentPdf,
     };
     console.log(newSanction);
-    // INSERT THE NEW SANCTION IN THE DB
-    crudSanction.createSancion(newSanction, (error, insertId) => {
-      if (error) {
-        console.error("Error al crear la sanción:", error);
-        return res.status(500).json({ error: "Error al crear la sanción en la db." });
-      }
-      console.log("Sanción creada con éxito");
-      res
-        .status(201)
-        .json({ message: "Sanción creada correctamente.", insertId });
+
+    const response = await createSancion(newSanction);
+    return res.status(201).json({
+      message: ` Llamado de atencio al residente ${newSanction.id_resident}.`,
     });
   } catch (error) {
     console.error("Error al registrar la sanción:", error);

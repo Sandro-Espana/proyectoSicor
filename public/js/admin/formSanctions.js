@@ -1,4 +1,4 @@
-// FORM LIST PQRS
+// FORM LIST SANCTIONS
 const formSanctions = () => {
   Swal.fire({
     html:

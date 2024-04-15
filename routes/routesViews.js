@@ -38,27 +38,27 @@ router.delete('/deletePQRS/:id', (req, res) => {
 });
 
 
-// MANEGE USERS
+// MANEGE RESIDENT
 
-router.post('/register', (req, res) => {
+router.post('/newResident', (req, res) => {
 }); //OK
 
 router.post('/formUser', (req, res) => {
 });
 
-router.get('/listUsers', (req, res) => {
-});
+router.get('/listResident', (req, res) => {
+}); //OK
 
 router.put('/updateUser/:id', (req, res) => {
 });
 
-router.delete('/deleteUser/:id', (req, res) => {
-});
+router.delete('/deleteResident/:id', (req, res) => {
+}); //OK
 
 // MANEGE SANCTION
 
 router.post('/newSanction', (req, res) => {
-});
+}); //OK
 
 router.get('/listSanction', (req, res) => {
 }); // OK

@@ -5,12 +5,15 @@ const { searchAptById } = require("../model/tbApartament.js");
 const {
   searchResidenByUsername,
   searchResidentById,
+  apartamentResidentent,
   createResident,
-  apartamentAvailability,
+  listResident,
+  deleteResident
 } = require("../model/tbResident.js");
 
+
 // PATH REGISTER RESIDENT IN DB
-router.post("/register", async (req, res) => {
+router.post("/newResident", async (req, res) => {
   try {
     if (
       !req.body.id_resident ||
@@ -52,7 +55,7 @@ router.post("/register", async (req, res) => {
     }
 
     // VERIFY IF THE APARTAMENT IS ALREADY OCCUPIED
-    const occupiedApt = await apartamentAvailability(req.body.id_apartament);
+    const occupiedApt = await apartamentResidentent(req.body.id_apartament);
     if (occupiedApt) {
       return res.status(400).json({
         error: `El apartamento${req.body.id_apartament} no se encuentra disponible.`,
@@ -88,18 +91,11 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// GET ALL USERS FROM DB
-router.get("/listUsers", async (req, res) => {
+// GET ALL RESIDENTS FROM DB
+router.get("/listResident", async (req, res) => {
   try {
-    resident.listUsers((error, users) => {
-      if (error) {
-        console.error("Error en la solicitud: ", error);
-        res.status(500).json({ error: error.message });
-      } else {
-        res.json(users);
-        console.log("Listado de usuarios: ", users);
-      }
-    });
+    const response = await listResident();
+    res.status(201).json(response);
   } catch (error) {
     console.log("Error en la solicitud:", error);
     res.status(500).json({ error: error.message });
@@ -107,23 +103,14 @@ router.get("/listUsers", async (req, res) => {
 });
 
 // REMOVE USER FROM DB
-router.delete("/deleteUser/:id", async (req, res) => {
-  const usuarioId = req.params.id;
-  console.log("delete", usuarioId);
-  // if (req.user && req.user.profile === "Administrador")
+router.delete("/deleteResident/:id", async (req, res) => {
   try {
-    resident.deleteUser(usuarioId, (error, affectedRows) => {
-      if (error) {
-        console.error("Error al eliminar el usuario en el servidor:", error);
-        return res.status(500).json({ error: "Error en el servidor" });
-      }
-
-      if (affectedRows === 0) {
-        return res.status(404).json({ error: "El usuario no existe" });
-      }
-      res.status(201).json({ message: "Usuario eliminado exitosamente." });
-      // res.json({ message: "Usuario eliminado exitosamente" });
-    });
+    const response = await deleteResident(req.params.id);
+    if (response) {
+      return res.status(201).json({
+        message: `Residente ${req.params.id} eliminado corractamente.`,
+      });
+    }
   } catch (error) {
     console.error("Error en el servidor:", error);
     res.status(500).json({ error: "Error en el servidor" });
@@ -132,7 +119,10 @@ router.delete("/deleteUser/:id", async (req, res) => {
 
 module.exports = router;
 
-//Funciones para:
-//REGISTRO
-//LISTAR
-//ELIMINAR
+
+/*
+THIS FILE CONTAINS THE FOLLOWING PATHS
+newResident == REGISTER A NEW RESIDENT
+listResident/ == LIST ALL RESIDENT FROM TABLE
+deleteResident/:id == DELETE RESIDENT BY ID
+*/

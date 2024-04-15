@@ -10,11 +10,10 @@ const formUser = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">Gestionar usuarios</b></h2><br>' +
-      '<button type="button" id="BtnlistReside" name="Btnlistar" onClick="listUser(event)"' +
+      '<button type="button" id="BtnlistReside" name="Btnlistar" onClick="listResident(event)"' +
       'class="btn ">Residentes</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<button type="button" id="BtnlistPropie" name="Btnlistar" onClick="listUser(event)"' +
+      '<button type="button" id="BtnlistPropie" name="Btnlistar" onClick="listResident(event)"' +
       'class="btn ">Propietarios</button>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>' +
-      
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -28,23 +27,28 @@ const formUser = () => {
 
 
 // FUNCTION LIST USERS
-const listUser = async (event) => {
+const listResident = async (event) => {
   event.preventDefault();
-  document.getElementById("info").innerHTML = "Listando PQRS.....";
+  document.getElementById("info").innerHTML = "Listando Residentes...";
   try {
-    const response = await axios.get("/api/listUsers");
-    rendertUser(response);
-    console.log("response: ", response);
-    if (response.status === 200) {
-      console.log("Listado de usuarios exitoso");
-    }
+    const response = await axios.get("/api/listResident");
+    renderResident(response);
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const message = error.response.data.error;
+      console.log("mensaje: ", message);
+      Swal.fire({
+        icon: "error",
+        text: message,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
   }
 };
 
 //RENDER JSON
-function rendertUser(response) {
+function renderResident(response) {
   cerrarSwal();
   const data = response.data;
   if (data && data.length > 0) {
@@ -62,33 +66,31 @@ function rendertUser(response) {
       "</tr></thead><tbody>";
     data.forEach((item) => {
       tableHtml += `<tr>
-      <td>${item.id_residente}</td>
-      <td>${item.id_apartamento}</td>
-      <td>${item.nombre}</td>
-      <td>${item.apellido}</td>
+      <td>${item.id_resident}</td>
+      <td>${item.id_apartament}</td>
+      <td>${item.name}</td>
+      <td>${item.lastname}</td>
       <td>${item.username}</td>
-      <td>${item.celular}</td>
+      <td>${item.mobile}</td>
       <td><button
       type='button'
       class=''
-      onclick='modiUser(${item.id_propietario})'>
+      onclick='modiUser(${item.id_owner})'>
       Gestionar
       </button></td>
       <td><button
       type='button'
       class=''
-      onclick='sanUser(${item.id_residente},  "${item.id_apartamento}")'>
+      onclick='sanUser(${item.id_resident},  "${item.id_apartament}")'>
       Gestionar
       </button></td>
       </tr>`;
     });
     tableHtml += "</tbody></table>";
 
-    // RENDER TABLE
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
   } else {
-    // Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
@@ -115,21 +117,19 @@ let sanUser = (id, apt) => {
       ' onClick="formDeleUser(' +
       id +
       ')" value="Eliminar"><br><br>' +
-      //'<input type="button" id="actualizar" name="actualizar" class="btn" onclick="UpdatePqrs(event)" value="Guardar"><br><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
       "</form></center><br><br>",
     width: "100%",
     background: "rgba(0,0,0,0.0)",
     backdrop: true,
-    allowOutsideClick: false, // solo puede cerrar con el boton
+    allowOutsideClick: false,
     showConfirmButton: false,
   });
 };
 
 // FORM SANCTION
 let formSanciones = (id, apt) => {
-  console.log("formSancione ", id, apt);
   Swal.fire({
     html:
       '<br><br><center><form id="regSancion" name="regSancion" class="formSwal" onsubmit="sendText(event)">' +
@@ -139,23 +139,23 @@ let formSanciones = (id, apt) => {
       "</div>" +
       '<h2 class=""><b class="titulo">Formulario de Sanciones</b></h2><br>' +
       '<label class="label"><b>Estado</b></label><br>' +
-      '<select id="estado" name="tipo" class="input inputMax" title="Tipo">' +
-      "<option></option><option>Activa</option>" +
-      "<option>Revocada</option><option>Apelación</option></select><br>" +
+      '<select id="status" name="status" class="input inputMax" title="Tipo">' +
+      "<option></option><option>Enviado</option>" +
+      "<option>Conciliado</option><option>Sancionado</option></select><br>" +
       '<label class="label"><b>Apartamento</b></label><br>' +
-      '<input type="text" id="IdApt" name="IdApt" class="input" readonly ' +
+      '<input type="text" id="idApartament" name="idApartament" class="input" readonly ' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Residente</b></label><br>' +
-      '<input type="text" id="residenteID" name="residenteID" class="input" readonly ' +
+      '<input type="text" id="idResident" name="idResident" class="input" readonly ' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Fecha y hora</b></label><br>' +
-      '<input type="datetime-local" id="fechaCreacion" name="fechaCreacion" readonly class="input"><br>' +
-      '<label class="label"><b>Descripción</b></label><br>' +
-      '<input type="text" id="descripcion" name="descripcion" class="input" placeholder="Descripción" ' +
+      '<input type="datetime-local" id="dateCreation" name="dateCreation" readonly class="input"><br>' +
+      '<label class="label"><b>Llamado de atencion</b></label><br>' +
+      '<input type="text" id="attention" name="attention" class="input" accept=".pdf" placeholder="Llamado de atencion" ' +
       'autocomplete="off"><br>' +
-      '<label class="label"><b>Foto de Evidencia</b></label><br>' +
-      '<input type="file" id="fotoEvidencia" name="fotoEvidencia" class="input" accept="image/*"><br><br>' +
-      '<input type="button" id="guardar" name="guardar" class="btn" onClick="saveSanction(event)" ' +
+      '<label class="label"><b>Documento</b></label><br>' +
+      '<input type="file" id="documentPdf" name="document" class="input" accept="image/*"><br><br>' +
+      '<input type="button" id="save" name="save" class="btn" onClick="saveSanction(event)" ' +
       'value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
@@ -166,30 +166,28 @@ let formSanciones = (id, apt) => {
     allowOutsideClick: false,
     showConfirmButton: false,
   });
-  document.getElementById("fechaCreacion").value = vfecha();
-  document.getElementById("residenteID").value = id;
-  document.getElementById("IdApt").value = apt;
+  document.getElementById("dateCreation").value = vfecha();
+  document.getElementById("idResident").value = id;
+  document.getElementById("idApartament").value = apt;
 };
-
-function cerrarSwal() {
-  swal.close();
-}
 
 // FUNCTION SEND SANCTION
 const saveSanction = async (event) => {
   event.preventDefault();
 
-  const id_residente = document.getElementById("residenteID").value;
-  const fecha_hora = document.getElementById("fechaCreacion").value;
-  const descripcion = document.getElementById("descripcion").value;
-  const estado = document.getElementById("estado").value;
-  const foto_evidencia = document.getElementById("fotoEvidencia").value;
+  const id_resident = document.getElementById("idResident").value;
+  const date_time = document.getElementById("dateCreation").value;
+  const attention = document.getElementById("attention").value;
+  const state = document.getElementById("status").value;
+  const documentPdf = document.getElementById("documentPdf").value;
+  const id_apt = document.getElementById("idApartament").value
   if (
-    id_residente == "" ||
-    fecha_hora == "" ||
-    descripcion == "" ||
-    estado == "" ||
-    foto_evidencia == ""
+    id_resident == "" ||
+    date_time == "" ||
+    attention == "" ||
+    state == "" ||
+    id_apt == "" ||
+    document == ""
   ) {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorio";
@@ -200,14 +198,14 @@ const saveSanction = async (event) => {
   document.getElementById("info").innerHTML = "Enviando.....";
   try {
     const response = await axios.post("/api/newSanction", {
-      id_residente,
-      fecha_hora,
-      descripcion,
-      estado,
-      foto_evidencia,
+      id_resident,
+      date_time,
+      attention,
+      state,
+      id_apt,
+      documentPdf,
     });
     if (response.status === 201) {
-      console.log("Mascota eliminada");
       const mensaje = response.data.message;
       Swal.fire({
         icon: "success",
@@ -230,9 +228,7 @@ const saveSanction = async (event) => {
 
 //FORM DELETE CONFIRM
 const formDeleUser = (id) => {
-  console.log("formDeleUser ", id);
 
-  // let cod = document.getElementById("codigo").value;
   Swal.fire({
     html:
       '<br><br><center><form id="formDeleUser" name="formDeleUser" class="formSwal">' +
@@ -242,8 +238,6 @@ const formDeleUser = (id) => {
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar usuario?</b></h2><br>' +
       '<input type="button" id="BtndeleUser" name="codi" class="btn btninfo" readonly><br><br>' +
-      //'<button type="button" id="BtndeleUser" name="eliminarBtn" onClick="deletUser(event)" ' +
-      //'class="btn btnMedio"></button>' +
       '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="deletUser(' +
       id +
       ')"' +
@@ -257,22 +251,16 @@ const formDeleUser = (id) => {
     allowOutsideClick: false,
     showConfirmButton: false,
   });
-  //document.getElementById("codi").value = cod;
   document.getElementById("BtndeleUser").value = id;
-  //console.log(cod);
 };
 
 // FUNCTION DELETE USER
-const deletUser = async (codi) => {
-  //event.preventDefault();
-  let codigo = codi;
-  //codigo = document.getElementById("BtndeleUser").value;
-  console.log(" codigo deletUser : ", codigo);
+const deletUser = async (id_resident) => {
+
   document.getElementById("info").innerHTML = "Eliminando.....";
   try {
-    const response = await axios.delete(`/api/deleteUser/${codigo}`);
+    const response = await axios.delete(`/api/deleteResident/${id_resident}`);
     if (response.status === 201) {
-      console.log("Mascota eliminada");
       const message = response.data.message;
       Swal.fire({
         icon: "success",
