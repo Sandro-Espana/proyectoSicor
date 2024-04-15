@@ -16,7 +16,24 @@ const createSancion = (newSancion, callback) => {
 };
 
 // FUNCTION TO LIST ALL USERS FROM DB
-const listSanction = (callback) => {
+const obtainSanctions = (santions) => {
+  return new Promise((resolve, reject) => {
+    const sql =  'SELECT * FROM tb_sanction'
+    connection.query(
+      sql,
+      [santions],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+};
+
+/*const listSanction = (callback) => {
   if (typeof callback !== "function") {
     console.error(
       "Error: La función de devolución de llamada no está definida."
@@ -30,9 +47,9 @@ const listSanction = (callback) => {
       callback(null, results);
     }
   });
-};
+};*/
 
 module.exports = {
   createSancion,
-  listSanction
+  obtainSanctions
 };

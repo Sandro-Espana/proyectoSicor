@@ -8,7 +8,8 @@ const formSanctions = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">Gestionar Sanciones</b></h2><br>' +
-      '<button type="button" id="listarBtn" name="listarBtn" onClick="listarPQRS(event)" class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<button type="button" id="btnSanction" name="btnSanction" onClick="listSanctions(event)"' +
+      'class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -23,25 +24,31 @@ const formSanctions = () => {
 // FUNCTION LIST SANCTIONS
 const listSanctions = async (event) => {
   event.preventDefault();
+
   document.getElementById("info").innerHTML = "Listando Sanciones...";
   try {
     const response = await axios.get("/api/listSanction");
-    listSanction(response);
+    renderSanction(response);
     console.log(response);
-    if (response.status === 201) {
-      console.log("Listado de sanciones exitoso");
-    }
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const mensaje = error.response.data.error;
+      console.log("mensaje: ", mensaje);
+      Swal.fire({
+        icon: "error",
+        text: mensaje,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
   }
 };
 
 // RENDER JSON
-function listSanction(response) {
+function renderSanction(response) {
   cerrarSwal();
   const data = response.data;
   if (data && data.length > 0) {
-    // Construir la tabla HTML para mostrar los datos
     let tableHtml =
       "<table id='tablaPQRS'>" +
       "<thead><tr>" +

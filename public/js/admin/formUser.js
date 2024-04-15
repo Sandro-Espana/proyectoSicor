@@ -1,8 +1,4 @@
-//  ESTADOS DE LA SANCION = ENVIADO / CONCILIACION / SANCIONADO 
 // EN PROPIETARIOS PONER COEFICIENTE DE COPROPIEDAD  UN NUMERO PORCENTUAL
-// COMO SE ENVIA DOCUMENTO PDF A LA DB
-
-// TABLA SANCION  == LLAMADO DE ATENCION, RESPONDE, ACTA CONCILIACION PDF,SI SE SANCIONANA O NO 
 
 // FORM LISTAR USER
 const formUser = () => {
@@ -18,8 +14,7 @@ const formUser = () => {
       'class="btn ">Residentes</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<button type="button" id="BtnlistPropie" name="Btnlistar" onClick="listUser(event)"' +
       'class="btn ">Propietarios</button>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>' +
-      '<button type="button" id="BtnlistColab" name="Btnlistar" onClick="listUser(event)"' +
-      'class="btn ">Colaboradores</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -30,9 +25,7 @@ const formUser = () => {
     showConfirmButton: false,
   });
 };
-function cerrarSwal() {
-  Swal.close();
-}
+
 
 // FUNCTION LIST USERS
 const listUser = async (event) => {

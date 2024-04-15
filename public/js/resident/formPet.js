@@ -34,7 +34,7 @@ let formPet = () => {
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
-      '<h2 class=""><b class="titulo">Registrar m ascota</b></h2><br>' +
+      '<h2 class=""><b class="titulo">Registrar mascota</b></h2><br>' +
       '<label class="label"><b>Especie de la mascota</b></label><br>' +
       '<select id="petSpecies" name="petSpecies" class="input inputMax" title="petSpecies">'+
       '<option></option><option>Ave</option><option>Felino</option>'+
@@ -61,16 +61,21 @@ let formPet = () => {
   });
 };
 
-// SAVE PET
+// FUNCTION THAT CAPTURES DATA FROM THE FORM AND SENDS IT TO THE SERVER
 const keepPet = async () => {
-  const nombreMascota = document.getElementById("petName").value;
-  const tipoMascota = document.getElementById("petSpecies").value;
-  const foto = document.getElementById("image").value;
-  const raza = document.getElementById("petBreed").value;
+
+  const id_apt = localStorage.getItem("idApt");
+  const petName = document.getElementById("petName").value;
+  const petBreed = document.getElementById("petBreed").value;
+  const image = document.getElementById("image").value;
+  const petSpecies = document.getElementById("petSpecies").value;
+
   if (
-    nombreMascota === "" ||
-    tipoMascota === "" ||
-    foto === ""
+    id_apt === "" ||
+    image === "" ||
+    petName === "" ||
+    petBreed === "" ||
+    petSpecies === ""
   ) {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorios";
@@ -79,29 +84,28 @@ const keepPet = async () => {
     }, 3000);
     return;
   }
-  const idApt = localStorage.getItem("idApt");
   try {
     const response = await axios.post("/api/newPet", {
-      idApt: idApt,
-      nombreMascota: nombreMascota,
-      tipoMascota: tipoMascota,
-      foto: foto,
+      id_apt,
+      petName,
+      petBreed,
+      petSpecies,
+      image
     });
     if (response.status === 201) {
-      console.log("Registro de mascota exitoso");
-      const mensaje = response.data.mensaje;
+      const message = response.data.message;
       Swal.fire({
         icon: "success",
-        text: mensaje,
+        text: message,
       });
     }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error;
-      console.log("mensaje: ", mensaje);
+      const message = error.response.data.error;
+      console.log("mensaje: ", message);
       Swal.fire({
         icon: "error",
-        text: mensaje,
+        text: message,
       });
     } else {
       console.error("Error en la solicitud:", error.message);
@@ -114,21 +118,11 @@ const keepPet = async () => {
 const listPet = async (event) => {
   event.preventDefault();
 
-  const IdApt = localStorage.getItem("idApt");
-  console.log("idApt", IdApt);
+  const id_apt = localStorage.getItem("idApt");
   document.getElementById("info").innerHTML = "Listando mascotas...";
   try {
-    const response = await axios.get(`/api/listPets/${IdApt}`);
-    console.log(response);
+    const response = await axios.get(`/api/listPets/${id_apt}`);
     renderPet(response);
-    if (response.status === 201) {
-      console.log("Listado de mascotas exitoso");
-      const mensaje = response.data.mensaje;
-      Swal.fire({
-        icon: "success",
-        text: mensaje,
-      });
-    }
   } catch (error) {
     if (error.response) {
       const mensaje = error.response.data.error;
@@ -143,32 +137,32 @@ const listPet = async (event) => {
   }
 };
 
-//Renderiza JSON
+// RENDER JSON
 function renderPet(response) {
   cerrarSwal();
   const data = response.data;
-  console.log("data", data);
   if (data && data.length > 0) {
-    // Construir la tabla HTML para mostrar los datos
     let tableHtml =
-      "<table id='tablaPet'>" +
+      "<table id='tablaPQRS'>" +
       "<thead><tr>" +
       "<th>Apartamento</th>" +
       "<th>Nombre</th>" +
-      "<th>Tipo</th>" +
+      "<th>Especie</th>" +
+      "<th>Raza</th>" +
       "<th>Foto</th>" +
       "<th>Eliminar</th>" +
       "</tr></thead><tbody>";
     data.forEach((item) => {
       tableHtml += `<tr>
       <td>${item.id_apt}</td>
-      <td>${item.nombre}</td>
-      <td>${item.tipo}</td>
-      <td>${item.foto}</td>
+      <td>${item.petName}</td>
+      <td>${item.petSpecies}</td>
+      <td>${item.petBreed}</td>
+      <td>${item.image}</td>
       <td><button
       type='button'
       class=''
-      onclick='formDeletPet(${item.id_mascota}, "${item.nombre}")'
+      onclick='formDeletPet(${item.id_pet}, "${item.petName}")'
       >Eliminar
       </button>
       </td>
@@ -176,57 +170,16 @@ function renderPet(response) {
     });
     tableHtml += "</tbody></table>";
 
-    // Renderizar la tabla en el contenedor deseado
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
   } else {
-    //  Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
 }
 
-//FUNCION BARRA-BUSCAR
-function doSearch() {
-  if (document.getElementById("tablaPet")) {
-    const tableReg = document.getElementById("tablaPet");
-    const searchText = document
-      .getElementById("searchInput")
-      .value.toLowerCase();
-    let total = 0;
-
-    // Recorremos todas las filas con contenido de la tabla
-    for (let i = 1; i < tableReg.rows.length; i++) {
-      let found = false;
-      const cellsOfRow = tableReg.rows[i].getElementsByTagName("td");
-      // Recorremos todas las celdas
-      for (let j = 0; j < cellsOfRow.length && !found; j++) {
-        const compareWith = cellsOfRow[j].innerHTML.toLowerCase();
-        // Buscamos el texto en el contenido de la celda
-        if (searchText.length == 0 || compareWith.indexOf(searchText) > -1) {
-          found = true;
-          total++;
-        }
-      }
-      if (found) {
-        tableReg.rows[i].style.display = "";
-      } else {
-        // si no ha encontrado ninguna coincidencia, esconde la fila de la tabla
-        tableReg.rows[i].style.display = "none";
-      }
-    }
-    // mostramos las coincidencias
-  } else {
-    document.getElementById("container-table").innerHTML =
-      "No hay vehiculos para buscar";
-  }
-}
-
-
-//FORM DELETE CONFIRM
-const formDeletPet = (dele, nombre) => {
-  let delet = dele
-  console.log("delet ",dele)
+// FORM DELETE CONFIRM
+const formDeletPet = (id_pet, petName) => {
   Swal.fire({
     html:
       '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
@@ -236,7 +189,8 @@ const formDeletPet = (dele, nombre) => {
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar Mascota?</b></h2><br>' +
       '<input type="button" id="deletPet" name="codi" class="btn btninfo" readonly><br><br>' +
-      '<button type="button" id="btnDelePet" name="btnDelePet" onClick="deletIdPet(event, '+delet+')"'+
+      '<button type="button" id="btnDelePet" name="btnDelePet"'+
+      'onClick="deletIdPet(event, '+id_pet+', \''+petName+'\')"'+
       'class="btn btnMedio">Eliminar ' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
@@ -247,31 +201,29 @@ const formDeletPet = (dele, nombre) => {
     allowOutsideClick: false,
     showConfirmButton: false,
   });
-  document.getElementById("deletPet").value = nombre;
-  console.log("formDeletPet",dele);
+  document.getElementById("deletPet").value = petName;
 };
 
 //FUNCTION DELETE
-const deletIdPet = async (event, petId) => {
+const deletIdPet = async (event, id_pet, petName) => {
   event.preventDefault();
-console.log("dele: ", petId);
-  //const codigo = document.getElementById("deleVehi").value;
-  console.log("petId: ", petId);
+  
   document.getElementById("info").innerHTML = "Eliminando...";
   try {
-    const response = await axios.delete(`/api/deletePet/${petId}`);
+    const response = await axios.delete(`/api/deletePet/${id_pet}`,{
+      data: { petName: petName }
+    });
     if (response.status === 201) {
-      console.log("Mascota eliminada");
-      const mensaje = response.data.message;
+      const message = response.data.message;
       Swal.fire({
         icon: "success",
-        text: mensaje,
+        text: message,
       });
     }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error;
-      console.log("mensaje: ", mensaje);
+      const message = error.response.data.error;
+      console.log("mensaje: ", message);
       Swal.fire({
         icon: "error",
         text: mensaje,

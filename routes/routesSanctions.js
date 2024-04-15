@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 //const bcrypt = require("bcrypt");
 //const jwt = require("jsonwebtoken");
-const crudSanction = require("../model/modelTbSancion");
+const {obtainSanctions} = require("../model/tbSanctions");
 
 
 // CREATE A SANCTION IN DB
@@ -48,15 +48,8 @@ router.post("/newSanction", async (req, res) => {
 // GET ALL SANCTION FROM DB
 router.get("/listSanction", async (req, res) => {
   try {
-    crudSanction.listSanction((error, users) => {
-      if (error) {
-        console.error("Error en la solicitud: ", error);
-        res.status(500).json({ error: error.message });
-      } else {
-        res.json(users);
-        console.log("Listado de usuarios: ", users);
-      }
-    });
+    const response = await obtainSanctions()
+    res.status(201).json(response);
   } catch (error) {
     console.log("Error en la solicitud:", error);
     res.status(500).json({ error: error.message });

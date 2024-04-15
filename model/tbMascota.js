@@ -1,56 +1,58 @@
 const connection = require("../DB/dbMysql"); // IMPORT MUSQL MODULE
 
-// Función para crear una mascota
-const createPet = (newPet, callback) => {
-  if (typeof callback !== "function") {
-    console.error(
-      "Error: La función de devolución de llamada no está definida."
+
+// FUNCTION TO CREATE A NEW PET
+const createPet = (newPet) => {
+  return new Promise((resolve, reject) => {
+    const sql =  'INSERT INTO tb_pet SET ?'
+    connection.query(
+      sql,
+      [newPet],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      }
     );
-    return;
-  }
-  connection.query("INSERT INTO tb_mascota SET ?", newPet, (error, results) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      callback(null, results.insertId);
-    }
   });
 };
 
-const petsByIdApt = (idApt, callback) => {
-  connection.query(
-    "SELECT * FROM tb_mascota WHERE id_apt = ?",
-    [idApt],
-    (error, results) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, results);
+// FUNCTION TO BRING ALL PETS IN AN APARTAMENT
+const petsByIdApt = (id_apt) => {
+  return new Promise((resolve, reject) => {
+    const sql =  'SELECT * FROM tb_pet WHERE id_apt = ?'
+    connection.query(
+      sql,
+      [id_apt],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
       }
-    }
-  );
+    );
+  });
 };
 
-const deletePetById = (petId, callback) => {
-  if (typeof callback !== "function") {
-    console.error(
-      "Error: La función de devolución de llamada no está definida."
-    );
-    return;
-  }
-
-  connection.query(
-    "DELETE FROM tb_mascota WHERE id_mascota = ?",
-    [petId],
-    (error, result) => {
-      if (error) {
-        console.error(error);
-        callback(error, null);
-      } else {
-        callback(null, result);
+// FUNCTION ELIMINATES A PET BY ITS ID
+const deletePetById = (id_pet) => {
+  return new Promise((resolve, reject) => {
+    const sql =  'DELETE FROM tb_pet WHERE id_pet = ?'
+    connection.query(
+      sql,
+      [id_pet],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
       }
-    }
-  );
+    );
+  });
 };
 
 module.exports = {

@@ -61,7 +61,7 @@ router.post('/newSanction', (req, res) => {
 });
 
 router.get('/listSanction', (req, res) => {
-});
+}); // OK
 
 router.put('/updateSanction/:id', (req, res) => {
 });
@@ -87,16 +87,16 @@ router.delete('/deleteVehicle/:id_Vehicle', (req, res) => {
 // MANEGE PET
 
 router.post('/newPet', (req, res) => {
-});
+}); // OK
 
 router.get('/listPet', (req, res) => {
 });
 
-router.put('/updatePet/:idApt', (req, res) => {
-});
+router.put('/updatePet/:id_apt', (req, res) => {
+}); //OK
 
-router.delete('/deletePet/:petId', (req, res) => {
-});
+router.delete('/deletePet/:id_pet', (req, res) => {
+}); //OK
 
 
 // MANEGE SUPPLIER

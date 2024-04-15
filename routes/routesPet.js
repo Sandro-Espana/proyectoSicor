@@ -1,76 +1,71 @@
 const express = require("express");
 const router = express.Router();
-const crudPet = require("../model/tbMascota");
+const { createPet, petsByIdApt, deletePetById } = require("../model/tbMascota");
 
+
+// PATH TO CREATE A NEW PET IN THE DB
 router.post("/newPet", async (req, res) => {
   try {
-    if (!req.body.nombreMascota || !req.body.tipoMascota || !req.body.foto) {
+    if (
+      !req.body.id_apt ||
+      !req.body.petName ||
+      !req.body.petBreed ||
+      !req.body.petSpecies ||
+      !req.body.image
+    ) {
       return res
         .status(400)
         .json({ error: "Por favor, proporciona todos los campos requeridos." });
     }
 
-    // Crear un objeto con los datos de la nueva mascota
+    // CREATE AN OBJECT WITH THE NEW MASCOT'S DATA
     const newPet = {
-      id_apt: req.body.idApt,
-      nombre: req.body.nombreMascota,
-      tipo: req.body.tipoMascota,
-      foto: req.body.foto,
+      id_apt: req.body.id_apt,
+      petName: req.body.petName,
+      petBreed: req.body.petBreed,
+      petSpecies: req.body.petSpecies,
+      image: req.body.image,
     };
-    console.log(newPet);
-    // Llamar a la función createPet para insertar la nueva mascota en la base de datos
-    crudPet.createPet(newPet, (error, insertId) => {
-      if (error) {
-        console.error("Error al crear la mascota:", error);
-        return res.status(500).json({
-          error: "Error al crear la mascota en la base de datos.",
-        });
-      }
-      console.log("Mascota registrada con éxito");
+
+    // INSERT NEW MASCOT IN THE DB
+    const createdMascot = await createPet(newPet);
+    if (createdMascot) {
       res
         .status(201)
-        .json({ mensaje: "Mascota registrada correctamente.", id: insertId });
-    });
+        .json({
+          message: `Mascota  ${req.body.petName}  registrada correctamente.`,
+        });
+    }
   } catch (error) {
     console.error("Error al registrar la mascota:", error);
-    res.status(500).json({ error: "Error al registrar la mascota." });
+    res
+      .status(500)
+      .json({
+        error: `Error al registrar la mascota  ${req.body.petName}  registrada correctamente.`,
+      });
   }
 });
 
-router.get("/listPets/:idApt", async (req, res) => {
+// ROUTE TO BRING ALL PETS FROM ONE APARTAMENT
+router.get("/listPets/:id_apt", async (req, res) => {
   try {
-    const idApt = req.params.idApt;
-    console.log("ID del apartamento:", idApt);
-
-    // Llama a la función correspondiente para obtener todas las mascotas por el ID del apartamento
-    crudPet.petsByIdApt(idApt, (error, pets) => {
-      if (error) {
-        console.error("Error al obtener mascotas:", error);
-        res.status(500).json({ error: error.message });
-      } else {
-        console.log("Mascotas obtenidas correctamente:", pets);
-        res.json(pets);
-      }
-    });
+    const listMascot = await petsByIdApt(req.params.id_apt);
+    if (listMascot) {
+      res.status(201).json(listMascot);
+    }
   } catch (error) {
     console.log("Error en la solicitud:", error);
     res.status(500).json({ error: error.message });
   }
 });
 
-router.delete("/deletePet/:petId", async (req, res) => {
+// ROUTE TO REMOVE PET BY ITS ID
+router.delete("/deletePet/:id_pet", async (req, res) => {
   try {
-    const petId = req.params.petId;
-    console.log("Pet ID to delete: ", petId);
-    crudPet.deletePetById(petId, (error, deletedPet) => {
-      if (error) {
-        console.error("Error deleting pet: ", error);
-        res.status(500).json({ error: error.message });
-      } else {
-        console.log("Pet deleted successfully ", deletedPet);
-        res.status(201).json({ message: "Pet deleted successfully" });
-      }
-    });
+    const deletMascot = await deletePetById(req.params.id_pet);
+    if (deletMascot) {
+      res.status(201).json({ message:  `Mascota ${req.body.petName} eliminada.` });
+    }
   } catch (error) {
     console.log("Error in request:", error);
     res.status(500).json({ error: error.message });
@@ -78,3 +73,10 @@ router.delete("/deletePet/:petId", async (req, res) => {
 });
 
 module.exports = router;
+
+/*
+THIS FILE CONTAINS THE FOLLOWING PATHS
+newPet == REGISTER A NEW PET
+listPets/:id_apt == LIST PETS BY APARTAMENT ID
+deletePet/:id_pet == DELETE PET BY ID
+*/
