@@ -95,7 +95,7 @@ const deleteResident = (id_resident) => {
     });
   });
 };
-
+/*
 const searchByIdUser = (userId, callback) => {
   connection.query(
     "SELECT * FROM tb_resident WHERE id_resident = ?",
@@ -108,7 +108,7 @@ const searchByIdUser = (userId, callback) => {
       }
     }
   );
-};
+};*/
 
 
 // Función para eliminar datos de la tabla tb_resident
@@ -127,5 +127,5 @@ module.exports = {
   deleteResident,
 
 
-  searchByIdUser,
+  //searchByIdUser,
 };

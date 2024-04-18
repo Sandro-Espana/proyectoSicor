@@ -7,8 +7,9 @@ const formPqrsAdmin = () => {
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
-      '<h2 class=""><b id="titregcli" class="titulo">GESTIONAR PQRS</b></h2><br>' +
-      '<button type="button" id="listarBtn" name="listarBtn" onClick="listarPQRS(event)" class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
+      '<h2 class=""><b id="titregcli" class="titulo">Gestionar PQRS</b></h2><br>' +
+      '<button type="button" id="btnList" name="btnList" onClick="listPqrs(event)"'+
+      'class="btn btnMedio">Listar</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -20,27 +21,34 @@ const formPqrsAdmin = () => {
   });
 };
 
-// FUNCTION LIST PQRS
-const listarPQRS = async (event) => {
+// FUNCTION LISTS ALL PQRS
+const listPqrs = async (event) => {
   event.preventDefault();
-  document.getElementById("info").innerHTML = "Listando PQRS.....";
+  
+  document.getElementById("info").innerHTML = "Listando PQRS...";
   try {
-    const response = await axios.get("/api/listarPQRS");
-    listData(response);
-    if (response.status === 201) {
-      console.log("Listado de PQRS exitoso");
-    }
+    const response = await axios.get("/api/listPqrs");
+    console.log(response);
+    renderPqrs(response);
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const message = error.response.data.error;
+      console.log("mensaje: ", message);
+      Swal.fire({
+        icon: "error",
+        text: message,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
   }
 };
 
 //Renderiza JSON
-function listData(response) {
+function renderPqrs(response) {
   cerrarSwal();
   const data = response.data;
   if (data && data.length > 0) {
-    // Construir la tabla HTML para mostrar los datos
     let tableHtml =
       "<table id='tablaPQRS'>" +
       "<thead><tr>" +
@@ -53,19 +61,19 @@ function listData(response) {
       "<th>Gestionar</th>" +
       "</tr></thead><tbody>";
     data.forEach((item) => {
-      const fecha = new Date(item.FechaCreacion);
+      const fecha = new Date(item.date_creation);
       const fechaFormateada = `${fecha.getDate()}/${fecha.getMonth() + 1}`;
       tableHtml += `<tr>
-      <td>${item.PQRSID}</td>
-      <td>${item.Estado}</td>
-      <td>${item.Tipo}</td>
-      <td>${item.Asunto}</td>
-      <td>${item.Descripcion}</td>
+      <td>${item.id_pqrs}</td>
+      <td>${item.state}</td>
+      <td>${item.type}</td>
+      <td>${item.subject}</td>
+      <td>${item.description}</td>
       <td>${fechaFormateada}</td>
       <td><button
       type='button'
       class=''
-      onclick='modiData(${item.PQRSID})'
+      onclick='formUpdatePqrs(${item.id_pqrs}, "${item.state}", "${item.subject}", "${item.description}")'
       >modificar
       </button>
       </td>
@@ -73,19 +81,16 @@ function listData(response) {
     });
     tableHtml += "</tbody></table>";
 
-    // Renderizar la tabla en el contenedor deseado
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
   } else {
-    // Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
 }
 
 // FORM UPDATE PQRS
-const modiData = (cod) => {
-  console.log(cod);
+const formUpdatePqrs = (idPqrs, state, subject, description) => {
   Swal.fire({
     html:
       '<br><br><center><form id="modiData" name="" class="formSwal" onsubmit="sendText(event)">' +
@@ -95,118 +100,94 @@ const modiData = (cod) => {
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">Responder PQRS</b></h2><br>' +
       '<label class="label"><b>Estado</b></label><br>' +
-      '<select id="estado" name="estado" class="input inputMax" title="estado"><option>' +
+      '<select id="state" name="state" class="input inputMax" title="estado"><option>' +
       "</option><option>Pendiente</option><option>En Proceso</option><option>Resuelto</option>" +
       "</select><br>" +
-      '<label class="label"><b>Codigo</b></label><br>' +
-      '<input type="text" id="codigo" name="codigo" class="input" readOnly><br>' +
+      '<label class="label"><b>ID Pqrs</b></label><br>' +
+      '<input type="text" id="idPqrs" name="idPqrs" class="input" readOnly><br>' +
       '<label class="label"><b>Asunto</b></label><br>' +
-      '<input type="text" id="asunto" name="asunto" class="input" readOnly><br><br><br>' +
+      '<input type="text" id="subject" name="subject" class="input" readOnly><br><br><br>' +
       '<label class="label"><b>Descripcion</b></label><br>' +
-      '<textarea id="descripcion" name="descripcion" class="input inputext" readonly'+
+      '<textarea id="description" name="description" class="input inputext" readonly'+
       'rows="4" placeholder="Descripción"></textarea><br>' +
       '<label class="label"><b>Respuesta</b></label><br>' +
-      '<textarea id="respuesta" name="respuesta" class="input inputext"  rows="4" ' +
+      '<textarea id="response" name="response" class="input inputext"  rows="4" ' +
       'placeholder="Respuesta"></textarea><br>' +
+      '<input type="button" id="updatePqrs" name="updatePqrs" class="btn" '+
+      'onclick="sendUpdatePqrs(event)" value="Guardar"><br><br>' +
       '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo"' +
       'onClick="formConfirDelet()" value="Eliminar"><br><br>' +
-      '<input type="button" id="actualizar" name="actualizar" class="btn" '+
-      'onclick="UpdatePqrs(event)" value="Guardar"><br><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
       "</form></center><br><br>",
     width: "100%",
     background: "rgba(0,0,0,0.0)",
     backdrop: true,
-    allowOutsideClick: false, // solo puede cerrar con el boton
+    allowOutsideClick: false,
     showConfirmButton: false,
   });
+  
+  document.getElementById("idPqrs").value = idPqrs;
+  document.getElementById("state").value = state;
+  document.getElementById("subject").value = subject;
+  document.getElementById("description").value = description;
 
-  document.getElementById("codigo").value = cod;
-
-  let table = document.getElementById("tablaPQRS");
+ /* let table = document.getElementById("tablaPQRS");
   for (let i = 0, row; (row = table.rows[i]); i++) {
-    if (table.rows[i].cells[0].innerHTML == cod) {
-      document.getElementById("asunto").value =
+    if (table.rows[i].cells[0].innerHTML == idPqrs) {
+      document.getElementById("subject").value =
         table.rows[i].cells[1].innerHTML;
-      document.getElementById("descripcion").value =
-        table.rows[i].cells[3].innerHTML;
+      document.getElementById("description").value =
+        table.rows[i].cells[2].innerHTML;
       return;
     }
-  }
+  }*/
 };
 
-//FUNCION BARRA-BUSCAR
-function doSearch() {
-  if (document.getElementById("tablaPQRS")) {
-    const tableReg = document.getElementById("tablaPQRS");
-    const searchText = document
-      .getElementById("searchInput")
-      .value.toLowerCase();
-    let total = 0;
-
-    // Recorremos todas las filas con contenido de la tabla
-    for (let i = 1; i < tableReg.rows.length; i++) {
-      let found = false;
-      const cellsOfRow = tableReg.rows[i].getElementsByTagName("td");
-      // Recorremos todas las celdas
-      for (let j = 0; j < cellsOfRow.length && !found; j++) {
-        const compareWith = cellsOfRow[j].innerHTML.toLowerCase();
-        // Buscamos el texto en el contenido de la celda
-        if (searchText.length == 0 || compareWith.indexOf(searchText) > -1) {
-          found = true;
-          total++;
-        }
-      }
-      if (found) {
-        tableReg.rows[i].style.display = "";
-      } else {
-        // si no ha encontrado ninguna coincidencia, esconde la fila de la tabla
-        tableReg.rows[i].style.display = "none";
-      }
-    }
-    // mostramos las coincidencias
-  } else {
-    document.getElementById("container-table").innerHTML =
-      "No hay PQRS para buscar";
-  }
-}
 
 //UPDATE PQRS
-const UpdatePqrs = async (event) => {
+const sendUpdatePqrs = async (event) => {
   event.preventDefault();
 
-  const estado = document.getElementById("estado").value;
-  const codigo = document.getElementById("codigo").value;
-  const respuesta = document.getElementById("respuesta").value;
-  if (estado == "" || respuesta == "") {
+  const state = document.getElementById("state").value;
+  const id_pqrs = document.getElementById("idPqrs").value;
+  const reply = document.getElementById("response").value;
+
+  if (state == "" || reply == "") {
     document.getElementById("info").innerHTML =
-      "Campos estado y respuesta es obligatorio";
+      "Los campos estado y respuesta son obligatorio";
     setTimeout("document.getElementById('info').innerHTML = ''", 4000);
     return;
   }
-  document.getElementById("actualizar").disabled = true;
+  document.getElementById("updatePqrs").disabled = true;
   document.getElementById("info").innerHTML = "Enviando.....";
-  // setTimeout("document.getElementById('info').innerHTML  = ''",);
   try {
-    // Enviar los datos del formulario al servidor usando Axios
-    const response = await axios.put(`/api/updatePQRS/${codigo}`, {
-      estado,
-      respuesta,
+    const response = await axios.put(`/api/updatePqrs/${id_pqrs}`, {
+      state,
+      reply,
     });
-    document.getElementById("info").innerHTML = "Guardado correctamente";
-    setTimeout("cerrarSwal()", 3000);
     if (response.status === 201) {
-      console.log("Registro de PQRS exitoso");
+      Swal.fire({
+        icon: "success",
+        text: message,
+      });
     }
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const message = error.response.data.error;
+      Swal.fire({
+        icon: "error",
+        text: message,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
   }
 };
 
 //FORM DELETE CONFIRM
 const formConfirDelet = () => {
-  let cod = document.getElementById("codigo").value;
+  let idPqrs = document.getElementById("idPqrs").value;
   Swal.fire({
     html:
       '<br><br><center><form id="formPqrsAdmin" name="formPQRS" class="formSwal">' +
@@ -215,8 +196,8 @@ const formConfirDelet = () => {
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar PQRS?</b></h2><br>' +
-      '<input type="button" id="codi" name="codi" class="btn btninfo" readonly><br><br>' +
-      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="eliminarPQRS(event)"'+
+      '<input type="button" id="id_pqrs" name="id_pqrs" class="btn btninfo" readonly><br><br>' +
+      '<button type="button" id="eliminarBtn" name="eliminarBtn" onClick="deletePqrs(event)"'+
       'class="btn btnMedio">Eliminar ' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
@@ -227,25 +208,33 @@ const formConfirDelet = () => {
     allowOutsideClick: false,
     showConfirmButton: false,
   });
-  document.getElementById("codi").value = cod;
-  console.log(cod);
+  document.getElementById("id_pqrs").value = idPqrs;
 };
 
 //FUNCTION DELETE
-const eliminarPQRS = async (event) => {
+const deletePqrs = async (event) => {
   event.preventDefault();
-  //console.log(event.target)
-  const codigo = document.getElementById("codi").value;
-  console.log("LINEA 208 codigo: ", codigo);
-  //document.getElementById("info").innerHTML = "Eliminando.....";
+
+  const id_pqrs = document.getElementById("id_pqrs").value;
+  //document.getElementById("info").innerHTML = "Eliminando...";
   try {
-    const response = await axios.delete(`/api/deletePQRS/${codigo}`);
-    document.getElementById("info").innerHTML = "Eliminando";
-    setTimeout("cerrarSwal()", 2000);
-    if (response.status === 200) {
-      console.log("Eliminación de PQRS exitosa");
+    const response = await axios.delete(`/api/deletePqrs/${id_pqrs}`);
+    if (response.status === 201) {
+      const message = response.data.message;
+      Swal.fire({
+        icon: "success",
+        text: message,
+      });
     }
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response) {
+      const message = error.response.data.error;
+      Swal.fire({
+        icon: "error",
+        text: message,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
   }
 };

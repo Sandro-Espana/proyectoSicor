@@ -25,26 +25,26 @@ router.get('/residen', (req, res) => {
 
 // MANAGE PQRS
 
-router.post('/formPQRS', (req, res) => {
-});
+router.post('/newPqrs', (req, res) => {
+}); //OK
 
-router.get('/listarPQRS', (req, res) => {
-});
+router.get('/listPqrs', (req, res) => {
+}); //OK
 
-router.put('/updatePQRS/:id', (req, res) => {
-});
+router.get('/listPqrsResident/:id_resident', (req, res) => {
+}); //
 
-router.delete('/deletePQRS/:id', (req, res) => {
-});
+router.put('/updatePqrs/:id_pqrs', (req, res) => {
+}); //OK
+
+router.delete('/deletePqrs/:id_pqrs', (req, res) => {
+}); //OK
 
 
 // MANEGE RESIDENT
 
 router.post('/newResident', (req, res) => {
 }); //OK
-
-router.post('/formUser', (req, res) => {
-});
 
 router.get('/listResident', (req, res) => {
 }); //OK
@@ -55,6 +55,22 @@ router.put('/updateUser/:id', (req, res) => {
 router.delete('/deleteResident/:id', (req, res) => {
 }); //OK
 
+
+// MANEGE PROPRIETOR
+
+router.post('/newProprietor', (req, res) => {
+});
+
+router.get('/listProprietor', (req, res) => {
+});
+
+router.put('/updateProprietor/:id', (req, res) => {
+});
+
+router.delete('/deleteProprietor/:id', (req, res) => {
+});
+
+
 // MANEGE SANCTION
 
 router.post('/newSanction', (req, res) => {
@@ -63,8 +79,8 @@ router.post('/newSanction', (req, res) => {
 router.get('/listSanction', (req, res) => {
 }); // OK
 
-router.put('/updateSanction/:id', (req, res) => {
-});
+router.put('/updateSanction/:id_resident', (req, res) => {
+}); //OK
 
 router.delete('/deleteSanction/:id', (req, res) => {
 });
@@ -102,18 +118,16 @@ router.delete('/deletePet/:id_pet', (req, res) => {
 // MANEGE SUPPLIER
 
 router.post('/newSupplier', (req, res) => {
-});
+}); //OK
 
 router.get('/listSupplier', (req, res) => {
-});
+});  //OK
 
 router.put('/updateSupplier/:id', (req, res) => {
-});
+}); //OK
 
-router.delete('/deleteSupplier/:id', (req, res) => {
-});
 
-// MANEGE COMMON ZONE
+// MANEGE COMMON AREA ADMIN
 
 router.post('/newCommonArea', (req, res) => {
 });
@@ -127,4 +141,8 @@ router.put('/updateCommonArea/:id', (req, res) => {
 router.delete('/deleteCommonArea/:id', (req, res) => {
 });
 
+// MANEGE COMMON AREA RESIDENT
+
+router.post('/reserveCommonArea', (req, res) => {
+});
 module.exports = router;

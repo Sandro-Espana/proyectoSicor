@@ -52,29 +52,31 @@ function renderSanction(response) {
     let tableHtml =
       "<table id='tablaPQRS'>" +
       "<thead><tr>" +
-      "<th>ID</th>" +
+      "<th>Apt</th>" +
+      "<th>Residente</th>" +
       "<th>Estado</th>" +
-      "<th>Tipo</th>" +
       "<th>Asunto</th>" +
-      "<th>Descripción</th>" +
+      "<th>Respuesta</th>" +
       "<th>Fecha</th>" +
       "<th>Gestionar</th>" +
       "</tr></thead><tbody>";
     data.forEach((item) => {
-      const fecha = new Date(item.FechaCreacion);
+      const fecha = new Date(item.date_attention);
       const fechaFormateada = `${fecha.getDate()}/${fecha.getMonth() + 1}`;
+      console.log(item.date_attention);
       tableHtml += `<tr>
-      <td>${item.PQRSID}</td>
-      <td>${item.Estado}</td>
-      <td>${item.Tipo}</td>
-      <td>${item.Asunto}</td>
-      <td>${item.Descripcion}</td>
+      <td>${item.id_apt}</td>
+      <td>${item.id_resident}</td>
+      <td>${item.state}</td>
+      <td>${item.attention}</td>
+      <td>${item.response}</td>
       <td>${fechaFormateada}</td>
       <td><button
       type='button'
       class=''
-      onclick='formUpdateSanc(${item.PQRSID})'
-      >modificar
+      onclick='formTracking(${item.id_resident},
+      "${item.state}", "${item.attention}", "${item.response}", "${item.date_attention}")'
+      >seguimiento
       </button>
       </td>
       </tr>`;
@@ -85,15 +87,13 @@ function renderSanction(response) {
     document.getElementById("container-table").innerHTML = tableHtml;
     document.getElementById("searchInput").style.display = "block";
   } else {
-    // Mostrar un mensaje si no hay datos
     document.getElementById("container-table").innerHTML =
       "No hay datos disponibles.";
   }
 }
 
-// FORM SANCTION
-let formUpdateSanc = (id, apt) => {
-  console.log("formSancione ", id, apt);
+// FOLLOW-UP FORM SANCTION
+let formTracking = (id_resident, state, attention, response, fechaFormateada) => {
   Swal.fire({
     html:
       '<br><br><center><form id="regSancion" name="regSancion" class="formSwal" onsubmit="sendText(event)">' +
@@ -101,25 +101,30 @@ let formUpdateSanc = (id, apt) => {
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
-      '<h2 class=""><b class="titulo">Responder sancion</b></h2><br>' +
+      '<h2 class=""><b class="titulo">Proceso sancion</b></h2><br>' +
       '<label class="label"><b>Estado</b></label><br>' +
-      '<select id="estado" name="tipo" class="input inputMax" title="Tipo">' +
-      "<option></option><option>Activa</option>" +
-      "<option>Revocada</option><option>Apelación</option></select><br>" +
-      '<label class="label"><b>Apartamento</b></label><br>' +
-      '<input type="text" id="IdApt" name="IdApt" class="input" readonly ' +
+      '<select id="state" name="state" class="input inputMax" title="Tipo">' +
+      "<option></option><option>enviado</option>" +
+      "<option>conciliado</option><option>sancionado</option></select><br>" +
+      '<label class="label"><b>Llamado de atencion</b></label><br>' +
+      '<input type="text" id="attention" name="attention" class="input" readonly ' +
       'autocomplete="off"><br>' +
-      '<label class="label"><b>Residente</b></label><br>' +
-      '<input type="text" id="residente" name="residenteID" class="input" readonly ' +
+      '<label class="label"><b>Respuesta</b></label><br>' +
+      '<input type="text" id="response" name="response" class="input" readonly ' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Fecha y hora</b></label><br>' +
-      '<input type="datetime-local" id="fechaCreacion" name="fechaCreacion" readonly class="input"><br>' +
-      '<label class="label"><b>Descripción</b></label><br>' +
-      '<input type="text" id="descripcion" name="descripcion" class="input" placeholder="Descripción" ' +
+      '<input type="date-local" id="date_time" name="date_time" readonly class="input"><br>' +
+      '<label class="label"><b>Acta conciliacion</b></label><br>' +
+      '<input type="file" id="conciliation_act" name="conciliation_act" class="input" ' +
+      'placeholder="Acta conciliacion" accept=".pdf"' +
       'autocomplete="off"><br>' +
-      '<label class="label"><b>Foto de Evidencia</b></label><br>' +
-      '<input type="file" id="fotoEvidencia" name="fotoEvidencia" class="input" accept="image/*"><br><br>' +
-      '<input type="button" id="guardar" name="guardar" class="btn" onClick="saveSanction(event)" ' +
+      '<label class="label"><b>Sancionar</b></label><br>' +
+      '<select id="sanction" name="sanction" class="input inputMax" title="Tipo">' +
+      "<option></option><option>No</option>" +
+      "<option>Si</option></select><br><br>" +
+      '<input type="button" id="update" name="update" class="btn" onClick="updateSantion(' +
+      id_resident +
+      ')" ' +
       'value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
@@ -130,10 +135,51 @@ let formUpdateSanc = (id, apt) => {
     allowOutsideClick: false,
     showConfirmButton: false,
   });
-  document.getElementById("estado").value = id;
-  document.getElementById("IdApt").value = apt;
-  document.getElementById("residente").value = id;
-  document.getElementById("fechaCreacion").value = id;
-  document.getElementById("descripcion").value = id;
-  document.getElementById("fotoEvidencia").value = id;
+  document.getElementById("state").value = state;
+  document.getElementById("attention").value = attention;
+  document.getElementById("response").value = response;
+  document.getElementById("date_time").value = vfecha();
+};
+
+// FUNCTION UPDATE SANCTION
+const updateSantion = async (id_resident) => {
+  console.log(id_resident);
+  const state = document.getElementById("state").value;
+  const date_conciliation = document.getElementById("date_time").value;
+  const documentPdf = document.getElementById("conciliation_act").value;
+  const sanctioned = document.getElementById("sanction").value;
+  console.log(sanctioned)
+  if (state == "" || date_conciliation == "" || documentPdf == ""  || sanctioned == "") {
+    document.getElementById("info").innerHTML =
+      "Todos los campos son obligatorio";
+    setTimeout("document.getElementById('info').innerHTML  = ''", 3000);
+    return;
+  }
+  try {
+    const response = await axios.put(`/api/updateSanction/${id_resident}`, {
+      state,
+      date_conciliation,
+      documentPdf,
+      sanctioned,
+    });
+    if (response.status === 201) {
+      console.log("Sancion actualizado");
+      const message = response.data.message;
+      Swal.fire({
+        icon: "success",
+        text: message,
+      });
+    }
+  } catch (error) {
+    if (error.response) {
+      const message = error.response.data.error;
+      console.log("mensaje: ", message);
+      Swal.fire({
+        icon: "error",
+        text: message,
+      });
+    } else {
+      console.error("Error en la solicitud:", error.message);
+    }
+  }
 };

@@ -6,13 +6,14 @@ const cors = require('cors');
 const rutasViews = require('./routes/routesViews');
 const auth = require('./routes/routesAuth')
 const resident = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
-const pqrs = require('./routes/routesPqrsCrud');
+const pqrs = require('./routes/routesPqrs');
 const sanctions = require('./routes/routesSanctions');
 const vehicle = require('./routes/routesVehicle');
 const pet = require('./routes/routesPet');
-const supplier = require('./routes/routerProveedorCrud');
-const commonArea = require('./routes/routesCommonArea');
-
+const supplier = require('./routes/routesSupplier');
+const commonAreaAdmin = require('./routes/routesCommonAreaAdmi');
+const commonAreaResid = require('./routes/routesCommonAreaResid');
+const proprietor = require('./routes/routesProprietor');
 
 const app = express() // Creación de una aplicación Express
 
@@ -61,7 +62,11 @@ app.use('/api', pet);
 
 app.use('/api', supplier);
 
-app.use('/api', commonArea);
+app.use('/api', commonAreaAdmin);
+
+app.use('/api', commonAreaResid);
+
+app.use('/api', proprietor);
 
 const db = conectarDB; // Conexión a Mysql
 

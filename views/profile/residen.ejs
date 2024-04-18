@@ -7,7 +7,6 @@
     <title>Residente</title>
     <link rel="stylesheet" type="text/css" href="/css/stylesResiden.css" />
     <link rel="stylesheet" type="text/css" href="/css/stylesForm.css" />
-    <!-- <link rel="stylesheet" type="text/css" href="/css/stylesTable.css" /> -->
     <link rel="icon" href="/img/favicon.png" />
   </head> 
   <body>
@@ -16,7 +15,7 @@
     <main>
       <h1>FUNCIONES DE RESIDENTE</h1>
       <div class="container-residen">
-        <button type="button" class="btn btnmenu" onclick="formPQRS()">
+        <button type="button" class="btn btnmenu" onclick="formListOrRegistPqrs()">
           PQRS
         </button>
         <button type="button" class="btn btnmenu" onclick="formListOrRegist()">
@@ -35,7 +34,7 @@
         <button
           type="button"
           class="btn btnmenu"
-          onclick="formReservasZonasComunes()"
+          onclick="formReserveCommonArea()"
         >
           Zonas Comunes
         </button>
@@ -52,11 +51,10 @@
   </body>
   <script src="/js/swalDos.js"></script>
   <script src="js/variousFunction.js"></script>
-  <script src="js/resident/formPqrsReside.js"></script>
+  <script src="js/resident/formPqrsResident.js"></script>
   <script src="/js/resident/formVehicle.js"></script>
-  <script src="/js/resident/formRespEncue.js"></script>
   <script src="/js/resident/formPet.js"></script>
-  <script src="/js/resident/formZonComun.js"></script>
+  <script src="/js/resident/formCommonAreaResid.js"></script>
   <script>
     window.onload = function(){
       document.getElementById('searchInput').style.display = 'none';

@@ -5,7 +5,7 @@ const {
   listCommonArea,
   updateCommonAreaById,
   deleteCommonAreaById
-} = require("../model/tbCommonArea");
+} = require("../model/tbCommonAreaAdmi");
 
 // PATH TO CREATE A NEW COMMON AREA.
 router.post("/newCommonArea", async (req, res) => {

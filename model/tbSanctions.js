@@ -30,9 +30,23 @@ const obtainSanctions = () => {
   });
 };
 
-
+// FUNCTION TO UPDATE SANTION BY id_resident
+const updateSanctionByIdResident = (sanctionUpdate, id_resident) => {
+  return new Promise((resolve, reject) => {
+    const sql =  'UPDATE tb_sanction SET ? WHERE id_resident = ?'
+    connection.query(sql, [sanctionUpdate, id_resident], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+};
 
 module.exports = {
   createSancion,
-  obtainSanctions
+  obtainSanctions,
+  updateSanctionByIdResident
 };

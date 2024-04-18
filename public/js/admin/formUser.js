@@ -1,4 +1,4 @@
-// EN PROPIETARIOS PONER COEFICIENTE DE COPROPIEDAD  UN NUMERO PORCENTUAL
+
 
 // FORM LISTAR USER
 const formUser = () => {
@@ -12,7 +12,7 @@ const formUser = () => {
       '<h2 class=""><b id="titregcli" class="titulo">Gestionar usuarios</b></h2><br>' +
       '<button type="button" id="BtnlistReside" name="Btnlistar" onClick="listResident(event)"' +
       'class="btn ">Residentes</button>&nbsp;&nbsp;&nbsp;&nbsp;' +
-      '<button type="button" id="BtnlistPropie" name="Btnlistar" onClick="listResident(event)"' +
+      '<button type="button" id="BtnlistPropie" name="Btnlistar" onClick="formListRegister(event)"' +
       'class="btn ">Propietarios</button>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>' +
       '<h3 id="info" class="titazul"></h3>' +
       "</div>" +
@@ -47,7 +47,7 @@ const listResident = async (event) => {
   }
 };
 
-//RENDER JSON
+// RENDER JSON
 function renderResident(response) {
   cerrarSwal();
   const data = response.data;
@@ -81,7 +81,7 @@ function renderResident(response) {
       <td><button
       type='button'
       class=''
-      onclick='sanUser(${item.id_resident},  "${item.id_apartament}")'>
+      onclick='formManageResident(${item.id_resident},  "${item.id_apartament}")'>
       Gestionar
       </button></td>
       </tr>`;
@@ -96,8 +96,8 @@ function renderResident(response) {
   }
 }
 
-//FORM MANAGE USER
-let sanUser = (id, apt) => {
+// FORM MANAGE RESIDENT
+let formManageResident = (id, apt) => {
   console.log("sanUser ", id, apt);
   Swal.fire({
     html:
@@ -114,7 +114,7 @@ let sanUser = (id, apt) => {
       apt +
       '\')" value="Sancionar"><br><br>' +
       '<input type="button" id="Eliminar" name="Eliminar" class="btn btninfo"' +
-      ' onClick="formDeleUser(' +
+      ' onClick="formDeletResident(' +
       id +
       ')" value="Eliminar"><br><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
@@ -137,7 +137,7 @@ let formSanciones = (id, apt) => {
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
       "</div>" +
-      '<h2 class=""><b class="titulo">Formulario de Sanciones</b></h2><br>' +
+      '<h2 class=""><b class="titulo">Llamado de atencion</b></h2><br>' +
       '<label class="label"><b>Estado</b></label><br>' +
       '<select id="status" name="status" class="input inputMax" title="Tipo">' +
       "<option></option><option>Enviado</option>" +
@@ -151,10 +151,10 @@ let formSanciones = (id, apt) => {
       '<label class="label"><b>Fecha y hora</b></label><br>' +
       '<input type="datetime-local" id="dateCreation" name="dateCreation" readonly class="input"><br>' +
       '<label class="label"><b>Llamado de atencion</b></label><br>' +
-      '<input type="text" id="attention" name="attention" class="input" accept=".pdf" placeholder="Llamado de atencion" ' +
+      '<input type="text" id="attention" name="attention" class="input" placeholder="Llamado de atencion" ' +
       'autocomplete="off"><br>' +
       '<label class="label"><b>Documento</b></label><br>' +
-      '<input type="file" id="documentPdf" name="document" class="input" accept="image/*"><br><br>' +
+      '<input type="file" id="documentPdf" name="document" class="input" accept=".pdf"><br><br>' +
       '<input type="button" id="save" name="save" class="btn" onClick="saveSanction(event)" ' +
       'value="Guardar">&nbsp;&nbsp;&nbsp;&nbsp;' +
       '<h3 id="info" class="titazul">.</h3>' +
@@ -171,19 +171,19 @@ let formSanciones = (id, apt) => {
   document.getElementById("idApartament").value = apt;
 };
 
-// FUNCTION SEND SANCTION
+// FUNCTION TO SEND THE FORM DATA TO THE SERVER
 const saveSanction = async (event) => {
   event.preventDefault();
 
   const id_resident = document.getElementById("idResident").value;
-  const date_time = document.getElementById("dateCreation").value;
+  const date_attention = document.getElementById("dateCreation").value;
   const attention = document.getElementById("attention").value;
   const state = document.getElementById("status").value;
   const documentPdf = document.getElementById("documentPdf").value;
   const id_apt = document.getElementById("idApartament").value
   if (
     id_resident == "" ||
-    date_time == "" ||
+    date_attention == "" ||
     attention == "" ||
     state == "" ||
     id_apt == "" ||
@@ -199,7 +199,7 @@ const saveSanction = async (event) => {
   try {
     const response = await axios.post("/api/newSanction", {
       id_resident,
-      date_time,
+      date_attention,
       attention,
       state,
       id_apt,
@@ -226,8 +226,8 @@ const saveSanction = async (event) => {
   }
 };
 
-//FORM DELETE CONFIRM
-const formDeleUser = (id) => {
+// FORM DELETE CONFIRM
+const formDeletResident = (id) => {
 
   Swal.fire({
     html:
@@ -238,7 +238,7 @@ const formDeleUser = (id) => {
       "</div>" +
       '<h2 class=""><b id="titregcli" class="titulo">¿Eliminar usuario?</b></h2><br>' +
       '<input type="button" id="BtndeleUser" name="codi" class="btn btninfo" readonly><br><br>' +
-      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="deletUser(' +
+      '<input type="button" id="codi" name="codi" class="btn btninfo" onclick="deletResident(' +
       id +
       ')"' +
       'value="Eliminarr"><br><br>' +
@@ -255,7 +255,7 @@ const formDeleUser = (id) => {
 };
 
 // FUNCTION DELETE USER
-const deletUser = async (id_resident) => {
+const deletResident = async (id_resident) => {
 
   document.getElementById("info").innerHTML = "Eliminando.....";
   try {
@@ -280,3 +280,9 @@ const deletUser = async (id_resident) => {
     }
   }
 };
+
+
+/*
+THIS FILE CONTAINS THE FUNCTION
+
+*/

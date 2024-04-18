@@ -24,34 +24,34 @@ function convertMayuscules(input) {
 }
 
 // CAPTURES THE TIME AND DATE OF THE MOMENT
-function vfecha() {
-  let fecha = new Date();
-  let mes = fecha.getMonth() + 1;
-  let dia = fecha.getDate();
-  let anio = fecha.getFullYear();
-  let horas = fecha.getHours();
-  let minutos = fecha.getMinutes();
-  let segundos = fecha.getSeconds();
+// function vfecha() {
+//   let fecha = new Date();
+//   let mes = fecha.getMonth() + 1;
+//   let dia = fecha.getDate();
+//   let anio = fecha.getFullYear();
+//   let horas = fecha.getHours();
+//   let minutos = fecha.getMinutes();
+//   let segundos = fecha.getSeconds();
 
-  if (dia < 10) {
-    dia = "0" + dia;
-  }
-  if (mes < 10) {
-    mes = "0" + mes;
-  }
-  if (horas < 10) {
-    horas = "0" + horas;
-  }
-  if (minutos < 10) {
-    minutos = "0" + minutos;
-  }
-  if (segundos < 10) {
-    segundos = "0" + segundos;
-  }
-  let fec =
-    anio + "-" + mes + "-" + dia + "T" + horas + ":" + minutos + ":" + segundos;
-  return fec;
-}
+//   if (dia < 10) {
+//     dia = "0" + dia;
+//   }
+//   if (mes < 10) {
+//     mes = "0" + mes;
+//   }
+//   if (horas < 10) {
+//     horas = "0" + horas;
+//   }
+//   if (minutos < 10) {
+//     minutos = "0" + minutos;
+//   }
+//   if (segundos < 10) {
+//     segundos = "0" + segundos;
+//   }
+//   let fec =
+//     anio + "-" + mes + "-" + dia + "T" + horas + ":" + minutos + ":" + segundos;
+//   return fec;
+// }
 
 
 //CAPTURA LA HORA Y FECHA DEL MOMENTO
@@ -156,5 +156,41 @@ function doSearch() {
   } else {
     document.getElementById("container-table").innerHTML =
       "No hay vehiculos para buscar";
+  }
+}
+
+//FUNCION BARRA-BUSCAR
+function doSearch() {
+  if (document.getElementById("tablaPQRS")) {
+    const tableReg = document.getElementById("tablaPQRS");
+    const searchText = document
+      .getElementById("searchInput")
+      .value.toLowerCase();
+    let total = 0;
+
+    // Recorremos todas las filas con contenido de la tabla
+    for (let i = 1; i < tableReg.rows.length; i++) {
+      let found = false;
+      const cellsOfRow = tableReg.rows[i].getElementsByTagName("td");
+      // Recorremos todas las celdas
+      for (let j = 0; j < cellsOfRow.length && !found; j++) {
+        const compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+        // Buscamos el texto en el contenido de la celda
+        if (searchText.length == 0 || compareWith.indexOf(searchText) > -1) {
+          found = true;
+          total++;
+        }
+      }
+      if (found) {
+        tableReg.rows[i].style.display = "";
+      } else {
+        // si no ha encontrado ninguna coincidencia, esconde la fila de la tabla
+        tableReg.rows[i].style.display = "none";
+      }
+    }
+    // mostramos las coincidencias
+  } else {
+    document.getElementById("container-table").innerHTML =
+      "No hay PQRS para buscar";
   }
 }

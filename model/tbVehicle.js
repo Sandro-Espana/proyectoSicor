@@ -60,10 +60,7 @@ const createVehicle = (newVehicle) => {
 const vehiclesByIdApt = (id_apartament) => {
   return new Promise((resolve, reject) => {
     const sql =  'SELECT * FROM tb_vehicle WHERE id_apartament = ?'
-    connection.query(
-      sql,
-      [id_apartament],
-      (error, results) => {
+    connection.query( sql, [id_apartament], (error, results) => {
         if (error) {
           reject(error);
         } else {

@@ -4,10 +4,8 @@ const connection = require("../DB/dbMysql"); // Importa el módulo MySQL
 // FUNCTION TO CONSULT PARKING EXISTS AT tb_apartament
 const validateParking = (parking) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM tb_apartament WHERE parking = ?",
-      [parking],
-      (error, results) => {
+    const sql =  "SELECT * FROM tb_apartament WHERE parking = ?";
+    connection.query(sql,[parking], (error, results) => {
         if (error) {
           reject(error);
         } else {
@@ -22,10 +20,8 @@ const validateParking = (parking) => {
 // SEARCH APARTAMENT IN tb_apartament BY id_apt
 const searchAptById = (idApt) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM tb_apartament  WHERE id_apt = ?",
-      [idApt],
-      (error, results) => {
+    const sql = "SELECT * FROM tb_apartament  WHERE id_apt = ?";
+    connection.query(sql, [idApt], (error, results) => {
         if (error) {
           reject(error);
         } else {
