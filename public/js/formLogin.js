@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 // FUNCTION FORM LOGIN
+=======
+// LOGIN FORM
+>>>>>>> desarrollo
 let formLogin = () => {
   Swal.fire({
     html:
       '<br><br><center><form id="formLogin" name="formLogin" class="formSwal" ' +
-      'onsubmit="enviarContactenos(event)">' +
       '<div class="formulario-container">' +
       '<div class="cerrarX-container">' +
       '<p id="cerrarX" class="cerrarX" onclick="cerrarSwal()"> X </p>' +
@@ -16,7 +19,9 @@ let formLogin = () => {
       '<input type="password" id="password" name="password" class="input" placeholder="contraseña" ' +
       'autocomplete="off"><br><br>' +
       '<input type="submit" id="iniciar" name="iniciar" class="btn" onClick="loginSession(event)" ' +
-      'value="Iniciar"><br>' +
+      'value="Iniciar"><br><br> ' +
+      '<input type="button" id="recuperar" name="recuperar" class="btn" onClick="(event)" ' +
+      'value="Recuperar"><br>' +
       '<h3 id="info" class="titazul">.</h3>' +
       "</div>" +
       "</form></center><br><br>",
@@ -34,18 +39,20 @@ const loginSession = async (event) => {
 
   const username = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  console.log(username, password);
   if (username == "" || password == "") {
     document.getElementById("info").innerHTML =
       "Todos los campos son obligatorio";
-    setTimeout("document.getElementById('info').innerHTML = ''", 4000);
+    setTimeout("document.getElementById('info').innerHTML = ''", 3000);
     return;
   }
-  document.getElementById("info").innerHTML = "Iniciando sesion.....";
+  document.getElementById("info").innerHTML = "Iniciando sesion...";
   try {
     const response = await window.axios.post("/api/login", {
       username,
       password,
     });
+<<<<<<< HEAD
     const { profile, userId } = response.data; // Capturar el ID del usuario desde la respuesta
     console.log("id de usuario: ",profile, userId);
     if (response.status === 200) {
@@ -58,17 +65,33 @@ const loginSession = async (event) => {
       } else {
         window.location.href = "/";
       }
+=======
+
+     // SAVE userId AND idApt IN localStorage
+    const idUser = response.data.idUser;
+    const idApt = response.data.idApt;
+    localStorage.setItem("userId", idUser);
+    localStorage.setItem("idApt", idApt);
+
+    // REDIRECTS TO THE PAGE ACCORDING TO YOUR PROFILE
+    const profile = response.data.profile;
+    if (profile === "administrador") {
+      window.location.href = "/admin";
+    } else if (profile === "residente") {
+      window.location.href = "/residen";
+    } else {
+      window.location.href = "/";
+>>>>>>> desarrollo
     }
   } catch (error) {
     if (error.response) {
-      const mensaje = error.response.data.error; // Obtiene el mensaje de error del cuerpo de la respuesta
-      // Muestra una alerta en el navegador con el mensaje de error
+      const message = error.response.data.error;
       Swal.fire({
         icon: "error",
-        text: mensaje,
+        text: message,
       });
     } else {
-      console.error("Error en la solicitud:", error.message); // Muestra un mensaje de error en la consola si no hay una respuesta del servidor
+      console.error("Error en la solicitud:", error.message);
     }
   }
 };
@@ -114,8 +137,13 @@ function cerrarSwal() {
 
 
 /*
+<<<<<<< HEAD
 This code contains asynchronous funtion loginSession to send login data to the server using Axion.
 To the server using Axion. It also includes function to close the form and capture the data and
 time of the error handling moment and update the log message in the of the log message in the
 user interface accordingly.
+=======
+This code contains asynchronous function (loginSession) to send login data to the server using Axios.
+It also includes error handling and updating of the log message in the user interface accordingly.
+>>>>>>> desarrollo
 */

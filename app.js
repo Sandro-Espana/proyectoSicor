@@ -1,4 +1,5 @@
 // Importación de módulos
+<<<<<<< HEAD
 const express = require("express");
 const path = require("path");
 const conectarDB = require("./DB/dbMysql"); // Importar la función de conexión a la base de datos
@@ -9,6 +10,23 @@ const residen = require("./routes/routesResidentCrud"); // Importa las rutas de 
 const pqrs = require("./routes/routesPqrsCrud");
 const sancion = require("./routes/routesSancionCrud");
 const vehicle = require("./routes/routesVehiculosCrud");
+=======
+const express = require('express');
+const path = require('path');
+const conectarDB = require('./DB/dbMysql'); // Importar la función de conexión a la base de datos
+const cors = require('cors');
+const rutasViews = require('./routes/routesViews');
+const auth = require('./routes/routesAuth')
+const resident = require('./routes/routesResident'); // Importa las rutas de autenticación desde el archivo auth.js
+const pqrs = require('./routes/routesPqrs');
+const sanctions = require('./routes/routesSanctions');
+const vehicle = require('./routes/routesVehicle');
+const pet = require('./routes/routesPet');
+const supplier = require('./routes/routesSupplier');
+const commonAreaAdmin = require('./routes/routesCommonAreaAdmi');
+const commonAreaResid = require('./routes/routesCommonAreaResid');
+const proprietor = require('./routes/routesProprietor');
+>>>>>>> desarrollo
 
 const app = express(); // Creación de una aplicación Express
 
@@ -47,14 +65,35 @@ app.use(express.json()); // Configuración para manejar solicitudes JSON
 app.use("/", rutasViews); // Uso de las rutas desde rutasViews.js
 
 app.use("/api", auth); //Define las rutas en tu aplicación, en este caso, la ruta de autenticación '/api'
+<<<<<<< HEAD
+=======
+
+app.use('/api', resident);
+>>>>>>> desarrollo
 
 app.use("/api", residen);
 
+<<<<<<< HEAD
 app.use("/api", pqrs);
 
 app.use("/api", sancion);
 
 app.use("/api", vehicle);
+=======
+app.use('/api', sanctions);
+
+app.use('/api', vehicle);
+
+app.use('/api', pet);
+
+app.use('/api', supplier);
+
+app.use('/api', commonAreaAdmin);
+
+app.use('/api', commonAreaResid);
+
+app.use('/api', proprietor);
+>>>>>>> desarrollo
 
 const db = conectarDB; // Conexión a Mysql
 
@@ -68,14 +107,6 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 /*
-// Inicia el servidor y escucha en el puerto especificado
-const server = app.listen(port, '127.0.0.1', () => {
-    const host = server.address().address;
-    const port = server.address().port;
-    console.log(`Server is running at http://${host}:${port}`);
-      
-});
-*/
 
 /*
 El código que se proporciona es un servidor web básico utilizando Node.js y

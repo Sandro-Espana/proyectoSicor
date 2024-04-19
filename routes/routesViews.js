@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
     res.render('index');
 });
 
+
 // PROFILES
 
 router.get('/admin', (req, res) => {
@@ -23,52 +24,82 @@ router.get('/residen', (req, res) => {
 });
 
 // MANAGE PQRS
+<<<<<<< HEAD
 
 router.post('/createPQRS', (req, res) => {
 });
+=======
+>>>>>>> desarrollo
 
-router.get('/listarPQRS', (req, res) => {
-});
+router.post('/newPqrs', (req, res) => {
+}); //OK
 
-router.put('/updatePQRS/:id', (req, res) => {
-});
+router.get('/listPqrs', (req, res) => {
+}); //OK
 
-router.delete('/deletePQRS/:id', (req, res) => {
-});
+router.get('/listPqrsResident/:id_resident', (req, res) => {
+}); //
+
+router.put('/updatePqrs/:id_pqrs', (req, res) => {
+}); //OK
+
+router.delete('/deletePqrs/:id_pqrs', (req, res) => {
+}); //OK
 
 
+<<<<<<< HEAD
 // MANEGE USERS
 
 router.post('/register', (req, res) => {
 });
+=======
+// MANEGE RESIDENT
+>>>>>>> desarrollo
 
-router.post('/formUser', (req, res) => {
-});
+router.post('/newResident', (req, res) => {
+}); //OK
 
-router.get('/listUsers', (req, res) => {
-});
+router.get('/listResident', (req, res) => {
+}); //OK
 
 router.put('/updateUser/:id', (req, res) => {
 });
 
-router.delete('/deleteUser/:id', (req, res) => {
+router.delete('/deleteResident/:id', (req, res) => {
+}); //OK
+
+
+// MANEGE PROPRIETOR
+
+router.post('/newProprietor', (req, res) => {
 });
+
+router.get('/listProprietor', (req, res) => {
+});
+
+router.put('/updateProprietor/:id', (req, res) => {
+});
+
+router.delete('/deleteProprietor/:id', (req, res) => {
+});
+
 
 // MANEGE SANCTION
 
 router.post('/newSanction', (req, res) => {
-});
+}); //OK
 
 router.get('/listSanction', (req, res) => {
-});
+}); // OK
 
-router.put('/updateSanction/:id', (req, res) => {
-});
+router.put('/updateSanction/:id_resident', (req, res) => {
+}); //OK
 
 router.delete('/deleteSanction/:id', (req, res) => {
 });
 
 // MANEGE VEHICLE
+<<<<<<< HEAD
 
 router.post('/newVehicle', (req, res) => {
 });
@@ -82,5 +113,65 @@ router.put('/updateVehicle/:id', (req, res) => {
 router.delete('/deleteVehicle/:id', (req, res) => {
 });
 
+=======
+>>>>>>> desarrollo
 
+router.post('/newVehicle', (req, res) => {
+});// OK
+
+router.get('/listVehicle', (req, res) => {
+});
+
+router.get('/listVehicle/:id_apartament', (req, res) => {
+});//OK
+
+router.delete('/deleteVehicle/:id_Vehicle', (req, res) => {
+});//OK
+
+
+// MANEGE PET
+
+router.post('/newPet', (req, res) => {
+}); // OK
+
+router.get('/listPet', (req, res) => {
+});
+
+router.put('/updatePet/:id_apt', (req, res) => {
+}); //OK
+
+router.delete('/deletePet/:id_pet', (req, res) => {
+}); //OK
+
+
+// MANEGE SUPPLIER
+
+router.post('/newSupplier', (req, res) => {
+}); //OK
+
+router.get('/listSupplier', (req, res) => {
+});  //OK
+
+router.put('/updateSupplier/:id', (req, res) => {
+}); //OK
+
+
+// MANEGE COMMON AREA ADMIN
+
+router.post('/newCommonArea', (req, res) => {
+});
+
+router.get('/listCommonArea', (req, res) => {
+});
+
+router.put('/updateCommonArea/:id', (req, res) => {
+});
+
+router.delete('/deleteCommonArea/:id', (req, res) => {
+});
+
+// MANEGE COMMON AREA RESIDENT
+
+router.post('/reserveCommonArea', (req, res) => {
+});
 module.exports = router;

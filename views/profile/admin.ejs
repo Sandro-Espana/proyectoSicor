@@ -12,13 +12,13 @@
   <body>
     <header><%- include('../index/header.ejs') %></header>
     <nav><%- include('../index/navbar.ejs') %></nav>
-    <main class="container" >
+    <main class="container">
       <h1>FUNCIONES ADMINISTRADOR</h1>
       <div class="btn-container">
         <button type="button" class="btn btnmenu" onclick="formUser()">
           Usuarios
         </button>
-        <button type="button" class="btn btnmenu" onclick="formProveedor()">
+        <button type="button" class="btn btnmenu" onclick="formSupplierList()">
           Proveedores
         </button>
         <button type="button" class="btn btnmenu" onclick="formPqrsAdmin()">
@@ -27,49 +27,40 @@
         <button type="button" class="btn btnmenu" onclick="formCartelera()">
           Cartelera
         </button>
-        <button type="button" class="btn btnmenu" onclick="formTarea()">
-          Calendario
-        </button>
-        <button type="button" class="btn btnmenu" onclick="formSanciones()">
+        <button type="button" class="btn btnmenu" onclick="formSanctions()">
           Sanciones
         </button>
-        <button type="button" class="btn btnmenu" onclick="formRepositorio()">
-          Documentos
-        </button>
-        <button
-          type="button"
-          class="btn btnmenu"
-          onclick="formEncuestasPreguntas()"
-        >
-          encuestas
-        </button>
-        <button type="button" class="btn btnmenu" onclick="formZonasComunes()">
-          zonas comunes
+        <button type="button" class="btn btnmenu" onclick="formListOrRegist()">
+          Zonas comunes
         </button>
       </div>
       <div class="search-container">
-        <input type="text" id="searchInput" onkeyup="doSearch()" placeholder="Buscar...">
+        <input
+          type="text"
+          id="searchInput"
+          onkeyup="doSearch()"
+          placeholder="Buscar..."
+        />
       </div>
       <div id="container-table" class=" "></div>
-      <br>
-      <br>
-      <br>
+      <br />
+      <br />
+      <br />
     </main>
     <footer><%- include('../index/footer.ejs') %></footer>
     <script src="js/swalDos.js"></script>
+    <script src="js/variousFunction.js"></script>
     <script src="/js/admin/formUser.js"></script>
-    <script src="/js/admin/formProveedor.js"></script>
+    <script src="/js/admin/formSupplier.js"></script>
     <script src="/js/admin/formPqrsAdmin.js"></script>
     <script src="/js/admin/formCartel.js"></script>
-    <script src="js/admin/formTarea.js"></script>
-    <script src="/js/admin/formSanciones.js"></script>
-    <script src="/js/admin/formReposit.js"></script>
-    <script src="/js/admin/formEncuesPreg.js"></script>
-    <script src="js/admin/formZonComAdm.js"></script>
+    <script src="/js/admin/formSanctions.js"></script>
+    <script src="/js/admin/formProprietor.js"></script>
+    <script src="js/admin/formCommonAreaAdmi.js"></script>
   </body>
   <script>
-    window.onload = function(){
-      document.getElementById('searchInput').style.display = 'none';
-}
+    window.onload = function () {
+      document.getElementById("searchInput").style.display = "none";
+    };
   </script>
 </html>
